@@ -2,32 +2,28 @@
 
 Class DBObj extends PDO{
 
-  $database = '';
-  $table_name = '';
+  private $database = '';
+  public $table_name = '';
 
-  //Gera as constantes de Banco de dados a partir do JSON de configuração
-  function __construct($dbconfig_path = "config/dbinfo.json"){
+  function __construct($path = null, $table_name){
 
-    //Recupera dados de configuração de DB a partir de um arquivo
-    $dbconfig_data = fopen($dbconfig_path,"r");
-    $dbconfig = json_decode(stream_get_contents($dbconfig_data), true);
-    fclose($dbconfig_data);
+    $this->table_name = $table_name;
+    $this->configura_DB($path);
 
-    $dsn = "pgsql:dbname=".$dbconfig['TESTDB']['dbname']. ";
-            host= ".$dbconfig['TESTDB']['host'].
-            $dbconfig['TESTDB']['config'];
-    var_dump($dsn);
-
-    $database = new PDO($dsn,$dbconfig['TESTDB']['user'],$dbconfig['TESTDB']['password']);
+    return $this;
   }
 
-  function fetch($id){
+  function fetch($data){
 
-    $stmt = $database->prepare("SELECT * from $table_name WHERE id = :id");
-    $stmt = $database->execute(array(":id"=>$id));
+    //Permite selecionar por qualquer campo passado, desde que venha como array
+    $key = array_keys($data)[0];
+    $value = $data[$key];
+
+    $stmt = $database->prepare("SELECT * from $table_name WHERE $key = :value");
+    $stmt = $database->execute(array(":value"=>$value));
     $result = $stmt->fetchAll();
 
-    return json_encode($result);
+    return $result;
   }
 
   function set($data){
@@ -55,17 +51,36 @@ Class DBObj extends PDO{
 
     $update_info = implode(",", $update_info);
 
-
     $stmt = $database->prepare("UPDATE $table_name SET $update_info
                                 WHERE id = :id");
     $stmt = $database->execute($data);
 
     return $stmt;
   }
+
   function delete($id){
 
     $stmt = $database->prepare("DELETE * FROM $table_name WHERE id = :id");
     $stmt = $database->execute(array(":id"=>$id));
+
+    return $stmt;
   }
+
+  //Gera as constantes de Banco de dados a partir do JSON de configuração
+  function configura_DB($dbconfig_path = "config/dbinfo.json"){
+
+    //Recupera dados de configuração de DB a partir de um arquivo
+    $dbconfig_data = fopen($dbconfig_path,"r");
+    $dbconfig = json_decode(stream_get_contents($dbconfig_data), true);
+    fclose($dbconfig_data);
+
+    $dsn = "pgsql:dbname=".$dbconfig['TESTDB']['dbname']. ";
+            host= ".$dbconfig['TESTDB']['host'].
+            $dbconfig['TESTDB']['config'];
+    var_dump($dsn);
+
+    $database = new PDO($dsn,$dbconfig['TESTDB']['user'],$dbconfig['TESTDB']['password']);
+  }
+
 }
 ?>
