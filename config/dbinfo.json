@@ -1,9 +1,9 @@
 {
   "TESTDB":{
-    "dbname": "testdb",
-    "host":"localhost",
-    "user": "root",
-    "password": "root",
+    "dbname": "testDB",
+    "host":"/var/run/postgresql;port=5432",
+    "user": "leon",
+    "password": "",
     "config": ""
   },
   "PACODB":{

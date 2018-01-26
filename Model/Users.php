@@ -2,15 +2,18 @@
 
 Class User extends DBObj{
 
-  private $id, $email, $login, $password, $registro;
+  private $id, $email, $login, $password, $registration_date;
 
   public function __construct($user_info){
+
+    if (!is_array($user_info))
+      return new Exception("Parâmetro inválido: \$user_info deve ser array");
 
     $this->id = isset($user_info['id']) ? $user_info['id'] : null;
     $this->email = $user_info['email']? $user_info['email'] : null;
     $this->login = $user_info['login'];
     $this->password = set_password($user_info['password']);
-    $this->registro = $user_info['registro']? $user_info['registro']:new date('Y-m-d H:i:s');
+    $this->registration_date = $user_info['registration_date']? $user_info['registration_date']:new date('Y-m-d H:i:s');
     $this->table_name = "users_db";
 
     return $this;
@@ -21,15 +24,15 @@ Class User extends DBObj{
     return true;
   }
 
-  private function set_password($password){
-    $this->password = hash('sha256',$password);
+  private function set_password($new_password){
+    $this->password = hash('sha256',$new_password);
     return true;
   }
 
   public function get_user_data($tipo_de_chamada){
     //Argumento refere à chamada da função: Uso interno *true ou externo *false
     if(!$is_bool($tipo_de_chamada))
-      return //THROW ERRO TIPO ERRADO
+      return new Exception("Chamada inválida");
 
     $returnable = $this->get_fields();
     //Chamada externa: Remove campos sensíveis (senha e email)
@@ -41,13 +44,13 @@ Class User extends DBObj{
     return json_encode($returnable);
   }
 
-  public static function login($login,$senha){
+  public static function login($login,$password){
 
     $user_db = user_exists($login);
 
     if ($user_db){
 
-      if ($senha == $user_db['password']){
+      if ($password == $user_db['password']){
 
         $current_user = new User($user_db);
         $_SESSION['active_user_id'] = $user_db['id'];
@@ -55,11 +58,11 @@ Class User extends DBObj{
         return $current_user;
       }
       else {
-        return; //SENHA ERRADA ERRO
+        return new Exception("Combinação Login/Senha inválida");
       }
     }
     else {
-      return; //NAO CADASTRADO ERRO
+      return new Exception("Usuário não cadastrado");
     }
   }
 
@@ -69,13 +72,13 @@ Class User extends DBObj{
       $insert = set($this->get_fields());
     }
     else
-      return; //USUARIO JA EXISTE ERRO
+      return new Exception("Usuario já existe");
   }
 
-  public function update_user_info($login,$senha){
+  public function update_user_info($login,$password){
 
     $return = isset($login)? $this->set_login($login): false;
-    $return = isset($senha)? $this->set_password($senha) : false;
+    $return = isset($password)? $this->set_password($password) : false;
 
     update($this->get_fields());
 
@@ -102,7 +105,7 @@ Class User extends DBObj{
     $user_info['email'] = $this->email;
     $user_info['login'] = $this->login;
     $user_info['password'] = $this->password;
-    $user_info['registro'] = $this->registro;
+    $user_info['registration_date'] = $this->registration_date;
 
     return $user_info;
   }
