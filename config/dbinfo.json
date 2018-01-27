@@ -3,7 +3,7 @@
     "dbname": "testDB",
     "host":"/var/run/postgresql;port=5432",
     "user": "leon",
-    "password": "",
+    "password": "f9ry4oo2",
     "config": ""
   },
   "PACODB":{

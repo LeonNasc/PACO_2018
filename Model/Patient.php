@@ -1,5 +1,5 @@
 <?php
-Class Patient extends DBOj{
+Class Patient extends DBObj{
 
   private $id, $name, $birth, $sex, $admission_date, $owner, $status;
 
@@ -29,7 +29,7 @@ Class Patient extends DBOj{
     $this->status = !$this->status;
 
     if($this->status){
-      $this->admission_date = new Date();
+      $this->admission_date = date("d/m/Y");
     }
   }
 
@@ -58,7 +58,7 @@ Class Patient extends DBOj{
 
   public function update_patient_info(){
     update($this->get_fields());
-  }  
+  }
 
   private function get_fields(){
 

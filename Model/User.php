@@ -2,24 +2,32 @@
 
 Class User extends DBObj{
 
-  private $id, $email, $login, $password, $registration_date;
+  private $id, $email, $user_name, $login, $password, $registration_date;
 
-  const TABLE_NAME = "users_db"
+  const TABLE_NAME = "users_db";
 
   public function __construct($user_info){
 
     if (!is_array($user_info))
       return new Exception("Parâmetro inválido: \$user_info deve ser array");
 
-    $this->id = isset($user_info['id']) ? $user_info['id'] : null;
+    $now = new DateTime();
+
+    $this->id = isset($user_info['id'])? $user_info['id'] : uniqid('us_');
     $this->email = $user_info['email']? $user_info['email'] : null;
+    $this->user_name = $user_info['user_name']? $user_info['user_name'] : null;
     $this->login = $user_info['login'];
-    $this->password = set_password($user_info['password']);
-    $this->registration_date = $user_info['registration_date']? $user_info['registration_date']:new date('Y-m-d H:i:s');
-    $this->table_name = TABLE_NAME;
+    $this->password = hash('sha256',$user_info['password']);
+    $this->registration_date = isset($user_info['registration_date'])?
+    $user_info['registration_date']:$now->format("d-m-Y");
+    $this->table_name = User::TABLE_NAME;
+
+    $this->configura_DB();
 
     return $this;
   }
+
+  //Getters e Setters
 
   private function set_login($login){
     $this->login = $login;
@@ -31,9 +39,9 @@ Class User extends DBObj{
     return true;
   }
 
-  public function get_user_data($tipo_de_chamada){
+  public function get_user_data($tipo_de_chamada = false){
     //Argumento refere à chamada da função: Uso interno *true ou externo *false
-    if(!$is_bool($tipo_de_chamada))
+    if(!is_bool($tipo_de_chamada))
       return new Exception("Chamada inválida");
 
     $returnable = $this->get_fields();
@@ -46,32 +54,12 @@ Class User extends DBObj{
     return json_encode($returnable);
   }
 
-  public static function login($login,$password){
-
-    $user_db = user_exists($login);
-
-    if ($user_db){
-
-      if ($password == $user_db['password']){
-
-        $current_user = new User($user_db);
-        $_SESSION['active_user_id'] = $user_db['id'];
-
-        return $current_user;
-      }
-      else {
-        return new Exception("Combinação Login/Senha inválida");
-      }
-    }
-    else {
-      return new Exception("Usuário não cadastrado");
-    }
-  }
+  //Funções de cadastro
 
   public function add_user(){
     //Se não existir um cadastro desse usuário
-    if(!user_exists($this->login)){
-      $insert = set($this->get_fields());
+    if(!User::user_exists($this->login)){
+      return $insert = $this->set($this->get_fields());
     }
     else
       return new Exception("Usuario já existe");
@@ -82,21 +70,53 @@ Class User extends DBObj{
     $result = isset($login)? $this->set_login($login): false;
     $result  = isset($password)? $this->set_password($password) : false;
 
-    $result = update($this->get_fields());
+    if(!User::user_exists($login))
+      $result = $this->update($this->get_fields());
+    else
+      throw new Exception("Nome de usuário já em uso");
 
     return $result;
+  }
+
+  //Funções de acesso
+
+  public static function login($login,$password){
+
+    $user_db = User::user_exists($login);
+
+    if ($user_db){
+
+      if (hash('sha256',$password) === $user_db["password"]){
+
+        $current_user = new User($user_db);
+        $_SESSION['active_user_id'] = $user_db['id'];
+
+        return $current_user;
+      }
+      else {
+        return new Exception("Combinação Login/Senha inválida");
+      }echo $query;
+    }
+    else {
+      return new Exception("Usuário não cadastrado");
+    }
   }
 
   public function logout(){
     unset($_SESSION['active_user_id']);
   }
 
+  //Funções utilitárias
+
   private static function user_exists($login){
+
+    $db = new DBOBj(User::TABLE_NAME);
+
     //Busca no BD se existe um registro referente ao usuário
-    $result = fetch(array('login'=> $login));
-    //Se existir, retorna um array com o $registro
+    $result = $db->fetch(array('login'=> $login));
+    //Se existir, reto[0]rna um array com o $registro
     if ($result && sizeof($result) > 0)
-      return $result;
+      return $result[0];
     else //Se não, retorna false
       return false;
   }

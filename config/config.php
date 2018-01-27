@@ -17,8 +17,13 @@ if (!in_array($_SERVER["PHP_SELF"], ["/login.php", "/logout.php", "/register.php
 {
     if (empty($_SESSION["id"]))
     {
-        redirect("index.php");
+        //redirect("index.php");
     }
 }
+
+//AUTOLOAD
+function __autoload($class_name) {
+    include "Model/" . $class_name . '.php';
+};
 
 ?>
