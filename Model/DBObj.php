@@ -2,10 +2,10 @@
 
 Class DBObj extends PDO{
 
-  private $database = '';
+  protected $database = '';
   public $table_name = '';
 
-  function __construct($path = null, $table_name){
+  public function __construct($path = null, $table_name){
 
     $this->table_name = $table_name;
     $this->configura_DB($path);
@@ -13,33 +13,33 @@ Class DBObj extends PDO{
     return $this;
   }
 
-  function fetch($data){
+  protected function fetch($data){
 
     //Permite selecionar por qualquer campo passado, desde que venha como array
     $key = array_keys($data)[0];
     $value = $data[$key];
 
-    $stmt = $database->prepare("SELECT * from $table_name WHERE $key = :value");
+    $stmt = $database->prepare("SELECT * from public.$table_name WHERE $key = :value");
     $stmt = $database->execute(array(":value"=>$value));
     $result = $stmt->fetchAll();
 
     return $result;
   }
 
-  function set($data){
+  protected function set($data){
 
     //Expande as keys da array passada como values e adiciona os valores
     //relacionados
 
     $values = "(`".implode("`, `", array_keys($data))."`)";
 
-    $stmt = $database->prepare("INSERT INTO $table_name ($values) VALUES ?");
+    $stmt = $database->prepare("INSERT INTO public.$table_name ($values) VALUES ?");
     $stmt = $database->execute($data);
 
     return $stmt;
 
   }
-  function update($data){
+  protected function update($data){
     //Cria os dados para o SET e depois no execute as inclui no execute
 
     $update_info = array(); //Array vazia que vai ser base para string de update
@@ -51,23 +51,23 @@ Class DBObj extends PDO{
 
     $update_info = implode(",", $update_info);
 
-    $stmt = $database->prepare("UPDATE $table_name SET $update_info
+    $stmt = $database->prepare("UPDATE public.$table_name SET $update_info
                                 WHERE id = :id");
     $stmt = $database->execute($data);
 
     return $stmt;
   }
 
-  function delete($id){
+  protected function delete($id){
 
-    $stmt = $database->prepare("DELETE * FROM $table_name WHERE id = :id");
+    $stmt = $database->prepare("DELETE * FROM public.$table_name WHERE id = :id");
     $stmt = $database->execute(array(":id"=>$id));
 
     return $stmt;
   }
 
   //Gera as constantes de Banco de dados a partir do JSON de configuração
-  function configura_DB($dbconfig_path = "config/dbinfo.json"){
+  protected function configura_DB($dbconfig_path = "config/dbinfo.json"){
 
     //Recupera dados de configuração de DB a partir de um arquivo
     $dbconfig_data = fopen($dbconfig_path,"r");

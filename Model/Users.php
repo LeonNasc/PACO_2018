@@ -4,6 +4,8 @@ Class User extends DBObj{
 
   private $id, $email, $login, $password, $registration_date;
 
+  const TABLE_NAME = "users_db"
+
   public function __construct($user_info){
 
     if (!is_array($user_info))
@@ -14,7 +16,7 @@ Class User extends DBObj{
     $this->login = $user_info['login'];
     $this->password = set_password($user_info['password']);
     $this->registration_date = $user_info['registration_date']? $user_info['registration_date']:new date('Y-m-d H:i:s');
-    $this->table_name = "users_db";
+    $this->table_name = TABLE_NAME;
 
     return $this;
   }
@@ -77,12 +79,12 @@ Class User extends DBObj{
 
   public function update_user_info($login,$password){
 
-    $return = isset($login)? $this->set_login($login): false;
-    $return = isset($password)? $this->set_password($password) : false;
+    $result = isset($login)? $this->set_login($login): false;
+    $result  = isset($password)? $this->set_password($password) : false;
 
-    update($this->get_fields());
+    $result = update($this->get_fields());
 
-    return $return;
+    return $result;
   }
 
   public function logout(){
