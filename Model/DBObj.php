@@ -60,8 +60,10 @@ Class DBObj extends PDO{
 
     $update_info = implode(",", $update_info);
 
-    $stmt = $this->database->prepare("UPDATE public.$this->table_name SET $update_info
-                                WHERE id = :id");
+    $query = "UPDATE public.$this->table_name SET $update_info WHERE id = :id";
+    echo "<br>" . $query . "<br>" . json_encode($data);
+
+    $stmt = $this->database->prepare($query);
     $stmt->execute($data);
 
     return $stmt;

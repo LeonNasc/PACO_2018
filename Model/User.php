@@ -15,7 +15,7 @@ Class User extends DBObj{
 
     $this->id = isset($user_info['id'])? $user_info['id'] : uniqid('us_');
     $this->email = $user_info['email']? $user_info['email'] : null;
-    $this->user_name = $user_info['user_name']? $user_info['user_name'] : null;
+    $this->user_name = isset($user_info['user_name'])? $user_info['user_name'] : 'Sem Nome';
     $this->login = $user_info['login'];
     $this->password = hash('sha256',$user_info['password']);
     $this->registration_date = isset($user_info['registration_date'])?

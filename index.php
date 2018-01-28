@@ -2,31 +2,23 @@
 
 require_once("config/config.php");
 
-$user_data = array();
-$user_data['login']= "leon2";
-$user_data['email']= "doctor@test.com";
-$user_data['password']= "test";
+$patient_info['name'] = "Joana Silva";
+$patient_info['birth'] = new DateTime('1969-02-03');
+$patient_info['sex'] = true;
+$patient_info['owner'] = 'us_5a6cefbc90a0a';
+$patient_info['status'] = true;
 
-$user = new User($user_data);
+//$new_patient = new Patient(json_decode(Patient::get_patient_list($patient_info['owner'])));
 
-//$user->add_user();
-//$user->update_user_info('spaghetti', 'toucha');
+$patients = json_decode(Patient::get_patient_list($patient_info['owner']),true);
 
-//echo $user->get_user_data(). "<br>";
-$logged_user = User::login('leon2','test');
+$new_patient = new Patient($patients[0]);
 
+echo $new_patient->get_patient_data(). "<br>";
 
-//echo $logged_user->get_user_data(). "<br>";
-echo "logged user is:";
-echo $logged_user->get_user_data(). "<br>";
+$new_patient->edit_patient('João Silva');
 
-echo "Confimando o ID na sessão:" . $_SESSION['active_user_id'];
-
-echo "Saindo da sessão";
-
-$logged_user->logout();
-echo "Confimando o ID na sessão:" . $_SESSION['active_user_id'];
-
-
+echo $new_patient->get_patient_data(). "<br>";
+//echo $new_patient->get_patient_data();
 
 ?>
