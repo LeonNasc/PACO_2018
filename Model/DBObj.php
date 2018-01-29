@@ -2,7 +2,7 @@
 
 Class DBObj extends PDO{
 
-  //const LIKE = "SELECT * from public.$this->table_name WHERE $key LIKE :value%";
+  const LIKE = TRUE;
 
   protected $database = '';
   public $table_name = '';
@@ -18,21 +18,19 @@ Class DBObj extends PDO{
     return $this;
   }
 
-  protected function fetch($data, $option = null){
+  protected function fetch($data, $option = false){
     //$option pode ser: LIKE - busca por termos similares
-    //TODO: Mais opções
 
     //Permite selecionanamer por qualquer campo passado, desde que venha como array
-    $key = array_keys($data)[0];
-    $value = $data[$key];
+    $query_fields = $this->get_query_fields($data, " AND ");
 
-    if(!isset($options))
-      $query = "SELECT * from public.$this->table_name WHERE $key = :value";
+    if(!isset($options) || $option == false)
+      $query = "SELECT * FROM public.$this->table_name WHERE $query_fields";
     else if($options)
-      $query = $options;
+      $query = "SELECT * FROM public.$this->table_name WHERE $";
 
     $stmt = $this->database->prepare($query);
-    $stmt->execute(array(":value"=>$value));
+    $stmt->execute($data);
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     return $result;
@@ -57,14 +55,7 @@ Class DBObj extends PDO{
   protected function update($data){
     //Cria os dados para o SET e depois no execute as inclui no execute
 
-    $update_info = array(); //Array vazia que vai ser base para string de update
-
-    foreach ($data as $column => $value) {
-      $update_info[] = "{$column} = :{$column}";
-      //ex.: Campo = :Campo
-    }
-
-    $update_info = implode(",", $update_info);
+    $update_info = $this->get_query_fields($data, ",");
 
     $query = "UPDATE public.$this->table_name SET $update_info WHERE id = :id";
     echo "<br>" . $query . "<br>" . json_encode($data);
@@ -97,6 +88,22 @@ Class DBObj extends PDO{
 
     $this->database = new PDO($dsn,$dbconfig['TESTDB']['user'],$dbconfig['TESTDB']['password']);
     $this->database->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
+  }
+
+  private function get_query_fields($data, $glue,$likeness = false){
+
+    $update_info = array(); //Array vazia que vai ser base para string de update
+
+    foreach ($data as $column => $value) {
+      if (!$likeness)
+        $update_info[] = "{$column} = :{$column}";
+      else {
+        $update_info[] = "{$column} LIKE :{$column}%";
+      }
+      //ex.: Campo = :Campo
+    }
+
+    return $update_info = implode($glue, $update_info);
   }
 
 }
