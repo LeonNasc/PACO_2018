@@ -2,6 +2,8 @@
 
 Class DBObj extends PDO{
 
+  //const LIKE = "SELECT * from public.$this->table_name WHERE $key LIKE :value%";
+
   protected $database = '';
   public $table_name = '';
 
@@ -16,14 +18,18 @@ Class DBObj extends PDO{
     return $this;
   }
 
-  protected function fetch($data){
+  protected function fetch($data, $option = null){
+    //$option pode ser: LIKE - busca por termos similares
+    //TODO: Mais opções
 
-    //Permite selecionar por qualquer campo passado, desde que venha como array
+    //Permite selecionanamer por qualquer campo passado, desde que venha como array
     $key = array_keys($data)[0];
     $value = $data[$key];
 
-
-    $query = "SELECT * from public.$this->table_name WHERE $key = :value";
+    if(!isset($options))
+      $query = "SELECT * from public.$this->table_name WHERE $key = :value";
+    else if($options)
+      $query = $options;
 
     $stmt = $this->database->prepare($query);
     $stmt->execute(array(":value"=>$value));

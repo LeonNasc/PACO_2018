@@ -2,23 +2,16 @@
 
 require_once("config/config.php");
 
-$patient_info['name'] = "Joana Silva";
-$patient_info['birth'] = new DateTime('1969-02-03');
-$patient_info['sex'] = true;
-$patient_info['owner'] = 'us_5a6cefbc90a0a';
-$patient_info['status'] = true;
+echo "AMOR LINDO DEMAIS";
 
-//$new_patient = new Patient(json_decode(Patient::get_patient_list($patient_info['owner'])));
+$user = array();
+$user['user_name'] = "Vinicius mlk Piranha 2018";
+$user['login']= "nydyow";
+$user['password'] = "12345";
+$user['email'] = "test@test.com";
 
-$patients = json_decode(Patient::get_patient_list($patient_info['owner']),true);
+$new_user = new User($user);
 
-$new_patient = new Patient($patients[0]);
-
-echo $new_patient->get_patient_data(). "<br>";
-
-$new_patient->edit_patient('João Silva');
-
-echo $new_patient->get_patient_data(). "<br>";
-//echo $new_patient->get_patient_data();
+echo $new_user->get_user_data();
 
 ?>
