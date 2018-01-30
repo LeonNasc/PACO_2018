@@ -46,19 +46,27 @@ class PatientData extends DBObj{
     return $this->update($this->get_fields());
   }
 
-  public function get_from_date($date){
-    return $this->fetch($array('date'=>$this->date));
+  public static function get_from_date($date){
+    return PatientData::fetch($array('date'=>$date));
   }
 
-  public function get_for_patient($patient){
-    return $this->fetch($array('patient'=>$this->patient));
+  public static function get_for_patient($patient){
+    return PatientData::fetch($array('patient'=>$patient));
   }
 
-  public function get_prescriptions(){
-    
+  public static function get_prescriptions($patient,$quantity){
+
+    $db = new DBObj(PatientData::TABLE_NAME);
+
+    $prescription_data = array();
+    $precription_data['patient']= $patient;
+    $prescription_data['content'] = PatientData::PRESCRIPTION;
+
+    //TODO: Retornar somente quantidade solicitada no segundo argumento
+    return $db->fetch($prescription_data, true);
   }
 
-  public function get_lab_results(){
+  public static function get_lab_results(){
 
 
   }

@@ -2,8 +2,6 @@
 
 Class DBObj extends PDO{
 
-  const LIKE = TRUE;
-
   protected $database = '';
   public $table_name = '';
 
@@ -22,12 +20,9 @@ Class DBObj extends PDO{
     //$option pode ser: LIKE - busca por termos similares
 
     //Permite selecionanamer por qualquer campo passado, desde que venha como array
-    $query_fields = $this->get_query_fields($data, " AND ");
+    $query_fields = $this->get_query_fields($data, " AND ",$options);
 
-    if(!isset($options) || $option == false)
-      $query = "SELECT * FROM public.$this->table_name WHERE $query_fields";
-    else if($options)
-      $query = "SELECT * FROM public.$this->table_name WHERE $";
+    $query = "SELECT * FROM public.$this->table_name WHERE $query_fields";
 
     $stmt = $this->database->prepare($query);
     $stmt->execute($data);
@@ -90,7 +85,7 @@ Class DBObj extends PDO{
     $this->database->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
   }
 
-  private function get_query_fields($data, $glue,$likeness = false){
+  private function get_query_fields($data, $glue, $likeness = false){
 
     $update_info = array(); //Array vazia que vai ser base para string de update
 
