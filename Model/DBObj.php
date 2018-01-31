@@ -22,7 +22,7 @@ Class DBObj extends PDO{
     //Permite selecionanamer por qualquer campo passado, desde que venha como array
     $query_fields = $this->get_query_fields($data, " AND ",$options);
 
-    $query = "SELECT * FROM public.$this->table_name WHERE $query_fields";
+    $query = "SELECT * FROM public.$this->table_name WHERE $query_fields ORDER BY date";
 
     $stmt = $this->database->prepare($query);
     $stmt->execute($data);

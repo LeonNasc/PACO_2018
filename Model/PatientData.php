@@ -54,30 +54,23 @@ class PatientData extends DBObj{
     return PatientData::fetch($array('patient'=>$patient));
   }
 
-  public static function get_prescriptions($patient,$quantity){
-
+  public static function get_data($patient,$type,$quantity){
+    /*
+      Exemplo de chamada (para prescrições)
+      $patient_data->get_data($paciente, PatientData::PRESCRIPTION, 12).
+    */
     $db = new DBObj(PatientData::TABLE_NAME);
 
-    $prescription_data = array();
-    $precription_data['patient']= $patient;
-    $prescription_data['content'] = PatientData::PRESCRIPTION;
+    $patient_data = array();
+    $patient_data['patient']= $patient;
+    $patient_data['content'] = $type;
 
     //TODO: Retornar somente quantidade solicitada no segundo argumento
-    return $db->fetch($prescription_data, true);
+    return array_slice($db->fetch($patient_data, true),0,$quantity);
   }
 
-  public static function get_lab_results(){
-
-
-  }
-
-  public function get_comments(){
-
-
-  }
-
-  private function to_json(){
-
+  private function to_JSON(){
+    return json_encode($this->get_fields(), JSON_PRETTY_PRINT);
 
   }
 
@@ -91,8 +84,6 @@ class PatientData extends DBObj{
     $content_data['date'] = $this->date;
 
     return $content_data;
-
   }
-
 }
 ?>
