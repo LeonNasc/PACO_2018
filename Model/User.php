@@ -128,6 +128,7 @@ Class User extends DBObj{
     $user_info['login'] = $this->login;
     $user_info['password'] = $this->password;
     $user_info['registration_date'] = $this->registration_date;
+    $user_info['user_name'] = $this->user_name;
 
     return $user_info;
   }

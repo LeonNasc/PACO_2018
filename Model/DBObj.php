@@ -20,9 +20,9 @@ Class DBObj extends PDO{
     //$option pode ser: LIKE - busca por termos similares
 
     //Permite selecionanamer por qualquer campo passado, desde que venha como array
-    $query_fields = $this->get_query_fields($data, " AND ",$options);
+    $query_fields = $this->get_query_fields($data, " AND ",$option);
 
-    $query = "SELECT * FROM public.$this->table_name WHERE $query_fields ORDER BY date";
+    $query = "SELECT * FROM public.$this->table_name WHERE $query_fields";
 
     $stmt = $this->database->prepare($query);
     $stmt->execute($data);

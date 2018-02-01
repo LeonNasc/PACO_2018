@@ -19,7 +19,7 @@ Class Patient extends DBObj{
     $this->admission_date = isset($patient_info['admission_date'])?
       $patient_info['admission_date'] : $now->format("d-m-Y");
     $this->owner = $patient_info['owner'];
-    $this->status = $patient_info['status'];
+    $this->status = isset($patient_info['status'])? $patient_info['status'] : true;
 
     $this->table_name = Patient::TABLE_NAME;
     $this->configura_DB();
