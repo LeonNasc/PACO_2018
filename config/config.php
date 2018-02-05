@@ -8,20 +8,23 @@ ini_set("error_log", "/bin/php-error.log");
 
 date_default_timezone_set("America/Sao_Paulo");
 
-//Inicia a sessão
+/* ------------------ Configuração de sessão  ---------------------------*/
+
 if(!isset($_SESSION))
-  session_start();  
+  session_start();
 
-//Caso o usuário não esteja numa das páginas autorizadas, redireciona para index
-if (!in_array($_SERVER["PHP_SELF"], ["/login.php", "/logout.php", "/register.php"]))
-{
-    if (empty($_SESSION["id"]))
-    {
-        //redirect("index.php");
-    }
-}
+/* ------------------ Configuração do RainTPL ---------------------------*/
 
-//AUTOLOAD
+
+use Rain\Tpl;
+$config = array(
+                 "tpl_dir"       => "Views/templates/",
+                 "cache_dir"     => "Views/cache/"
+);
+Tpl::configure( $config );
+
+/* -------------------------- Meu Autoload ------------------------------*/
+
 function __autoload($class_name) {
     include "Model/" . $class_name . '.php';
 };
