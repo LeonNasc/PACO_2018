@@ -1,0 +1,32 @@
+/*----------- Mudanças de estilo em elementos -----------*/
+
+body{
+  position:relative;
+}
+
+footer{
+  left: 0;
+  bottom: 0;
+  right:0;
+  position:absolute;
+}
+/*----------- Mudanças de estilo em classes -------------*/
+.landing-jumbo{
+    background-image:url("https://images.newrepublic.com/a15ce6d85e011dcb0fc8415a820dd34f5189b9e8.jpeg");
+    background-size: cover;
+    background-attachment: fixed;
+    background-position:center;
+    color:white;
+    font-size:3vmin;
+    height:auto;
+    margin:0;
+}
+
+.icons-text{
+    font-size:0.75em;
+    line-height:1em;
+}
+.ico{
+    width:50%;
+    height:50%;
+}

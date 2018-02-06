@@ -1,7 +1,23 @@
 <?PHP
+use Rain\Tpl;
 
 if ($_SERVER['method'] == GET){
-  // Deve fornecer a view de registro e adicionar usuário
+  $task = $_GET['task'];
+
+  switch($task){
+    case 'registrar':
+    //TODO
+    break;
+    case 'login':
+    //TODO
+    break;
+    case default:
+    //TODO: redirecionar
+    break;
+  }
+  $view = new Tpl;
+  $view->assign('name', isset($_SESSION['logged_user_name']));
+  //$login =
 
 }
 else if ($_SERVER['method'] == POST){
@@ -10,4 +26,7 @@ else if ($_SERVER['method'] == POST){
 else {
   throw new Exception("Metodo de acesso inválido");
 }
+
+/* --------------------- Here be functions ----------------------*/
+
 ?>

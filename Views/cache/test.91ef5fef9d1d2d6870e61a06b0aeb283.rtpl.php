@@ -8,8 +8,8 @@
       <!-- if remove_comments is enabled this will disappear -->
     <?php require $this->checkTemplate("header");?>
 
-    Hello <?php echo htmlspecialchars( $name, ENT_COMPAT, 'UTF-8', FALSE ); ?>!
-
-
+		<center>
+    	<img class="thumbnail" src="https://media1.tenor.com/images/fdb68e17093a027ec5f87a2f666acf3f/tenor.gif?itemid=4819844">
+		</center>
 </body>
 </html>
