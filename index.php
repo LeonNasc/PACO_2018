@@ -5,5 +5,5 @@ require_once("config/config.php"); //Arquivo de configuração
 use Rain\Tpl;
 
 $init = configurar_views();
-$init->draw('landing');
+$init->draw('registro');
 ?>
