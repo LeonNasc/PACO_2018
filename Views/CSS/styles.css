@@ -6,7 +6,7 @@ body{
 
 footer{
   left: 0;
-  bottom: 0;
+  top:100vmin;
   right:0;
   position:absolute;
 }
@@ -21,6 +21,12 @@ footer{
     height:auto;
     margin:0;
 }
+.pagebottom{
+  padding: 1rem;
+  height:50px;
+  background-color: #efefef;
+  text-align: center;
+}
 
 .icons-text{
     font-size:0.75em;
@@ -29,4 +35,18 @@ footer{
 .ico{
     width:50%;
     height:50%;
+}
+
+.test{
+  display:table;
+  margin: 0 0 0 5%;
+  padding:1em;
+  justify-content:center;
+  align-items:center;
+  width:800px;
+}
+
+#registro form label{
+  width:56px;
+  text-align:left;
 }

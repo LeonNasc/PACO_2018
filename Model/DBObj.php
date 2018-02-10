@@ -158,7 +158,7 @@ Class DBObj extends PDO{
   * @return void
   */
   //Gera as constantes de Banco de dados a partir do JSON de configuração
-  protected function configura_DB($dbconfig_path = "config/dbinfo.json"){
+  protected function configura_DB($dbconfig_path = "../config/dbinfo.json"){
 
     //Recupera dados de configuração de DB a partir de um arquivo
     $dbconfig_data = fopen($dbconfig_path,"r");
@@ -184,7 +184,7 @@ Class DBObj extends PDO{
   * Assim como podem ser ligados como:
   * - Campo = :Campo, Campo2 = :Campo2
   * - Campo = :Campo AND Campo2 = :Campo2
-  * - Campo = :Campo OR Campo2 = :Campo2 
+  * - Campo = :Campo OR Campo2 = :Campo2
   *
   * @param array $data {
   *   @var String[] de key/values válidas para o table_name em uso

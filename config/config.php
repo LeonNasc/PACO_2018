@@ -1,10 +1,18 @@
 <?php
 
+// Meu Autoload
+function my_autoloader($class_name) {
+    include "../Model/" . $class_name . '.php';
+};
+spl_autoload_register('my_autoloader');
+
+require_once("../vendor/autoload.php"); //Autoloader do composer
+
 // Exibição de erros
-error_reporting(-1);
-ini_set("display_errors", "1");
+error_reporting(E_ALL);
+ini_set("display_errors", "on");
 ini_set("log_errors", 1);
-ini_set("error_log", "/bin/php-error.log");
+ini_set("error_log", "/home/leon/dev/PACO_2018/config/log/php-error.log");
 
 date_default_timezone_set("America/Sao_Paulo");
 
@@ -23,11 +31,7 @@ $config = array(
 );
 Tpl::configure( $config );
 
-/* -------------------------- Meu Autoload ------------------------------*/
-
-function __autoload($class_name) {
-    include "Model/" . $class_name . '.php';
-};
+/*----------------- Funções Helper ---------------------*/
 
 function configurar_views(){
 
@@ -40,4 +44,6 @@ function configurar_views(){
   $t->assign('title','PACO');
   return $t;
 }
+
+
 ?>
