@@ -1,2 +1,6 @@
 #Cache depende de cada view e cada dado local
 /PACO_2018/Views/cache/
+
+#Alguns dados pessoais
+/PACO_2018/config/dbinfo.json
+/PACO_2018/config/testDB_current_tables
