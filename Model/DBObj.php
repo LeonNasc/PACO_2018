@@ -62,7 +62,7 @@ Class DBObj extends PDO{
   *
   * @return array or boolean
   */
-  protected function fetch($selectors, $selector_type, $likeness = false){
+  protected function fetch($selectors, $selector_type="AND", $likeness = false){
     //$option pode ser: LIKE -
 
     //Permite selecionar por qualquer campo passado, desde que venha como array

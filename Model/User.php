@@ -62,11 +62,15 @@ Class User extends DBObj{
       return $insert = $this->set($this->get_fields());
     }
     else
-      return new Exception("Usuario já existe");
+      throw new Exception("Usuario já existe");
   }
 
-  public function update_user_info($login,$password){
-
+  public function update_user_info($login=null,$password=null){
+    
+    if(!isset($login) && !isset($password)){
+      throw new Exception("Nenhum alteração foi passada");
+      return;
+    }
     $result = isset($login)? $this->set_login($login): false;
     $result  = isset($password)? $this->set_password($password) : false;
 
@@ -107,6 +111,18 @@ Class User extends DBObj{
   }
 
   //Funções utilitárias
+  
+  public static function get_from_id($id){
+    
+    $db= new DBOBj(User::TABLE_NAME);
+    
+    $result = $db->fetch(array('id'=>$id));
+    
+    if($result && sizeof($result) > 0)
+      return new User($result[0]);
+    else
+      return False;
+  }
 
   private static function user_exists($login){
 
@@ -114,7 +130,7 @@ Class User extends DBObj{
 
     //Busca no BD se existe um registro referente ao usuário
     $result = $db->fetch(array('login'=> $login));
-    //Se existir, reto[0]rna um array com o $registro
+    //Se existir, retorna um array com o $registro
     if ($result && sizeof($result) > 0)
       return $result[0];
     else //Se não, retorna false
