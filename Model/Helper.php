@@ -1,8 +1,22 @@
 <?php
 use Rain\Tpl;
 
+/**
+* Classe contendo métodos estáticos para funções helper para os controladores.
+*
+* Utiliza intensivamente o Rain\Tpl como engine de templates, servindo-os quando necessário.
+*
+* @see Rain\Tpl
+*/
 class Helper{
- 
+    
+    /**
+     * Exibe uma mensagem de erro a partir do template padrão
+     *
+     * @param string $message Mensagem de erro que será exibida
+     *
+     * @return void
+     */
     public static function show_error_page($message){
         
         $template = new Tpl;
@@ -10,6 +24,13 @@ class Helper{
         $template->draw('error_page');
     }   
     
+    /**
+     * Exibe a landing page.
+     * 
+     * Temporariamente aqui até eu fazer uma função mais generalizada
+     *
+     * @return void
+     */
     public static function show_landing(){
 
         $template = new Tpl;
@@ -23,6 +44,29 @@ class Helper{
     
         $template->draw('registro');
     }
-
+    
+    /**
+     * Avalia se há um usuário logado. 
+     *
+     * @return boolean, void
+     */
+    public static function check_login_status(){
+        
+        if(!isset($_SESSION)){
+            session_start();
+        }
+        
+        if(isset($_SESSION['active_user_id'])){
+            
+            return true;
+        }
+        
+        else{
+            //Redireciona para index
+            //header("https://playground-leon19.c9users.io/PACO_2018/");
+            //exit();    
+        }
+        
+    }
 }
 ?>

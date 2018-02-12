@@ -1,25 +1,27 @@
 <?php
 
-// Meu Autoload
-function my_autoloader($class_name) {
-   include __DIR__."/../Model/" . $class_name . '.php';
-};
-spl_autoload_register('my_autoloader');
+date_default_timezone_set("America/Sao_Paulo");
 
-require_once(__DIR__."/../vendor/autoload.php"); //Autoloader do composer
-
-// Exibição de erros
+/* -------------------- Configuração de Erros ---------------------------*/
 error_reporting(E_ALL);
 ini_set("display_errors", "on");
 ini_set("log_errors", 1);
-ini_set("error_log", "/home/leon/dev/PACO_2018/config/log/php-error.log");
 
-date_default_timezone_set("America/Sao_Paulo");
+/* -------------------- Configuração de autoloads -----------------------*/
+function meu_autoload($class_name) {
+   include __DIR__."/../Model/" . $class_name . '.php';
+};
+spl_autoload_register('meu_autoload');
+
+//Autoloader do composer
+require_once(__DIR__."/../vendor/autoload.php");
 
 /* ------------------ Configuração de sessão  ---------------------------*/
 
 if(!isset($_SESSION))
   session_start();
+
+Helper::check_login_status();
 
 /* ------------------ Configuração do RainTPL ---------------------------*/
 

@@ -6,7 +6,6 @@ body{
 
 footer{
   left: 0;
-  top:100vmin;
   right:0;
   position:absolute;
 }
@@ -38,12 +37,9 @@ footer{
 }
 
 .test{
-  display:table;
-  margin: 0 0 0 5%;
+  margin: 0 auto;
   padding:1em;
-  justify-content:center;
-  align-items:center;
-  width:800px;
+  width:400px;
 }
 
 #registro form label{

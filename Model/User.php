@@ -106,7 +106,7 @@ Class User extends DBObj{
     }
   }
 
-  public function logout(){
+  public static function logout(){
     unset($_SESSION['active_user_id']);
   }
 
