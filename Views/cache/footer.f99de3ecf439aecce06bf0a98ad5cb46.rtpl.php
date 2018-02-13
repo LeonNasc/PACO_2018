@@ -1,4 +1,4 @@
-</div> <!--End maindiv -->
+<?php if(!class_exists('Rain\Tpl')){exit;}?></div> <!--End maindiv -->
 </div>
 <footer class= "pagebottom">
   <center>

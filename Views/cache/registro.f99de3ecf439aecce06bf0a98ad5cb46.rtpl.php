@@ -1,7 +1,9 @@
-<html lang="pt-br">
-    {include="meta"}
+<?php if(!class_exists('Rain\Tpl')){exit;}?><html lang="pt-br">
+    <?php require $this->checkTemplate("meta");?>
+
 <body>
-    {include="header"}
+    <?php require $this->checkTemplate("header");?>
+
     <div class="content card">
     <fieldset id="registro">
       <legend class="card-title">Cadastrar usuário </legend>
@@ -28,6 +30,7 @@
       </form>
     </fieldset>
     </div>
-    {include="footer"}
+    <?php require $this->checkTemplate("footer");?>
+
 </body>
 </html>

@@ -1,5 +1,5 @@
-<head>
-  <title>{isset($title)?$title : ""}: PACO - Programa de acompanhamento farmacoterapêutico</title>
+<?php if(!class_exists('Rain\Tpl')){exit;}?><head>
+  <title><?php echo (htmlspecialchars( isset($title), ENT_COMPAT, 'UTF-8', FALSE )?htmlspecialchars( $title , ENT_COMPAT, 'UTF-8', FALSE ): ""); ?>: PACO - Programa de acompanhamento farmacoterapêutico</title>
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
   
   <!-- CSS e similares -->

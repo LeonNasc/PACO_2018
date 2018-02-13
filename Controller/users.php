@@ -3,7 +3,7 @@ require("../config/config.php");
 
 use Rain\Tpl;
 
-if($_SERVER['REQUEST_METHOD'] == POST){
+if($_SERVER['REQUEST_METHOD'] == 'POST'){
   //Deve lidar com as funções REGISTRAR, LOGIN e UPDATE usuário
   switch($_POST['task']){
     
@@ -25,13 +25,15 @@ if($_SERVER['REQUEST_METHOD'] == POST){
       try{
         $user->add_user();
         $user->login($_POST['login'],$_POST['senha']);
-        Helper::show_landing();
+        $content = Helper::show_landing();
       }
       catch(Exception $e){
-        Helper::show_error_page($e->getMessage());
+        $content = Helper::show_error_page($e->getMessage());
       }
       
-    break;
+      Helper::return_template_html($content);
+      
+      break;
     
     /* ---------------
     *
@@ -41,27 +43,45 @@ if($_SERVER['REQUEST_METHOD'] == POST){
     case 'login':
       try{
         User::login($_POST['login'],$_POST['senha']);
-        Helper::show_landing();
       }
       catch(Exception $e){
-        Helper::show_error_page($e->getMessage());
+        $content = Helper::show_error_page($e->getMessage());
       }
       
-    break;
+      Helper::return_template_html($content);
+     break;
      /* ---------------
     *
     *   Logout
     *
     *-----------------*/
     case 'logout':
-      
       User::logout();
-      Helper::show_landing();
       
-    break;
+      break;
     default:
-      //DEFAULT ACTION
-    break;
+      exit();
+      break;
+  }
+}
+else{
+  
+  if(isset($_GET)){
+    
+   switch($_GET['task']){
+    case 'registro':
+    
+      
+    Helper::make_template('registro', $content);
+      break;
+    case 'login':
+    
+    
+    $content = null;  
+      
+    Helper::make_template('login_form',$content);
+      break;
+   }
   }
 }
 ?>

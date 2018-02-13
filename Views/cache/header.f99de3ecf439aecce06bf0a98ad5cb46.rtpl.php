@@ -1,4 +1,4 @@
-<!-- HEADER AND NAVBAR -->
+<?php if(!class_exists('Rain\Tpl')){exit;}?><!-- HEADER AND NAVBAR -->
 <header>
     <nav class="navbar navbar-light bg-light">
         <div class="navbar-header">
@@ -15,7 +15,8 @@
                 <a class="nav-link" href="#contact">Contact</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link">Seja bem vindo, {isset($name)?$name : "Usuário"}
+                <a class="nav-link">Seja bem vindo, <?php echo (htmlspecialchars( isset($name), ENT_COMPAT, 'UTF-8', FALSE )?htmlspecialchars( $name , ENT_COMPAT, 'UTF-8', FALSE ): "Usuário"); ?>
+
                 <!--<span><br><small><a>Não é cadastrado? Cadastre-se</a></small></span>-->
                 </a>
             </li>

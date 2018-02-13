@@ -1,9 +1,4 @@
 /*----------- Mudanças de estilo em elementos -----------*/
-
-body{
-  position:relative;
-}
-
 footer{
   left: 0;
   right:0;
@@ -36,13 +31,19 @@ footer{
     height:50%;
 }
 
-.test{
-  margin: 0 auto;
-  padding:1em;
-  width:400px;
+.content{
+  margin: 15px auto;
+  padding:1.5em;
+  min-width:300px;
+  max-width:70%;
 }
 
 #registro form label{
   width:56px;
   text-align:left;
+}
+/* --------------- Elementos específicos ----------------*/
+
+#main-content{
+  min-height:100vmin;
 }
