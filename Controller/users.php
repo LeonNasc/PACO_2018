@@ -50,6 +50,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
       
       Helper::return_template_html($content);
      break;
+     
      /* ---------------
     *
     *   Logout
@@ -72,14 +73,14 @@ else{
     case 'registro':
     
       
-    Helper::make_template('registro', $content);
+    Helper::make_template('registro',null,True);
       break;
     case 'login':
     
     
     $content = null;  
       
-    Helper::make_template('login_form',$content);
+    Helper::make_template('login_form',null,True);
       break;
    }
   }

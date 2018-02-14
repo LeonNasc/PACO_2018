@@ -1,10 +1,35 @@
 <?php
 
+/**
+* Classe base para controle de interação de usuário
+*
+* Extende a classe DBObj para manejo de operações no banco de dados.
+* Capaz de registrar, editar, atualizar, logar e deslogar um usuário.
+*
+* @see DBObj
+*/
 Class User extends DBObj{
-
-  private $id, $email, $user_name, $login, $password, $registration_date;
-
+  
+  /**
+  * Nome do banco de dados utilizado pela classe User
+  * 
+  * @const string
+  */
   const TABLE_NAME = "users_db";
+  
+  
+  /**
+  * Membros da classe user que representam os mesmos dados no banco
+  *
+  * @var string $id : Uniqid com prefixo us_
+  * @var string $email: Email do usuário
+  * @var string $user_name: Nome do usuário
+  * @var string $login: Login único do usuário
+  * @var string $password: Senha encriptada do usuário
+  * @var string $registration_date: Data da criação do usuário
+  *
+  */
+  private $id, $email, $user_name, $login, $password, $registration_date;
 
   public function __construct($user_info){
 
@@ -93,7 +118,7 @@ Class User extends DBObj{
       if (hash('sha256',$password) === $user_db["password"]){
 
         $current_user = new User($user_db);
-        $_SESSION['active_user_id'] = $user_db['id'];
+        $_SESSION['active_user_id'] = $current_user->get_user_data();
 
         return $current_user;
       }

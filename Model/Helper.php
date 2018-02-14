@@ -27,8 +27,6 @@ class Helper{
     /**
      * Exibe a landing page.
      * 
-     * Temporariamente aqui até eu fazer uma função mais generalizada
-     *
      * @return string
      */
     public static function show_landing(){
@@ -46,13 +44,15 @@ class Helper{
      * 
      * @param string $template_name: Nome do template a ser passado 
      * @param array $params : Parametros que serão renderizados no template
-     * @param boolean $ajax : Define se será retornado somente o HTML como texto ou se renderizará a página
+     * @param boolean $ajax : Define se será retornado somente o HTML como texto
+     * 
      * @return string
      */
     public static function make_template($template_name, $params = null, $ajax = false)
     {
         $template = new Tpl;
         
+        //Alguns templates não tem parametros a serem renderizados
         if(isset($params)){
             foreach($params as $key=>$value){
                 $template->assign($key,$value);
@@ -69,6 +69,7 @@ class Helper{
             return Helper::make_template('error_page',array("error_message"=>"Template não existe"), $ajax);
         }
     }
+    
     /**
      * Avalia se há um usuário logado. 
      *
@@ -82,14 +83,10 @@ class Helper{
         
         if(isset($_SESSION['active_user_id'])){
             
-            return true;
+            return True;
         }
         
-        else{
-            //Redireciona para index
-            //header("https://playground-leon19.c9users.io/PACO_2018/");
-            //exit();    
-        }
+        return False;
         
     }
     
