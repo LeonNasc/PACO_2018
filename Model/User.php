@@ -34,7 +34,7 @@ Class User extends DBObj{
   public function __construct($user_info){
 
     if (!is_array($user_info))
-      return new Exception("Parâmetro inválido: \$user_info deve ser array");
+      throw new Exception("Parâmetro inválido: \$user_info deve ser array");
 
     $now = new DateTime();
 
@@ -44,7 +44,7 @@ Class User extends DBObj{
     $this->login = $user_info['login'];
     $this->password = hash('sha256',$user_info['password']);
     $this->registration_date = isset($user_info['registration_date'])?
-    $user_info['registration_date']:$now->format("d-m-Y");
+    $user_info['registration_date']:$now->format("m-d-Y");
     $this->table_name = User::TABLE_NAME;
 
     $this->configura_DB();
@@ -67,7 +67,7 @@ Class User extends DBObj{
   public function get_user_data($tipo_de_chamada = false){
     //Argumento refere à chamada da função: Uso interno *true ou externo *false
     if(!is_bool($tipo_de_chamada))
-      return new Exception("Chamada inválida");
+      throw new Exception("Chamada inválida");
 
     $returnable = $this->get_fields();
     //Chamada externa: Remove campos sensíveis (senha e email)
@@ -123,11 +123,11 @@ Class User extends DBObj{
         return $current_user;
       }
       else {
-        return new Exception("Combinação Login/Senha inválida");
-      }echo $query;
+        throw new Exception("Combinação Login/Senha inválida");
+      }
     }
     else {
-      return new Exception("Usuário não cadastrado");
+      throw new Exception("Usuário não cadastrado");
     }
   }
 

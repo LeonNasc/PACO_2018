@@ -4,14 +4,9 @@ require("../config/config.php");
 use Rain\Tpl;
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
-  //Deve lidar com as funções REGISTRAR, LOGIN e UPDATE usuário
+  
   switch($_POST['task']){
     
-    /* ---------------
-    *
-    *   Registro
-    *
-    *-----------------*/
     case 'registrar':
       
       $user_data = array();
@@ -24,42 +19,33 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
       
       try{
         $user->add_user();
-        $user->login($_POST['login'],$_POST['senha']);
-        $content = Helper::show_landing();
+        User::login($_POST['login'],$_POST['senha']);
+        Helper::make_template("new_user",$user_data, true);
       }
       catch(Exception $e){
-        $content = Helper::show_error_page($e->getMessage());
+        Helper::make_template("error_page", array("message" => $e->getMessage()),true);
+        exit();
       }
-      
-      Helper::return_template_html($content);
-      
       break;
     
-    /* ---------------
-    *
-    *   Login
-    *
-    *-----------------*/
     case 'login':
+      User::logout();
+      
       try{
         User::login($_POST['login'],$_POST['senha']);
       }
       catch(Exception $e){
-        $content = Helper::show_error_page($e->getMessage());
+        Helper::make_template("error_page", array("message" => $e->getMessage()),true);
+        exit();
       }
       
-      Helper::return_template_html($content);
      break;
      
-     /* ---------------
-    *
-    *   Logout
-    *
-    *-----------------*/
     case 'logout':
       User::logout();
       
       break;
+      
     default:
       exit();
       break;
@@ -77,10 +63,7 @@ else{
       break;
     case 'login':
     
-    
-    $content = null;  
-      
-    Helper::make_template('login_form',null,True);
+    echo "Hello world";
       break;
    }
   }

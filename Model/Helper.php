@@ -11,20 +11,6 @@ use Rain\Tpl;
 class Helper{
     
     /**
-     * Exibe uma mensagem de erro a partir do template padrão
-     *
-     * @param string $message Mensagem de erro que será exibida
-     *
-     * @return string
-     */
-    public static function show_error_page($message){
-        
-        $template = new Tpl;
-        $template->assign("error_message", $message);
-        return  Helper::return_template_html($template->draw('error_page', True));
-    }   
-    
-    /**
      * Exibe a landing page.
      * 
      * @return string
@@ -66,7 +52,7 @@ class Helper{
                 $template->draw($template_name);
         }
         catch(Exception $e){
-            return Helper::make_template('error_page',array("error_message"=>"Template não existe"), $ajax);
+            return Helper::make_template('error_page',array("message"=>"Template não existe"), $ajax);
         }
     }
     
@@ -90,6 +76,12 @@ class Helper{
         
     }
     
+    /**
+     * Imprime html a partir de um template pre-renderizado.
+     * Importante para chamadas JSON
+     *
+     * @return void
+     */
     public static function return_template_html($template){
         $content = $template;
         header("Content-type:text/plain");
