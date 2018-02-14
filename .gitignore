@@ -1,5 +1,5 @@
 #Cache depende de cada view e cada dado local
-Views/cache/
+Views/cache/*
 
 #Alguns dados pessoais
 config/dbinfo.json

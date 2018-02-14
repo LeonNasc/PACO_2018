@@ -6,7 +6,6 @@ date_default_timezone_set("America/Sao_Paulo");
 error_reporting(E_ALL);
 ini_set("display_errors", "on");
 ini_set("log_errors", 1);
-
 /* -------------------- Configuração de autoloads -----------------------*/
 function meu_autoload($class_name) {
    include __DIR__."/../Model/" . $class_name . '.php';
@@ -27,6 +26,7 @@ Helper::check_login_status();
 
 
 use Rain\Tpl;
+
 $config = array(
                  "tpl_dir"       => __DIR__."/../Views/templates/",
                  "cache_dir"     => __DIR__."/../Views/cache/"
