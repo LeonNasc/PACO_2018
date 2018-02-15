@@ -4,14 +4,28 @@
         <div class="navbar-header">
             <a class="navbar-brand" href="/">PACO</a>
         </div>
+        {if="isset($_SESSION['active_user_id'])"}
+            <label for="patientlist"></label>
+            <select id="patientlist">
+              {loop="$patientlist"}
+              <option>{$patient_name}, {$admission_date}</option>
+              {/loop}
+            </select>
+        {else}
+          <form class="form-inline nav-link">
+            <input class="form-control" type="text" placeholder="Login">
+            <input class="form-control" type="password" placeholder="Senha">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
+          </form>
+        {/if}
         <ul class="nav justify-content-end">
-            <li class="nav-item">
+            <li class="nav-item mr-sm-2">
                 <a class="nav-link" href="#">Home</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item mr-sm-2">
                 <a class="nav-link" href="#about">About</a>
                 </li>
-            <li class="nav-item">
+            <li class="nav-item mr-sm-2">
                 <a class="nav-link" href="#contact">Contact</a>
             </li>
             <li class="nav-item">
