@@ -33,13 +33,17 @@ footer{
 
 .content{
   margin: 15px auto;
-  padding:1.5em;
-  min-width:300px;
+  padding:1em;
+  min-width:256px;
   max-width:70%;
 }
 
-#registro form label{
-  width:56px;
+.registro-input{  
+  width:256px;
+}
+
+.registro-label{
+  width:64px;
   text-align:left;
 }
 /* --------------- Elementos específicos ----------------*/
@@ -48,5 +52,5 @@ footer{
   min-height:100vmin;
 }
 #main-content :first-child{
-  margin: 0 auto;
+  margin: 5% auto;
 }

@@ -9,15 +9,15 @@
 * @see DBObj
 */
 Class User extends DBObj{
-  
+
   /**
   * Nome do banco de dados utilizado pela classe User
-  * 
+  *
   * @const string
   */
   const TABLE_NAME = "users_db";
-  
-  
+
+
   /**
   * Membros da classe user que representam os mesmos dados no banco
   *
@@ -83,15 +83,14 @@ Class User extends DBObj{
 
   public function add_user(){
     //Se não existir um cadastro desse usuário
-    if(!User::user_exists($this->login)){
-      return $insert = $this->set($this->get_fields());
-    }
-    else
+    if((User::user_exists($this->login,'login') || User::user_exists($this->email,'login')))
       throw new Exception("Usuario já existe");
+    else
+      return $insert = $this->set($this->get_fields());
   }
 
   public function update_user_info($login=null,$password=null){
-    
+
     if(!isset($login) && !isset($password)){
       throw new Exception("Nenhum alteração foi passada");
       return;
@@ -99,10 +98,10 @@ Class User extends DBObj{
     $result = isset($login)? $this->set_login($login): false;
     $result  = isset($password)? $this->set_password($password) : false;
 
-    if(!User::user_exists($login))
-      $result = $this->update($this->get_fields());
-    else
+    if(User::user_exists($login,'login'))
       throw new Exception("Nome de usuário já em uso");
+    else
+      $result = $this->update($this->get_fields());
 
     return $result;
   }
@@ -111,7 +110,7 @@ Class User extends DBObj{
 
   public static function login($login,$password){
 
-    $user_db = User::user_exists($login);
+    $user_db = User::user_exists($login,'login');
 
     if ($user_db){
 
@@ -136,25 +135,25 @@ Class User extends DBObj{
   }
 
   //Funções utilitárias
-  
+
   public static function get_from_id($id){
-    
+
     $db= new DBOBj(User::TABLE_NAME);
-    
+
     $result = $db->fetch(array('id'=>$id));
-    
+
     if($result && sizeof($result) > 0)
       return new User($result[0]);
     else
       return False;
   }
 
-  private static function user_exists($login){
+  private static function user_exists($identifier,$type){
 
     $db = new DBOBj(User::TABLE_NAME);
 
     //Busca no BD se existe um registro referente ao usuário
-    $result = $db->fetch(array('login'=> $login));
+    $result = $db->fetch(array($type=> $identifier));
     //Se existir, retorna um array com o $registro
     if ($result && sizeof($result) > 0)
       return $result[0];

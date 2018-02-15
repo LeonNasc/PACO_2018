@@ -35,15 +35,24 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         User::login($_POST['login'],$_POST['senha']);
       }
       catch(Exception $e){
-        Helper::make_template("error_page", array("message" => $e->getMessage()),true);
         exit();
+        Helper::make_template("error_page", array("message" => $e->getMessage()),true);
       }
-
+      Helper::make_template("manutencao",null,true);
      break;
 
     case 'logout':
       User::logout();
+      Helper::make_template("landing",null,true);
+      break;
 
+    case 'collide':
+      if(User::user_exists($_POST['login']))
+        print("");
+      else if(User::user_exists($_POST['login']))
+        print("");
+      else
+        print("joinha");
       break;
 
     default:
@@ -54,15 +63,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 else{
 
   if(isset($_GET)){
-
    switch($_GET['task']){
     case 'registro':
-
-
     Helper::make_template('registro',null,false);
       break;
     case 'login':
-
     Helper::make_template('manutencao', null, false);
       break;
    }
