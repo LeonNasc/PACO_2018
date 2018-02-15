@@ -4,6 +4,10 @@ footer{
   right:0;
   position:absolute;
 }
+header{
+  margin-bottom:1%;
+}
+
 /*----------- Mudanças de estilo em classes -------------*/
 .landing-jumbo{
     background-image:url("https://images.newrepublic.com/a15ce6d85e011dcb0fc8415a820dd34f5189b9e8.jpeg");
@@ -32,13 +36,13 @@ footer{
 }
 
 .content{
-  margin: 15px auto;
+  margin: 0 auto;
   padding:1em;
   min-width:256px;
   max-width:70%;
 }
 
-.registro-input{  
+.registro-input{
   width:256px;
 }
 

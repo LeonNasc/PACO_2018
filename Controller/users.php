@@ -36,19 +36,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         Helper::make_template("error_page", array("message" => $e->getMessage()),true);
         exit();
       }
-      Helper::make_template("manutencao",null,true);
+      Helper::make_template("staging",null,false);
      break;
-
-    case 'logout':
-      User::logout();
-      Helper::make_template("landing",null,true);
-      break;
 
     case 'collide':
       if(User::user_exists($_POST['login']))
-        print("");
-      else if(User::user_exists($_POST['login']))
-        print("");
+        print("Nome de usuário em uso");
+      else if(User::user_exists($_POST['email']))
+        print("E-mail já cadastrado");
       else
         print("joinha");
       break;
@@ -62,12 +57,13 @@ else{
 
   if(isset($_GET)){
    switch($_GET['task']){
+
     case 'registro':
-    Helper::make_template('registro',null,false);
+      Helper::make_template('registro',null,false);
       break;
-    case 'login':
-    unset($_SESSION['active_user_id']);
-    Helper::make_template('manutencao', null, false);
+    case 'logout':
+      User::logout();
+      Helper::make_template('staging',null,false);
       break;
    }
   }
