@@ -3,21 +3,21 @@
   <fieldset id="registro">
     <legend class="card-title">Cadastrar usuário </legend>
     <form id="registro-form" class="card-body" action="Controller/users.php" method="post">
-
+      <span style="color:red" id="error_text"></span>
       <input name="task" type=hidden value="registrar" required>
       <div>
         <label class="registro-label" for="nome">Nome:</label>
-        <input class="registro-input" type="text" name="nome"/ required>
+        <input class="registro-input" type="text" name="nome" required/>
       </div>
       <div>
         <label class="registro-label" for="email">E-mail:</label> <!-- Validar via JS -->
-        <input class="registro-input" type="text" name="email"/ required>
+        <input class="registro-input" onblur="validate(this.name, this.value)" type="text" name="email" required/>
       </div>
         <label class="registro-label" for="login">Login:</label>
-        <input class="registro-input" type="text" name="login"/ required>
+        <input class="registro-input" onblur="validate(this.name, this.value)" type="text" name="login" required/>
       <div>
         <label class="registro-label" for="senha">Senha:</label>
-        <input class="registro-input" type="password" name="senha"/ required>
+        <input class="registro-input" type="password" name="senha" required/>
       </div>
         <input class="registro-input" type="button" onclick="load_page('Controller/users.php','POST',this)" style="width:100%" value="Registrar"/>
 

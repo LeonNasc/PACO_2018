@@ -40,12 +40,12 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
      break;
 
     case 'collide':
-      if(User::user_exists($_POST['login']))
+      if(isset($_POST['login']) && User::user_exists($_POST['login'],'login'))
         print("Nome de usuário em uso");
-      else if(User::user_exists($_POST['email']))
+      else if(isset($_POST['email']) && User::user_exists($_POST['email'],'email'))
         print("E-mail já cadastrado");
       else
-        print("joinha");
+        print("");
       break;
 
     default:

@@ -117,7 +117,7 @@ Class User extends DBObj{
       if (hash('sha256',$password) === $user_db["password"]){
 
         $current_user = new User($user_db);
-        $_SESSION['active_user_id'] = $current_user->get_user_data();
+        $_SESSION['active_user_id'] = json_decode($current_user->get_user_data(),true);
 
         return $current_user;
       }
@@ -148,7 +148,7 @@ Class User extends DBObj{
       return False;
   }
 
-  private static function user_exists($identifier,$type){
+  public static function user_exists($identifier,$type){
 
     $db = new DBOBj(User::TABLE_NAME);
 

@@ -5,6 +5,8 @@ $(function () {
   $('[data-toggle="popover"]').popover()
 })
 
+
+
 function load_page(url, method, data){
 
     var div = document.getElementById("main-content");
@@ -12,10 +14,11 @@ function load_page(url, method, data){
 
     xhr.open(method, url, true);
 
+    console.log(data)
     if(data)
       xhr.send(handle_form(data));
     else
-      xhr.send(null);
+      xhr.send(data);
 
     xhr.onload = function(){
       display_html(div, xhr.responseText);
@@ -30,7 +33,7 @@ function handle_form(submit_button){
       form = submit_button.parentElement;
       console.log(form);
 
-      if(form){
+      if(form && typeof submit_button == 'object'){
         var content = new FormData();
         console.log(form.length)
         //form.length-1 para evitar o botão
@@ -39,7 +42,29 @@ function handle_form(submit_button){
         }
         return content;
       }
+      else if(typeof submit_button == 'object')
+        return submit_button;
       else {
         console.log("error");
       }
+}
+
+function validate(key, value){
+  var div = document.getElementById("error_text");
+  console.log(div);
+  var xhr = new XMLHttpRequest();
+
+  xhr.open('POST','Controller/users.php',);
+
+  data = new FormData();
+  data.append('task','collide');
+  data.append(key,value);
+
+  xhr.send(data);
+  xhr.onload = function(){
+    div.innerHTML = xhr.responseText;
+    if(xhr.responseText != '')
+      div.parentNode.reset();
+  }
+
 }
