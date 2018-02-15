@@ -47,3 +47,6 @@ footer{
 #main-content{
   min-height:100vmin;
 }
+#main-content :first-child{
+  margin: 0 auto;
+}

@@ -17,12 +17,13 @@ class Helper{
      */
     public static function show_landing(){
 
-        $dados = array();
-        $dados['Adicione prescrições e resultados laboratoriais de forma fácil'] = 'https://image.flaticon.com/icons/svg/1/1755.svg';
-        $dados['Visualize prescrições anteriores e contraste com resultados laboratoriais'] ='https://image.flaticon.com/icons/svg/344/344074.svg';
-        $dados['Comente e discuta sobre os seus pacientes de maneira rápida e simples'] = 'https://image.flaticon.com/icons/svg/134/134807.svg';
+        $icon_url = array();
+        $icon_url['Adicione prescrições e resultados laboratoriais de forma fácil'] = 'https://image.flaticon.com/icons/svg/1/1755.svg';
+        $icon_url['Visualize prescrições anteriores e contraste com resultados laboratoriais'] ='https://image.flaticon.com/icons/svg/344/344074.svg';
+        $icon_url['Comente e discuta sobre os seus pacientes de maneira rápida e simples'] = 'https://image.flaticon.com/icons/svg/134/134807.svg';
 
-        return Helper::make_template('landing',$dados);
+        $data['icon_url'] = $icon_url;
+        return Helper::make_template('landing',$data);
     }
 
     /**
@@ -89,8 +90,8 @@ class Helper{
      */
     public static function return_template_html($template){
         $content = $template;
-        header("Content-type:text/plain");
-        print((utf8_encode(addslashes($content))));
+        header("Content-type:text/html");
+        print(( utf8_encode(addslashes($content))));
     }
 }
 ?>

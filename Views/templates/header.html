@@ -1,39 +1,43 @@
 <!-- HEADER AND NAVBAR -->
 <header>
-    <nav class="navbar navbar-light bg-light">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="/">PACO</a>
-        </div>
-        {if="isset($_SESSION['active_user_id'])"}
-            <label for="patientlist"></label>
-            <select id="patientlist">
-              {loop="$patientlist"}
-              <option>{$patient_name}, {$admission_date}</option>
-              {/loop}
-            </select>
-        {else}
-          <form class="form-inline nav-link">
-            <input class="form-control" type="text" placeholder="Login">
-            <input class="form-control" type="password" placeholder="Senha">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
-          </form>
-        {/if}
-        <ul class="nav justify-content-end">
-            <li class="nav-item mr-sm-2">
-                <a class="nav-link" href="#">Home</a>
-            </li>
-            <li class="nav-item mr-sm-2">
-                <a class="nav-link" href="#about">About</a>
-                </li>
-            <li class="nav-item mr-sm-2">
-                <a class="nav-link" href="#contact">Contact</a>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/PACO_2018">PACO</a>
+
+        <div id="navbar-nav" class="collapse navbar-collapse">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="#">Dashboard</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link">Seja bem vindo, {isset($name)?$name : "Usuário"}
-                <!--<span><br><small><a>Não é cadastrado? Cadastre-se</a></small></span>-->
-                </a>
+                <a class="nav-link" href="#about">Meus Pacientes</a>
+                </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#contact">Comentários</a>
             </li>
-        </ul>
+            <li class="nav-item">
+                {if="isset($name)"}
+                Seja bem vindo, {$name}
+                {else}
+                <a class="nav-link" href="#" onclick="load_page('Controller/users.php?task=registro','GET')"> Cadastre-se </a>
+                {/if}
+            </li>
+          </ul>
+      </div>
+
+      {if="isset($_SESSION['active_user_id'])"}
+          <label for="patientlist"></label>
+          <select id="patientlist">
+            {loop="$patientlist"}
+            <option>{$patient_name}, {$admission_date}</option>
+            {/loop}
+          </select>
+      {else}
+        <form class="form-inline my-2 my-lg-0">
+          <input class="form-control mr-sm-2" type="text" placeholder="Login">
+          <input class="form-control mr-sm-2" type="password" placeholder="Senha">
+          <button type="button" class="btn btn-outline-success my-2 my-sm-0" onclick="load_page('Controller/users.php?task=login','GET')">Login</button>
+        </form>
+      {/if}
     </nav>
 </header>
-<div id="main-content">
+<div id="main-content" class="container">
