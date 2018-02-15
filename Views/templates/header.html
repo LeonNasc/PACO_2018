@@ -15,8 +15,8 @@
                 <a class="nav-link" href="#contact">Comentários</a>
             </li>
             <li class="nav-item">
-                {if="isset($name)"}
-                Seja bem vindo, {$name}
+                {if="isset($_SESSION['active_user_id'])"}
+                Seja bem vindo, {$_SESSION['active_user_id']['user_name']}
                 {else}
                 <a class="nav-link" href="#" onclick="load_page('Controller/users.php?task=registro','GET')"> Cadastre-se </a>
                 {/if}
@@ -33,9 +33,10 @@
           </select>
       {else}
         <form class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2" type="text" placeholder="Login">
-          <input class="form-control mr-sm-2" type="password" placeholder="Senha">
-          <button type="button" class="btn btn-outline-success my-2 my-sm-0" onclick="load_page('Controller/users.php?task=login','GET')">Login</button>
+          <input class="form-control mr-sm-2" name='login' type="text" placeholder="Login">
+          <input class="form-control mr-sm-2" name='senha' type="password" placeholder="Senha">
+          <input type='hidden' name='task' value='login'/>
+          <button type="button" class="btn btn-outline-success my-2 my-sm-0" onclick="load_page('Controller/users.php','POST',this)">Login</button>
         </form>
       {/if}
     </nav>

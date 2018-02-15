@@ -29,14 +29,12 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
       break;
 
     case 'login':
-      User::logout();
-
       try{
         User::login($_POST['login'],$_POST['senha']);
       }
       catch(Exception $e){
-        exit();
         Helper::make_template("error_page", array("message" => $e->getMessage()),true);
+        exit();
       }
       Helper::make_template("manutencao",null,true);
      break;
@@ -68,6 +66,7 @@ else{
     Helper::make_template('registro',null,false);
       break;
     case 'login':
+    unset($_SESSION['active_user_id']);
     Helper::make_template('manutencao', null, false);
       break;
    }

@@ -1,27 +1,22 @@
 console.log("I'll have all the scripts");
 
-function load_page(url, method,data){
+//Popover do bootstrap
+$(function () {
+  $('[data-toggle="popover"]').popover()
+})
+
+function load_page(url, method, data){
 
     var div = document.getElementById("main-content");
-
-    console.log(div);
     var xhr = new XMLHttpRequest();
-    xhr.open(method, url);
 
-    if(data){
-      var content = '';
-      data = JSON.parse(data);
+    xhr.open(method, url, true);
 
-      for(key in data){
-        if(i<length-1)
-          content+= key + "=" + data[key] + "&";
-        else
-          content+= key+ "=" + data[key];
-      }
-    }
+    if(data)
+      xhr.send(handle_form(data));
+    else
+      xhr.send(null);
 
-    xhr.send(data);
-    
     xhr.onload = function(){
       display_html(div, xhr.responseText);
     }
@@ -29,4 +24,22 @@ function load_page(url, method,data){
 
 function display_html(target, data){
     target.innerHTML = data;
+}
+
+function handle_form(submit_button){
+      form = submit_button.parentElement;
+      console.log(form);
+
+      if(form){
+        var content = new FormData();
+        console.log(form.length)
+        //form.length-1 para evitar o botão
+        for(var i = 0; i<form.length-1;i++){
+          content.append(form[i].name,(form[i].value||'default'));
+        }
+        return content;
+      }
+      else {
+        console.log("error");
+      }
 }

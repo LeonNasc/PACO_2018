@@ -44,7 +44,7 @@ Class User extends DBObj{
     $this->login = $user_info['login'];
     $this->password = hash('sha256',$user_info['password']);
     $this->registration_date = isset($user_info['registration_date'])?
-    $user_info['registration_date']:$now->format("m-d-Y");
+    $user_info['registration_date']:$now->format("d-m-Y");
     $this->table_name = User::TABLE_NAME;
 
     $this->configura_DB();

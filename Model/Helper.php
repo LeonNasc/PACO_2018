@@ -69,12 +69,7 @@ class Helper{
      */
     public static function check_login_status(){
 
-        if(!isset($_SESSION)){
-            session_start();
-        }
-
         if(isset($_SESSION['active_user_id'])){
-
             return True;
         }
 
@@ -91,7 +86,7 @@ class Helper{
     public static function return_template_html($template){
         $content = $template;
         header("Content-type:text/html");
-        print(( utf8_encode(addslashes($content))));
+        print($content);
     }
 }
 ?>

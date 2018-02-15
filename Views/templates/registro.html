@@ -17,9 +17,9 @@
         <input class="registro-input" type="text" name="login"/ required>
       <div>
         <label class="registro-label" for="senha">Senha:</label>
-        <input class="registro-input" type="text" name="senha"/ required>
+        <input class="registro-input" type="password" name="senha"/ required>
       </div>
-        <input class="registro-input" type="button" onclick="console.log(this)" style="width:100%" value="Registrar"/>
+        <input class="registro-input" type="button" onclick="load_page('Controller/users.php','POST',this)" style="width:100%" value="Registrar"/>
 
       Todos os campos são obrigatórios
     </form>
