@@ -3,10 +3,10 @@
     {include="meta"}
 <body>
     {include="header"}
-<div>
-  <div class='card' id="dashboard">
+<divid="dashboard" >
+  <div>
     <h3 class="card-title">Exibindo pacientes de {$_SESSION['active_user_id']['user_name']}</h3>
-
+  
     <div id="pacientes" style="width:200px">
       <input type="button" onclick="load_page('Controller/patients.php?task=adicionar','GET')" value="Novo paciente"></input>
       <ul>

@@ -57,7 +57,9 @@ header{
 
 #main-content{
   min-height:100vmin;
-}
-#main-content :first-child{
   margin: 5% auto;
 }
+#main-content :first-child{
+  margin:2% auto 2%;  
+}
+
