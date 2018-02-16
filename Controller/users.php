@@ -48,6 +48,17 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         print("");
       break;
 
+    case 'edit':
+      echo "This should edit the user";
+
+      $new_login = $_POST['login'];
+      $new_password = $_POST['senha'];
+
+      $user = User::get_from_id($_SESSION['active_user_id']['login']);
+
+      $user->update_user_info($new_login,$new_password);
+      break;
+
     default:
       exit();
       break;

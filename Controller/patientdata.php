@@ -1,10 +1,10 @@
 <?php
 
-if ($_SERVER['method'] == GET){
+if ($_SERVER['REQUEST_METHOD'] == GET){
 
     //Mostrar dados a partir de um ID de paciente passado via GET
 }
-else if ($_SERVER['method'] == POST){
+else if ($_SERVER['REQUEST_METHOD'] == POST){
 
 
 }

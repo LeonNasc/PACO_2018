@@ -51,6 +51,9 @@ header{
   text-align:left;
 }
 /* --------------- Elementos específicos ----------------*/
+#dashboard{
+  min-height:50vmax;
+}
 
 #main-content{
   min-height:100vmin;
