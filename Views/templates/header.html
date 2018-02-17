@@ -11,7 +11,7 @@
                 <a class="nav-link" href='/PACO_2018/index.php'>Dashboard</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#about">Meus Pacientes</a>
+                <a class="nav-link" href="#" onclick="load_page('Controller/users.php?task=editar','GET')">Meu Perfil</a>
                 </li>
             <li class="nav-item">
                 <a class="nav-link" href="#contact">Comentários</a>
@@ -35,8 +35,14 @@
       {if="isset($_SESSION['active_user_id'])"}
           <label for="patientlist"></label>
           <select id="patientlist">
-            {loop="$patientlist"}
-            <option>{$patient_name}, {$admission_date}</option>
+            {loop="$patients"}
+            <option>
+              {loop="$value"}
+                {if="$key=='name'||$key=='admission_date'"}
+                  {$value}&nbsp
+                {/if}
+              {/loop}
+            </option>
             {/loop}
           </select>
       {else}

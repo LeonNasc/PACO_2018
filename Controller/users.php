@@ -72,6 +72,11 @@ else{
     case 'registro':
       Helper::make_template('registro',null,false);
       break;
+
+    case 'editar':
+      Helper::make_template('perfil',null,false);
+      break;
+
     case 'logout':
       User::logout();
       Helper::make_template('staging',null,false);

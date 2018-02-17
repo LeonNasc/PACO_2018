@@ -12,6 +12,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET'){
       break;
     default:
       echo "Hello World";
+      $list = Patient::get_patient_list($_SESSION['active_user_id']['id']);
+      var_dump(json_decode($list,true));
       break;
   }
 }
@@ -26,10 +28,11 @@ else if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
       $patient = new Patient($patient);
 
-      //$patient->add_patient();
-      //print($patient->get_patient_data());
-      $list = Patient::get_patient_list($_SESSION['active_user_id']['id']);
-      var_dump(json_decode($list,true));
+      $patient->add_patient();
+      $_SESSION['patient_list'] = json_decode(Patient::get_patient_list($_SESSION['active_user_id']['id']),true);
+
+      header("Location: index.php")
+
       break;
     case 'editar':
       Helper::make_template('patient_form',array('task'=>'editar'));
