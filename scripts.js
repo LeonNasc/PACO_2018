@@ -14,7 +14,6 @@ function load_page(url, method, data){
 
     xhr.open(method, url, true);
 
-    console.log(data)
     if(data)
       xhr.send(handle_form(data));
     else
@@ -29,8 +28,10 @@ function display_html(target, data){
     target.innerHTML = data;
 }
 
-function handle_form(submit_button){
-      form = submit_button.parentElement;
+function handle_form(submit_button,type){
+      form = submit_button.parentElement.parentElement;
+      //  form = submit_button;
+
       console.log(form);
 
       if(form && typeof submit_button == 'object'){
@@ -51,7 +52,7 @@ function handle_form(submit_button){
 
 function validate(key, value){
   var div = document.getElementById("error_text");
-  console.log(div);
+
   var xhr = new XMLHttpRequest();
 
   xhr.open('POST','Controller/users.php',);

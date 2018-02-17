@@ -2,31 +2,32 @@
   <div>
   <fieldset id="pacientes">
     <legend class="card-title">Dados do paciente</legend>
-    <form id="patient-form" class="card-body" action="Controller/users.php" method="post">
+    <form id="patient-form" class="card-body">
       <span style="color:red" id="error_text"></span>
-      <input name="task" type=hidden value="adicionar" required>
+      <input name="task" type=hidden value={$task} required/>
+
       <div>
         <label for="nome">Nome:</label>
-        <input class="registro-input form-control" type="text" name="nome" required/>
+        <input class="form-control" type="text" name="nome" required/>
       </div>
+
       <div>
         <label for="nascimento">Data de Nascimento:</label>
-        <input class="registro-input form-control" type="date" name="nascimento" required/>
+        <input class="form-control" type="date" name="nascimento" required/>
       </div>
+
       <div>
-        <label for="login">Sexo:</label>
-        <div>
-        <select class="custom-select" for="sexo"></label>
-            <option value="M">Masculino</option>
-            <option value="F">Masculino</option>
-        </div>
+        <label for="sexo">Sexo:</label>
+        <select class="custom-select" name="sexo">
+            <option value="True">Masculino</option>
+            <option value="False">Feminino</option>
+        </select>
       </div>
-      
-      
+
       <div>
-        <input class="btn btn-outline-success registro-input" type="button" onclick="load_page('Controller/patients.php','POST',this)" style="width:100%" value="Adicionar Paciente"/>
-      </div>    
-      
+      <input class="btn btn-outline-success registro-input" type="button" onclick="load_page('Controller/patients.php','POST',this)" style="width:100%" value="Adicionar Paciente"/>
+      </div>
+
       Todos os campos são obrigatórios
     </form>
   </fieldset>
