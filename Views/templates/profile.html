@@ -1,3 +1,73 @@
-<div>
-    Hello World
+<div class="card">
+    <div>
+        <nav class="profile-data">
+    
+            <ul>
+                <li><a href='#dados'>Dados Pessoais</a></li>
+                <li><a href='#senha'>Alterar senha</a></li>
+                <li><a href='#email'>Alterar e-mail</a></li>
+                <li><a href='#delete'>Remover conta</a></li>
+            </ul>
+    
+        </nav>
+    
+        <div class="profile-fields">
+            <h3>{$_SESSION['active_user_id']['user_name']}</h3>
+            
+            <div id='dados'>
+                <table>
+                <tr><th>Nome:</th><td>{$_SESSION['active_user_id']['user_name']}</td>
+                <tr><th>ID:</th><td>{$_SESSION['active_user_id']['id']}</td>
+                <tr><th>Email:</th><td>{$_SESSION['active_user_id']['email']}</td>
+                <tr><th>Membro desde:&nbsp</th><td>{$_SESSION['active_user_id']['registration_date']}</td>
+                </table>
+            </div>
+            <hr>
+            <h5 id="error_text"></h5>
+            <form id='senha' class="profile-form">
+                <fieldset>
+                    <legend>Alterar Senha?</legend>
+                    
+                <div>
+                    <input type='hidden' name='task' value='edit'/>
+                    <input type='password' class='form-control' name='password' placeholder='Senha antiga'></input>
+                    <input type='password' class='form-control' name='validate' placeholder='Senha nova' onblur="validate_pw()"></input> <!-- Criar em JS -->
+                </div>
+                <div>
+                  <input class="btn btn-danger registro-input" type="button" onclick="load_page('Controller/users.php','POST',this)" value="Alterar senha" />
+                </div>
+                </fieldset>
+            </form>
+            <hr>
+            
+            <form id='email' class="profile-form">
+                <fieldset>
+                    <legend>Alterar Email?</legend>
+                  
+                <div>
+                    <input type='hidden' name='task' value='edit'/>
+                    <input type='text' class='form-control' onblur="validate(this.name,this.value)" name='email' placeholder='Novo email'></input>
+                </div>
+                <div>
+                  <input class="btn btn-danger registro-input" type="button"  onclick="load_page('Controller/users.php','POST',this)" value="Alterar email" />
+                </div>
+                </fieldset>
+            </form>
+            <hr>
+            <form id='delete' class="profile-form">
+                <fieldset>
+                    <legend>Deletar conta?</legend>
+                <div>
+                    <input type='hidden' name='task' value='delete'/>
+                    <input type='text' class='form-control' name='delete' placeholder='Digite seu nome de usuário' onfocus="warn()"></input>
+                    <small>Uma vez deletada, a conta não poderá ser restaurada</small>
+                </div>
+                <div>
+                  <input class="btn btn-danger registro-input" type="button" onclick="load_page('Controller/users.php','POST',this)" value="Remover conta" />
+                </div>
+                </fieldset>
+            </form>
+    
+        </div>
+    </div>
 </div>

@@ -1,36 +1,56 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-    {include="meta"}
+{include="meta"}
+
 <body>
-    {include="header"}
-<divid="dashboard" >
-  <h3 class="card-title">Exibindo pacientes de {$_SESSION['active_user_id']['user_name']}</h3>
-  <div  class="card">
-    <div id="pacientes" style="width:500px">
-      <input type="button" onclick="load_page('Controller/patients.php?task=novo','GET')" value="Novo paciente"></input>
-      <ul>
-      {loop="$patients"}
-      <li>
-        <ol>
-        {loop="$value"}
-          {if="$counter < 4"}
-            {if="$key=='sex' && $value==1"}
-              <li>Masculino</li>
-            {elseif="$key=='sex' && $value==0"}
-              <li>Feminino</li>
-            {else}
-              <li>{$value}</li>
-            {/if}
-          {/if}
-        {/loop}
-        </ol>
-      </li>
-      {/loop}
-      </ul>
+  {include="header"}
 
+  <div class="dashboard">
+    <h3 class="card-title">
+      <center>Exibindo pacientes de {$_SESSION['active_user_id']['user_name']}</center>
+    </h3>
+    <div id="dashboard" class="card dashboard">
+
+      <div id="pacientes">
+
+        <input type="button" class="btn btn-outline-success" onclick="load_page('Controller/patients.php?task=novo','GET')" value="Novo paciente"></input>
+
+        <ul>
+
+          {loop="$patients"}
+
+          <li>
+
+            <ol>
+              {loop="$value"} {if="$counter
+              < 4 "}
+              
+                {if="$key=='sex' && $value==1 "}
+                  <li>Masculino</li>
+                {elseif="$key=='sex' && $value==0 "}
+                  <li>Feminino</li>
+                {else}
+                  <li>{$value}</li>
+                {/if}
+                
+              {/if}
+              
+            {/loop}
+            </ol>
+            
+          </li>
+          {/loop}
+          
+        </ul>
+  
+      </div>
+      
+      <div>
+          
+          
+      </div>
     </div>
-
-  </div>
+    
 </div>
   {include="footer"}
 </body>

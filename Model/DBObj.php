@@ -158,10 +158,10 @@ Class DBObj extends PDO{
   * @return void
   */
   //Gera as constantes de Banco de dados a partir do JSON de configuração
-  protected function configura_DB($dbconfig_path = __DIR__."/../config/dbinfo.json"){
+  protected function configura_DB($dbconfig_path = "/../config/dbinfo.json"){
 
     //Recupera dados de configuração de DB a partir de um arquivo
-    $dbconfig_data = fopen($dbconfig_path,"r");
+    $dbconfig_data = fopen(__DIR__ .$dbconfig_path,"r");
     $dbconfig = json_decode(stream_get_contents($dbconfig_data), true);
     fclose($dbconfig_data);
 

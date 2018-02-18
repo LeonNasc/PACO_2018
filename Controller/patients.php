@@ -27,11 +27,11 @@ else if ($_SERVER['REQUEST_METHOD'] == 'POST'){
       $patient['owner'] = $_SESSION['active_user_id']['id'];
 
       $patient = new Patient($patient);
-
+      print($patient->get_patient_data());
       $patient->add_patient();
       $_SESSION['patient_list'] = json_decode(Patient::get_patient_list($_SESSION['active_user_id']['id']),true);
 
-      header("Location: index.php")
+      //header("Location: /PACO_2018/index.php");
 
       break;
     case 'editar':

@@ -1,35 +1,35 @@
 <div class="content card">
   <div>
-  <fieldset id="pacientes">
-    <legend class="card-title">Dados do paciente</legend>
-    <form id="patient-form" class="card-body">
-      <span style="color:red" id="error_text"></span>
-      <input name="task" type=hidden value={$task} required/>
+    <fieldset id="pacientes">
+      <legend class="card-title">Dados do paciente</legend>
+      <form id="patient-form" class="card-body">
+        <span style="color:red" id="error_text"></span>
+        <input name="task" type=hidden value={$task} required/>
 
-      <div>
-        <label for="nome">Nome:</label>
-        <input class="form-control" type="text" name="nome" required/>
-      </div>
+        <div>
+          <label for="nome">Nome:</label>
+          <input class="form-control" type="text" name="nome" required/>
+        </div>
 
-      <div>
-        <label for="nascimento">Data de Nascimento:</label>
-        <input class="form-control" type="date" name="nascimento" required/>
-      </div>
+        <div>
+          <label for="nascimento">Data de Nascimento:</label>
+          <input class="form-control" type="date" name="nascimento" required/>
+        </div>
 
-      <div>
-        <label for="sexo">Sexo:</label>
-        <select class="custom-select" name="sexo">
+        <div>
+          <label for="sexo">Sexo:</label>
+          <select class="custom-select" name="sexo">
             <option value="True">Masculino</option>
             <option value="False">Feminino</option>
         </select>
-      </div>
+        </div>
 
-      <div>
-      <input class="btn btn-outline-success registro-input" type="button" onclick="load_page('Controller/patients.php','POST',this)" style="width:100%" value="Adicionar Paciente"/>
-      </div>
+        <div>
+          <input class="btn btn-outline-success registro-input" type="button" onclick="load_page('Controller/patients.php','POST',this)" value="Adicionar Paciente" />
+        </div>
 
-      Todos os campos são obrigatórios
-    </form>
-  </fieldset>
+        Todos os campos são obrigatórios
+      </form>
+    </fieldset>
   </div>
 </div>

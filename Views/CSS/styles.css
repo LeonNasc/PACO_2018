@@ -8,6 +8,16 @@ header{
   margin-bottom:1%;
 }
 
+select{
+  max-width:256px;
+}
+
+p{
+  line-height:2em;
+  margin:10px;
+  text-align:justify;
+}
+
 /*----------- Mudanças de estilo em classes -------------*/
 .landing-jumbo{
     background-image:url("https://images.newrepublic.com/a15ce6d85e011dcb0fc8415a820dd34f5189b9e8.jpeg");
@@ -31,35 +41,56 @@ header{
     line-height:1em;
 }
 .ico{
-    width:50%;
-    height:50%;
+    max-width:120px;
+    max-height:120px;
 }
 
-.content{
-  margin: 0 auto;
-  padding:1em;
-  min-width:256px;
-  max-width:70%;
-}
-
-.registro-input{
-  width:256px;
+.card{
+  margin:1% 0 1% 0;
+  padding:2em;
+  max-width:66vw;
 }
 
 .registro-label{
   width:64px;
   text-align:left;
 }
+
+.profile-data{
+  width:33%;
+  float:left;
+  height:100vmin;
+  background-color:white;
+}
+
+.profile-fields{
+  display:inline;
+  width:65%;
+}
+.profile-form{
+  max-width:66vw;
+}
+.profile-form .form-control{
+  margin-bottom:5px;
+}
 /* --------------- Elementos específicos ----------------*/
-#dashboard{
-  min-height:50vmax;
+.dashboard{
+  min-height:50vh;
+  min-width:50vw;
 }
 
 #main-content{
   min-height:100vmin;
   margin: 5% auto;
 }
-#main-content :first-child{
+#main-content{
   margin:2% auto 2%;  
 }
 
+#Sobre.card{
+  max-width:100%;
+}
+
+#error_text{
+  color:#FF0000;
+}

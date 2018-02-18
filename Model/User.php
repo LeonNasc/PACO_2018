@@ -72,7 +72,7 @@ Class User extends DBObj{
     $returnable = $this->get_fields();
     //Chamada externa: Remove campos sensíveis (senha e email)
     if (!$tipo_de_chamada){
-      unset($returnable['email']);
+      //unset($returnable['email']);
       unset($returnable['password']);
     }
 
@@ -131,7 +131,7 @@ Class User extends DBObj{
   }
 
   public static function logout(){
-    unset($_SESSION['active_user_id']);
+    session_destroy();
   }
 
   //Funções utilitárias

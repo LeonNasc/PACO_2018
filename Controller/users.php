@@ -51,8 +51,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     case 'edit':
       echo "This should edit the user";
 
-      $new_login = $_POST['login'];
-      $new_password = $_POST['senha'];
+      $new_login = isset($_POST['login'])? $_POST['login']: null;
+      $new_password = isset($_POST['senha'])? $_POST['senha']: null;
+      $new_email = isset($_POST['email'])? $_POST['email']: null;
 
       $user = User::get_from_id($_SESSION['active_user_id']['login']);
 
@@ -74,7 +75,7 @@ else{
       break;
 
     case 'editar':
-      Helper::make_template('perfil',null,false);
+      Helper::make_template('profile',null,false);
       break;
 
     case 'logout':
