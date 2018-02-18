@@ -4,7 +4,7 @@ require("../config/config.php");
 use Rain\Tpl;
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
-
+  
   switch($_POST['task']){
 
     case 'registrar':
@@ -49,16 +49,25 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
       break;
 
     case 'edit':
-      echo "This should edit the user";
-
+      
       $new_login = isset($_POST['login'])? $_POST['login']: null;
       $new_password = isset($_POST['senha'])? $_POST['senha']: null;
-      $new_email = isset($_POST['email'])? $_POST['email']: null;
-
-      $user = User::get_from_id($_SESSION['active_user_id']['login']);
-
-      $user->update_user_info($new_login,$new_password);
+      $new_email = isset($_POST['email'])? $_POST['email']: null;;
+      
+      $user = User::get_from_id($_SESSION['active_user_id']['id']);
+      
+      try{
+        $user->update_user_info($new_login,$new_password,$new_email);
+        $_SESSION['active_user_id'] = json_decode($user->get_user_data(),true);
+      }
+      catch(Exception $e){
+        Helper::make_template('error_page', array('message'=> $e->getMessage()));
+      }
       break;
+      
+      case 'delete':
+      $user = User::get_from_id($_SESSION['active_user_id']['id']);
+      $user->delete($_SESSION['active_user_id']['id']);
 
     default:
       exit();

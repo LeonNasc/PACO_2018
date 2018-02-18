@@ -36,6 +36,7 @@
         {if="isset($_SESSION['active_user_id'])"}
       <label for="patientlist"></label>
       <select id="patientlist" class="form-control">
+        <option> -- Meus Pacientes -- </option>
               {loop="$patients"}
               <option>
                 {loop="$value"}

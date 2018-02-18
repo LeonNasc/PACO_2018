@@ -123,7 +123,6 @@ Class DBObj extends PDO{
     $update_info = $this->get_query_fields($data, ",");
 
     $query = "UPDATE public.$this->table_name SET $update_info WHERE id = :id";
-    echo "<br>" . $query . "<br>" . json_encode($data);
 
     $stmt = $this->database->prepare($query);
     $stmt->execute($data);

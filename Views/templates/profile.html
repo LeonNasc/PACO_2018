@@ -29,7 +29,7 @@
                     <legend>Alterar Senha?</legend>
                     
                 <div>
-                    <input type='hidden' name='task' value='edit'/>
+                    <input type="hidden" name="task" value="edit"></input>
                     <input type='password' class='form-control' name='password' placeholder='Senha antiga'></input>
                     <input type='password' class='form-control' name='validate' placeholder='Senha nova' onblur="validate_pw()"></input> <!-- Criar em JS -->
                 </div>
@@ -45,7 +45,7 @@
                     <legend>Alterar Email?</legend>
                   
                 <div>
-                    <input type='hidden' name='task' value='edit'/>
+                    <input type="hidden" name="task" value="edit"></input>
                     <input type='text' class='form-control' onblur="validate(this.name,this.value)" name='email' placeholder='Novo email'></input>
                 </div>
                 <div>
@@ -58,12 +58,12 @@
                 <fieldset>
                     <legend>Deletar conta?</legend>
                 <div>
-                    <input type='hidden' name='task' value='delete'/>
-                    <input type='text' class='form-control' name='delete' placeholder='Digite seu nome de usuário' onfocus="warn()"></input>
+                    <input type="hidden" name="task" value="delete"></input>
+                    <input type='text' class='form-control' name='delete' placeholder="{$_SESSION['active_user_id']['login']}" onfocus="warn(this,'{$_SESSION['active_user_id']['login']}')"></input>
                     <small>Uma vez deletada, a conta não poderá ser restaurada</small>
                 </div>
                 <div>
-                  <input class="btn btn-danger registro-input" type="button" onclick="load_page('Controller/users.php','POST',this)" value="Remover conta" />
+                  <button class="btn btn-danger registro-input" type="button" onclick="load_page('Controller/users.php','POST',this)" disabled>Remover conta</button>
                 </div>
                 </fieldset>
             </form>

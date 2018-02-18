@@ -39,12 +39,12 @@ Class User extends DBObj{
     $now = new DateTime();
 
     $this->id = isset($user_info['id'])? $user_info['id'] : uniqid('us_');
-    $this->email = $user_info['email']? $user_info['email'] : null;
+    $this->email = isset($user_info['email'])? $user_info['email'] : null;
     $this->user_name = isset($user_info['user_name'])? $user_info['user_name'] : 'Sem Nome';
     $this->login = $user_info['login'];
-    $this->password = hash('sha256',$user_info['password']);
+    $this->password = strlen($user_info['password'])>= 64 ? $user_info['password'] : hash('sha256',$user_info['password']);
     $this->registration_date = isset($user_info['registration_date'])?
-    $user_info['registration_date']:$now->format("d-m-Y");
+    $user_info['registration_date']:$now->format("m-d-Y");
     $this->table_name = User::TABLE_NAME;
 
     $this->configura_DB();
@@ -56,6 +56,11 @@ Class User extends DBObj{
 
   private function set_login($login){
     $this->login = $login;
+    return true;
+  }
+
+  private function set_email($email){
+    $this->email = $email;
     return true;
   }
 
@@ -89,17 +94,22 @@ Class User extends DBObj{
       return $insert = $this->set($this->get_fields());
   }
 
-  public function update_user_info($login=null,$password=null){
+  public function update_user_info($login=null,$password=null,$email=null){
 
-    if(!isset($login) && !isset($password)){
+    if(!isset($login) && !isset($password) && !isset($email)){
       throw new Exception("Nenhum alteração foi passada");
       return;
     }
+    
+    echo "Antes: " . $this->email;
+    
     $result = isset($login)? $this->set_login($login): false;
-    $result  = isset($password)? $this->set_password($password) : false;
+    $result = isset($password)? $this->set_password($password) : false;
+    $result = isset($email)? $this->set_email($email) : false;
 
-    if(User::user_exists($login,'login'))
-      throw new Exception("Nome de usuário já em uso");
+    echo "Depois: " .$this->email;
+    if(User::user_exists($login,'login') || User::user_exists($email,'email'))
+      throw new Exception("Já em uso");
     else
       $result = $this->update($this->get_fields());
 

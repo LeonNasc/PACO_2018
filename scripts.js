@@ -29,14 +29,13 @@ function display_html(target, data){
 }
 
 function handle_form(submit_button,type){
-      form = submit_button.parentElement.parentElement;
-      //  form = submit_button;
-
+      var form = submit_button.closest("form");
+      
       console.log(form);
 
       if(form && typeof submit_button == 'object'){
         var content = new FormData();
-        console.log(form.length)
+       
         //form.length-1 para evitar o botão
         for(var i = 0; i<form.length-1;i++){
           content.append(form[i].name,(form[i].value||'default'));
@@ -57,7 +56,7 @@ function validate(key, value){
 
   xhr.open('POST','Controller/users.php',);
 
-  data = new FormData();
+  var data = new FormData();
   data.append('task','collide');
   data.append(key,value);
 
@@ -68,4 +67,15 @@ function validate(key, value){
       div.parentNode.reset();
   }
 
+}
+
+function warn(element, user){
+  console.log(element.closest("button"));
+  
+  if(element.value == user)
+    
+  
+  console.log(element)
+  
+  console.log();
 }
