@@ -55,6 +55,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
       $new_email = isset($_POST['email'])? $_POST['email']: null;;
 
       try{
+        $user = User::get_from_id($_SESSION['active_user_id']['id']);
         $user->update_user_info($new_login,$new_password,$new_email);
         $_SESSION['active_user_id'] = json_decode($user->get_user_data(),true);
       }
@@ -63,9 +64,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
       }
       break;
 
-      case 'delete':
+    case 'delete':
       $user = User::get_from_id($_SESSION['active_user_id']['id']);
       $user->delete($_SESSION['active_user_id']['id']);
+      User::logout();
+      break;
 
     default:
       exit();

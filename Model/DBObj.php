@@ -141,7 +141,7 @@ Class DBObj extends PDO{
   */
   protected function delete($id){
 
-    $stmt = $this->database->prepare("DELETE * FROM public.$this->table_name WHERE id = :id");
+    $stmt = $this->database->prepare("DELETE FROM public.$this->table_name WHERE id = :id");
     $stmt->execute(array(":id"=>$id));
 
     return $stmt;

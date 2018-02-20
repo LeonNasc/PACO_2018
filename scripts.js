@@ -69,10 +69,8 @@ function validate(key, value){
 
 }
 function warn(){
-  var btn = document.getElementById("delbtn");
-  field = btn.closest('form').closest("div");
-
-  field.style.backgroundColor="red";
+  var field = document.getElementById("delete");
+  field.style.color="red";
 }
 
 function enable_button(element, user){

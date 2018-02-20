@@ -100,20 +100,21 @@ Class User extends DBObj{
       throw new Exception("Nenhum alteração foi passada");
       return;
     }
-    
-    echo "Antes: " . $this->email;
-    
+
     $result = isset($login)? $this->set_login($login): false;
     $result = isset($password)? $this->set_password($password) : false;
     $result = isset($email)? $this->set_email($email) : false;
 
-    echo "Depois: " .$this->email;
     if(User::user_exists($login,'login') || User::user_exists($email,'email'))
       throw new Exception("Já em uso");
     else
       $result = $this->update($this->get_fields());
 
     return $result;
+  }
+
+  public function delete($data){
+    DBObj::delete($data);
   }
 
   //Funções de acesso
