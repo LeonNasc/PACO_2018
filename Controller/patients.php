@@ -31,7 +31,7 @@ else if ($_SERVER['REQUEST_METHOD'] == 'POST'){
       $patient->add_patient();
       $_SESSION['patient_list'] = json_decode(Patient::get_patient_list($_SESSION['active_user_id']['id']),true);
 
-      //header("Location: /PACO_2018/index.php");
+      Helper::make_template('dashboard', null, false);
 
       break;
     case 'editar':

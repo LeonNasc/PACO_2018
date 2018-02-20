@@ -7,9 +7,12 @@ $(function () {
 
 
 
-function load_page(url, method, data){
+function load_page(url, method, data, target){
 
-    var div = document.getElementById("main-content");
+    if(!target){
+      var target = document.getElementById("main-content");
+    }
+
     var xhr = new XMLHttpRequest();
 
     xhr.open(method, url, true);
@@ -20,18 +23,12 @@ function load_page(url, method, data){
       xhr.send(data);
 
     xhr.onload = function(){
-      display_html(div, xhr.responseText);
+      target.innerHTML = xhr.responseText;
     }
-}
-
-function display_html(target, data){
-    target.innerHTML = data;
 }
 
 function handle_form(submit_button,type){
       var form = submit_button.closest("form");
-
-      console.log(form);
 
       if(form && typeof submit_button == 'object'){
         var content = new FormData();
@@ -68,6 +65,15 @@ function validate(key, value){
   }
 
 }
+
+function show_data(element){
+  var tgt = document.getElementById("show_area");
+
+  tgt.innerHTML = element.innerHTML;
+}
+
+/* ---------------- FX ------------------*/
+
 function warn(){
   var field = document.getElementById("delete");
   field.style.color="red";
@@ -80,5 +86,15 @@ function enable_button(element, user){
     if(element.value == user)
       btn.disabled = false;
   },500)
+}
+
+function give_emphasis(element){
+  element.style.border = "1px solid #28a745";
+  element.style.backgroundColor = "#eeeeee"
+  setTimeout(function(){
+      element.style.backgroundColor = "#fff"
+      element.style.border = "1px solid rgba(0,0,0,.125)";
+  },500);
+
 
 }

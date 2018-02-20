@@ -1,12 +1,12 @@
 <!-- HEADER AND NAVBAR -->
 <header>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    
+
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-nav">
     <span class="navbar-toggler-icon"></span>
     </button>
     <a class="navbar-brand" href="/PACO_2018">💊 PACO</a>
-    
+
     <div id="navbar-nav" class="collapse navbar-collapse">
       <ul class="navbar-nav mr-auto">
         {if="isset($_SESSION['active_user_id'])"}
@@ -31,32 +31,26 @@
           </li>
           {/if}
       </ul>
-      
-        
+
+
         {if="isset($_SESSION['active_user_id'])"}
-      <label for="patientlist"></label>
-      <select id="patientlist" class="form-control">
-        <option> -- Meus Pacientes -- </option>
-              {loop="$patients"}
-              <option>
-                {loop="$value"}
-                  {if="$key=='name'||$key=='admission_date'"}
-                    {$value}&nbsp
-                  {/if}
-                {/loop}
-              </option>
-              {/loop}
-            </select> {else}
-      <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" name='login' type="text" placeholder="Login">
-        <input class="form-control mr-sm-2" name='senha' type="password" placeholder="Senha">
-        <input type='hidden' name='task' value='login' />
-        <span><button type="button" class="btn btn-outline-success my-2 my-sm-0" onclick="load_page('Controller/users.php','POST',this)">Login</button></span>
-      </form>
+          <label for="patientlist"></label>
+          <select style="width:256px" id="patientlist" class="form-control">
+            <option> -- Meus Pacientes -- </option>
+                  {loop="$patients"}
+                    <option> {$value.name}, {$value.admission_date}
+                  {/loop}
+              </select>
+        {else}
+          <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" name='login' type="text" placeholder="Login">
+            <input class="form-control mr-sm-2" name='senha' type="password" placeholder="Senha">
+            <input type='hidden' name='task' value='login' />
+            <span><button type="button" class="btn btn-outline-success my-2 my-sm-0" onclick="load_page('Controller/users.php','POST',this)">Login</button></span>
+          </form>
       {/if}
     </div>
-
-    
   </nav>
+
 </header>
 <div id="main-content" class="container">

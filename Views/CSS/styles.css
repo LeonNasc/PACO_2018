@@ -9,7 +9,7 @@ header{
 }
 
 select{
-  max-width:256px;
+  max-width:auto;
 }
 
 p{
@@ -53,7 +53,6 @@ ul, ol{
 .card{
   margin:1% 0 1% 0;
   padding:2em;
-  max-width:66vw;
 }
 
 .registro-label{
@@ -65,20 +64,21 @@ ul, ol{
   content: "";
   clear: both;
   display: table;
-  overflow: auto
+  overflow: auto;
 }
 
 .sidebars{
-  max-width:33%;
-  min-width:25%;
+  font-size:1.2vw;
+  max-width:35%;
   position:absolute;
+  margin-right:65%;
   float:left;
   height:100%;
   background-color:white;
 }
 .content{
-  margin-left:34%;
-  width:65%;
+  margin-left:35%;
+  max-width:65%;
 }
 .profile-form{
   max-width:66vw;
@@ -86,11 +86,11 @@ ul, ol{
 .profile-form .form-control{
   margin-bottom:5px;
 }
-/* --------------- Elementos específicos ----------------*/
+
 .dashboard{
   min-height:50vh;
 }
-
+/* --------------- Elementos específicos ----------------*/
 #main-content{
   min-height:100vmin;
   margin: 5% auto;
@@ -105,4 +105,8 @@ ul, ol{
 
 #error_text{
   color:#FF0000;
+}
+
+#ptt_add{
+  width:100%;
 }

@@ -62,12 +62,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
       catch(Exception $e){
         Helper::make_template('error_page', array('message'=> $e->getMessage()));
       }
+      Helper::make_template('profile',null,false);
       break;
 
     case 'delete':
       $user = User::get_from_id($_SESSION['active_user_id']['id']);
       $user->delete($_SESSION['active_user_id']['id']);
       User::logout();
+      Helper::make_template('staging',null,false);
       break;
 
     default:

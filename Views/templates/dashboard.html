@@ -15,28 +15,20 @@
       <div id="pacientes" class="sidebars">
           <ul>
             {loop="$patients"}
-            <li>
+            <li class='card' onmouseover="give_emphasis(this)" onclick="show_data(this)">
               <ol>
-                {loop="$value"}
-                  {if="$counter < 4 "}
-                    {if="$key=='sex' && $value==1 "}
-                      <li>Masculino</li>
-                    {elseif="$key=='sex' && $value==0 "}
-                      <li>Feminino</li>
-                    {else}
-                      <li>{$value}</li>
-                      {/if} <!-- fim do if sex -->
-                  {/if} <!-- fim do if do counter -->
-                {/loop} <!-- fim do loop counter -->
+                <li> Nome : {$value.name}</li>
+                <li> Nascimento : {$value.birth}</li>
+                <li> Admissão : {$value.admission_date}</li>
               </ol>
             </li>
             {/loop}
           </ul>
-          <input type="button" class="btn btn-outline-success" onclick="load_page('Controller/patients.php?task=novo','GET')" value="Novo paciente"></input>
+          <input id="ptt_add" type="button" class="btn btn-outline-success" onclick="load_page('Controller/patients.php?task=novo','GET')" value="Novo paciente"></input>
       </div>
 
-      <div class="content">
-        {include="manutencao"}
+      <div id="show_area" class="content">
+        {include="patient_form"}
       </div>
 
     </div>
