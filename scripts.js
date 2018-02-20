@@ -30,12 +30,12 @@ function display_html(target, data){
 
 function handle_form(submit_button,type){
       var form = submit_button.closest("form");
-      
+
       console.log(form);
 
       if(form && typeof submit_button == 'object'){
         var content = new FormData();
-       
+
         //form.length-1 para evitar o botão
         for(var i = 0; i<form.length-1;i++){
           content.append(form[i].name,(form[i].value||'default'));
@@ -68,14 +68,19 @@ function validate(key, value){
   }
 
 }
+function warn(){
+  var btn = document.getElementById("delbtn");
+  field = btn.closest('form').closest("div");
 
-function warn(element, user){
-  console.log(element.closest("button"));
-  
-  if(element.value == user)
-    
-  
-  console.log(element)
-  
-  console.log();
+  field.style.backgroundColor="red";
+}
+
+function enable_button(element, user){
+  var btn = document.getElementById("delbtn");
+
+  setTimeout(function(){
+    if(element.value == user)
+      btn.disabled = false;
+  },500)
+
 }

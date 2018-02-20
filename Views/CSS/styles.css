@@ -1,6 +1,4 @@
 /*----------- Mudanças de estilo em elementos -----------*/
-
-
 footer{
   left: 0;
   right:0;
@@ -18,6 +16,11 @@ p{
   line-height:2em;
   margin:10px;
   text-align:justify;
+}
+
+ul, ol{
+  padding:0;
+  list-style-type: none;
 }
 
 /*----------- Mudanças de estilo em classes -------------*/
@@ -58,15 +61,23 @@ p{
   text-align:left;
 }
 
-.profile-data{
-  width:33%;
-  float:left;
-  height:100vmin;
-  background-color:white;
+.clearfix::after{
+  content: "";
+  clear: both;
+  display: table;
+  overflow: auto
 }
 
-.profile-fields{
-  display:inline;
+.sidebars{
+  max-width:33%;
+  min-width:25%;
+  position:absolute;
+  float:left;
+  height:100%;
+  background-color:white;
+}
+.content{
+  margin-left:34%;
   width:65%;
 }
 .profile-form{
@@ -78,7 +89,6 @@ p{
 /* --------------- Elementos específicos ----------------*/
 .dashboard{
   min-height:50vh;
-  min-width:50vw;
 }
 
 #main-content{
@@ -86,7 +96,7 @@ p{
   margin: 5% auto;
 }
 #main-content{
-  margin:2% auto 2%;  
+  margin:2% auto 2%;
 }
 
 #Sobre.card{

@@ -9,48 +9,38 @@
     <h3 class="card-title">
       <center>Exibindo pacientes de {$_SESSION['active_user_id']['user_name']}</center>
     </h3>
-    <div id="dashboard" class="card dashboard">
 
-      <div id="pacientes">
+    <div id="dashboard" class="card dashboard clearfix">
 
-        <input type="button" class="btn btn-outline-success" onclick="load_page('Controller/patients.php?task=novo','GET')" value="Novo paciente"></input>
-
-        <ul>
-
-          {loop="$patients"}
-
-          <li>
-
-            <ol>
-              {loop="$value"} {if="$counter
-              < 4 "}
-              
-                {if="$key=='sex' && $value==1 "}
-                  <li>Masculino</li>
-                {elseif="$key=='sex' && $value==0 "}
-                  <li>Feminino</li>
-                {else}
-                  <li>{$value}</li>
-                {/if}
-                
-              {/if}
-              
+      <div id="pacientes" class="sidebars">
+          <ul>
+            {loop="$patients"}
+            <li>
+              <ol>
+                {loop="$value"}
+                  {if="$counter < 4 "}
+                    {if="$key=='sex' && $value==1 "}
+                      <li>Masculino</li>
+                    {elseif="$key=='sex' && $value==0 "}
+                      <li>Feminino</li>
+                    {else}
+                      <li>{$value}</li>
+                      {/if} <!-- fim do if sex -->
+                  {/if} <!-- fim do if do counter -->
+                {/loop} <!-- fim do loop counter -->
+              </ol>
+            </li>
             {/loop}
-            </ol>
-            
-          </li>
-          {/loop}
-          
-        </ul>
-  
+          </ul>
+          <input type="button" class="btn btn-outline-success" onclick="load_page('Controller/patients.php?task=novo','GET')" value="Novo paciente"></input>
       </div>
-      
-      <div>
-          
-          
+
+      <div class="content">
+        {include="manutencao"}
       </div>
+
     </div>
-    
+
 </div>
   {include="footer"}
 </body>
