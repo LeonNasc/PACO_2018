@@ -10,25 +10,27 @@
       <center>Exibindo pacientes de {$_SESSION['active_user_id']['user_name']}</center>
     </h3>
 
-    <div id="dashboard" class="card dashboard clearfix">
+    <div id="dashboard" class="clearfix card">
 
       <div id="pacientes" class="sidebars">
           <ul>
+            <input id="ptt_add" type="button" class="btn btn-outline-success" onclick="load_page('Controller/patients.php?task=novo','GET')" value="Novo paciente"></input>
             {loop="$patients"}
             <li class='card' onmouseover="give_emphasis(this)" onclick="show_data(this)">
-              <ol>
+              <ul>
+                <input type="hidden" id="ptt_id" name='id' value="{$value.id}"></input>
                 <li> Nome : {$value.name}</li>
                 <li> Nascimento : {$value.birth}</li>
                 <li> Admissão : {$value.admission_date}</li>
-              </ol>
+              </ul>
             </li>
             {/loop}
           </ul>
-          <input id="ptt_add" type="button" class="btn btn-outline-success" onclick="load_page('Controller/patients.php?task=novo','GET')" value="Novo paciente"></input>
+
       </div>
 
       <div id="show_area" class="content">
-        {include="patient_form"}
+        {include="manutencao"}
       </div>
 
     </div>

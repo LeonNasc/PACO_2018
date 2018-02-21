@@ -31,12 +31,20 @@ else if ($_SERVER['REQUEST_METHOD'] == 'POST'){
       $patient->add_patient();
       $_SESSION['patient_list'] = json_decode(Patient::get_patient_list($_SESSION['active_user_id']['id']),true);
 
-      Helper::make_template('dashboard', null, false);
+      exit();
 
       break;
     case 'editar':
       Helper::make_template('patient_form',array('task'=>'editar'));
       break;
+
+    case 'get_data':
+      $patient = Patient::get_from_id($_POST['id']);
+      $patient = json_decode($patient->get_patient_data(), true);
+
+      Helper::make_template('patient_info',array('patient'=>$patient), false);
+      break;
+
     default:
     echo "Hello World";
       break;

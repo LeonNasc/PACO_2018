@@ -64,7 +64,6 @@ ul, ol{
   content: "";
   clear: both;
   display: table;
-  overflow: auto;
 }
 
 .sidebars{
@@ -72,7 +71,9 @@ ul, ol{
   max-width:35%;
   position:absolute;
   margin-right:65%;
+  padding-right:19px;
   float:left;
+  overflow-y:scroll;
   height:100%;
   background-color:white;
 }
@@ -86,9 +87,13 @@ ul, ol{
 .profile-form .form-control{
   margin-bottom:5px;
 }
-
-.dashboard{
-  min-height:50vh;
+#dashboard{
+  min-height:75vh;
+  height:auto;
+  overflow-y:hidden;
+}
+#profile{
+  overflow:hidden;
 }
 /* --------------- Elementos específicos ----------------*/
 #main-content{

@@ -1,18 +1,11 @@
 console.log("I'll have all the scripts");
 
-//Popover do bootstrap
-$(function () {
-  $('[data-toggle="popover"]').popover()
-})
-
-
-
 function load_page(url, method, data, target){
 
+    //Uso padrão é exibição de páginas abaixo do header
     if(!target){
       var target = document.getElementById("main-content");
     }
-
     var xhr = new XMLHttpRequest();
 
     xhr.open(method, url, true);
@@ -28,9 +21,9 @@ function load_page(url, method, data, target){
 }
 
 function handle_form(submit_button,type){
-      var form = submit_button.closest("form");
 
-      if(form && typeof submit_button == 'object'){
+      if(!(submit_button instanceof FormData)){
+        var form = submit_button.closest("form");
         var content = new FormData();
 
         //form.length-1 para evitar o botão
@@ -39,7 +32,7 @@ function handle_form(submit_button,type){
         }
         return content;
       }
-      else if(typeof submit_button == 'object')
+      else if(submit_button instanceof FormData)
         return submit_button;
       else {
         console.log("error");
@@ -68,8 +61,13 @@ function validate(key, value){
 
 function show_data(element){
   var tgt = document.getElementById("show_area");
+  var id = element.firstChild.nextSibling.firstChild.nextSibling.value;
 
-  tgt.innerHTML = element.innerHTML;
+  data = new FormData();
+  data.append('task','get_data');
+  data.append('id', id);
+
+  var html = load_page("Controller/patients.php", 'POST', data, tgt);
 }
 
 /* ---------------- FX ------------------*/
