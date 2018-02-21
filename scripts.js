@@ -20,10 +20,10 @@ function load_page(url, method, data, target){
     }
 }
 
-function handle_form(submit_button,type){
+function handle_form(source){
 
-      if(!(submit_button instanceof FormData)){
-        var form = submit_button.closest("form");
+      if(!(source instanceof FormData)){
+        var form = source.closest("form");
         var content = new FormData();
 
         //form.length-1 para evitar o botão
@@ -32,8 +32,8 @@ function handle_form(submit_button,type){
         }
         return content;
       }
-      else if(submit_button instanceof FormData)
-        return submit_button;
+      else if(source instanceof FormData)
+        return source;
       else {
         console.log("error");
       }
@@ -88,11 +88,11 @@ function enable_button(element, user){
 
 function give_emphasis(element){
   element.style.border = "1px solid #28a745";
-  element.style.backgroundColor = "#eeeeee"
+  element.style.backgroundColor = "#fefefe"
   setTimeout(function(){
       element.style.backgroundColor = "#fff"
       element.style.border = "1px solid rgba(0,0,0,.125)";
-  },500);
+  },2000);
 
 
 }

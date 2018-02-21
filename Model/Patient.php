@@ -91,6 +91,10 @@ Class Patient extends DBObj{
     else
       return False;
   }
+
+  public function delete($id){
+    DBOb::delete($id);
+  }
   //Funções utilitárias
 
   private function get_fields(){

@@ -148,10 +148,10 @@ Class User extends DBObj{
   //Funções utilitárias
 
   public static function get_from_id($id){
-
+    //$id deve ser array
     $db= new DBOBj(User::TABLE_NAME);
 
-    $result = $db->fetch(array('id'=>$id));
+    $result = $db->fetch($id);
 
     if($result && sizeof($result) > 0)
       return new User($result[0]);

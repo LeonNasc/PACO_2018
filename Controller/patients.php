@@ -29,7 +29,7 @@ else if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
       $patient->add_patient();
       $_SESSION['patient_list'] = json_decode(Patient::get_patient_list($_SESSION['active_user_id']['id']),true);
-      echo "<script type=\"text/javascript\"> window.location = \"http://www.google.com/\" </script>";
+      
       exit();
 
       break;

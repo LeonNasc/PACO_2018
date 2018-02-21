@@ -40,22 +40,33 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
      break;
 
     case 'collide':
-      if(isset($_POST['login']) && User::user_exists($_POST['login'],'login'))
-        print("Nome de usuário em uso");
-      else if(isset($_POST['email']) && User::user_exists($_POST['email'],'email'))
-        print("E-mail já cadastrado");
+      if(isset($_POST['login']) && !User::user_exists($_POST['login'],'login'))
+        print("Nome de usuário válido");
+      else if(isset($_POST['email']) && !User::user_exists($_POST['email'],'email'))
+        print("E-mail válido");
       else
         print("");
+      break;
+
+    case 'recuperar':
+      $mail = Mailer::get_instance();
+      $subject = 'PACO - Recuperação de senha';
+      $user = User::get_from_id($_POST['email']);
+
+
+      var_dump($user);
+      //$mail->write($subject, array('email'=>'lenasc.ln@gmail.com','name'=>'Leon'),'Testando');
+      //$mail->send();
       break;
 
     case 'edit':
 
       $new_login = isset($_POST['login'])? $_POST['login']: null;
       $new_password = isset($_POST['senha'])? $_POST['senha']: null;
-      $new_email = isset($_POST['email'])? $_POST['email']: null;;
+      $new_email = isset($_POST['email'])? $_POST['email']: null;
 
       try{
-        $user = User::get_from_id($_SESSION['active_user_id']['id']);
+        $user = User::get_from_id(array('id'=>$_SESSION['active_user_id']['id']));
         $user->update_user_info($new_login,$new_password,$new_email);
         $_SESSION['active_user_id'] = json_decode($user->get_user_data(),true);
       }
@@ -66,7 +77,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
       break;
 
     case 'delete':
-      $user = User::get_from_id($_SESSION['active_user_id']['id']);
+      $user = User::get_from_id(array('id'=>$_SESSION['active_user_id']['id']));
       $user->delete($_SESSION['active_user_id']['id']);
       User::logout();
       Helper::make_template('staging',null,false);
@@ -93,6 +104,10 @@ else{
     case 'logout':
       User::logout();
       Helper::make_template('staging',null,false);
+      break;
+
+    case 'recuperar':
+      Helper::make_template('email_reset_prompt',null, false);
       break;
    }
   }
