@@ -51,10 +51,10 @@ class Helper{
 
         try{
             if($ajax == true){
-                Helper::return_template_html($template->draw($template_name, true));
+                return $template->draw($template_name, true);
                 }
             else{
-                return $template->draw($template_name);
+                return Helper::return_template_html($template->draw($template_name, false));
               }
         }
         catch(Exception $e){

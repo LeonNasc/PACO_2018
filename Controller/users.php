@@ -50,13 +50,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
     case 'recuperar':
       $mail = Mailer::get_instance();
-      $subject = 'PACO - Recuperação de senha';
-      $user = User::get_from_id($_POST['email']);
+      $subject = utf8_encode('PACO - Recuperação de senha');
+      $user = User::get_from_id(array('email'=>$_POST['email']));
+      $user = json_decode($user->get_user_data(),true);
+      $content = Helper::make_template('manutencao', null, true);
 
-
-      var_dump($user);
-      //$mail->write($subject, array('email'=>'lenasc.ln@gmail.com','name'=>'Leon'),'Testando');
-      //$mail->send();
+      $mail->write($subject, array('email'=>$user['email'],'name'=>$user['user_name']),$content);
+      $mail->send();
       break;
 
     case 'edit':
