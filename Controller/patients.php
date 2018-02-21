@@ -13,7 +13,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET'){
     default:
       echo "Hello World";
       $list = Patient::get_patient_list($_SESSION['active_user_id']['id']);
-      var_dump(json_decode($list,true));
       break;
   }
 }
@@ -27,10 +26,10 @@ else if ($_SERVER['REQUEST_METHOD'] == 'POST'){
       $patient['owner'] = $_SESSION['active_user_id']['id'];
 
       $patient = new Patient($patient);
-      print($patient->get_patient_data());
+
       $patient->add_patient();
       $_SESSION['patient_list'] = json_decode(Patient::get_patient_list($_SESSION['active_user_id']['id']),true);
-
+      echo "<script type=\"text/javascript\"> window.location = \"http://www.google.com/\" </script>";
       exit();
 
       break;
@@ -43,6 +42,13 @@ else if ($_SERVER['REQUEST_METHOD'] == 'POST'){
       $patient = json_decode($patient->get_patient_data(), true);
 
       Helper::make_template('patient_info',array('patient'=>$patient), false);
+      break;
+
+    case 'delete':
+
+      $patient = Patient::get_from_id($_POST['id']);
+      $patient->delete();
+
       break;
 
     default:
