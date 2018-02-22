@@ -33,7 +33,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         User::login($_POST['login'],$_POST['senha']);
       }
       catch(Exception $e){
-        Helper::make_template("error_page", array("message" => $e->getMessage()),true);
+        Helper::make_template("error_page", array("message" => $e->getMessage()),false);
         exit();
       }
       Helper::make_template("staging",null,false);
@@ -49,11 +49,20 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
       break;
 
     case 'recuperar':
+      //Montando o e-mail
       $mail = Mailer::get_instance();
       $subject = utf8_encode('PACO - Recuperação de senha');
+
+      //Recuperar o usuário a partir do e-mail
       $user = User::get_from_id(array('email'=>$_POST['email']));
+
+      //Gera uma nova senha temporaria e atualiza BD pra essa senha nova
+      $new_pw = Helper::random_password();
+      $user->update_user_info(null, $new_pw);
+
+      //Prepara os dados do paciente para envio
       $user = json_decode($user->get_user_data(),true);
-      $content = Helper::make_template('manutencao', null, true);
+      $content = Helper::make_template('email_pw', $data, true);
 
       $mail->write($subject, array('email'=>$user['email'],'name'=>$user['user_name']),$content);
       $mail->send();
