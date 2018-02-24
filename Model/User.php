@@ -52,24 +52,73 @@ Class User extends DBObj{
     return $this;
   }
 
-  //Getters e Setters
+  /**
+  * Construtor alternativo, gera um User a partir de um id
+  *
+  * @param string $id
+  *
+  * @return User, boolean
+  */
+  public static function get_from_id($id){
+    //$id deve ser array
+    $db= new DBOBj(User::TABLE_NAME);
 
+    $result = $db->fetch($id);
+
+    if($result && sizeof($result) > 0)
+      return new User($result[0]);
+    else
+      return False;
+  }
+
+  /* --------------------- Getters e Setters -----------------------------*/
+
+  /**
+  * Altera uma instância de usuário com um login novo
+  *
+  * @param String $login
+  *
+  * @return boolean
+  */
   private function set_login($login){
     $this->login = $login;
     return true;
   }
 
+  /**
+  * Altera uma instância de usuário com um email novo
+  *
+  * @param String $email
+  *
+  * @return boolean
+  */
   private function set_email($email){
     $this->email = $email;
     return true;
   }
 
+  /**
+  * Altera uma instância de usuário com uma senha nova
+  *
+  * @param String $senha
+  *
+  * @return boolean
+  */
   private function set_password($new_password){
     $this->password = hash('sha256',$new_password);
     return true;
   }
 
-  public function get_user_data($tipo_de_chamada = false){
+  /**
+  * Reune todos os dados de usuário em um objeto JSON
+  *
+  * $inner_call refere ao tipo de chamada da função:
+  *       -- Uso interno (True) ou externo (False)
+  * @param boolean $inner_call
+  *
+  * @return string
+  */
+  public function get_user_data($inner_call = false){
     //Argumento refere à chamada da função: Uso interno *true ou externo *false
     if(!is_bool($tipo_de_chamada))
       throw new Exception("Chamada inválida");
@@ -84,8 +133,30 @@ Class User extends DBObj{
     return json_encode($returnable);
   }
 
-  //Funções de cadastro
+  /**
+  * Reune todas as variaveis de instância em um array para conveniencia
+  *
+  * @return array
+  */
+  private function get_fields(){
+    $user_info = array();
+    $user_info['id'] = $this->id;
+    $user_info['email'] = $this->email;
+    $user_info['login'] = $this->login;
+    $user_info['password'] = $this->password;
+    $user_info['registration_date'] = $this->registration_date;
+    $user_info['user_name'] = $this->user_name;
 
+    return $user_info;
+  }
+
+  /*----------------------  Funções de acesso ao BD -------------------------*/
+
+  /**
+  * Tenta adicionar a instância atual de usuário ao banco de dados
+  *
+  * @return boolean
+  */
   public function add_user(){
     //Se não existir um cadastro desse usuário
     if((User::user_exists($this->login,'login') || User::user_exists($this->email,'login')))
@@ -94,6 +165,14 @@ Class User extends DBObj{
       return $insert = $this->set($this->get_fields());
   }
 
+  /**
+  * Tenta atualizar os dados da instância atual no banco de dados
+  *
+  * @param array $new_info
+  *  -- $new_info pode ter 3 opções: login, password e email
+  *
+  * @return boolean
+  */
   public function update_user_info($new_info){
 
     if(!isset($new_info)){
@@ -113,52 +192,26 @@ Class User extends DBObj{
     return $result;
   }
 
-  public function delete($data){
-    DBObj::delete($data);
+  /**
+  * Remove um usuário a partir do ID passado
+  *
+  * @param array $id
+  * $id deve ser array pois o BD separa key e value para a query
+  *
+  * @return boolean
+  */
+  public function delete($id){
+    DBObj::delete($id);
   }
 
-  //Funções de acesso
-
-  public static function login($login,$password){
-
-    $user_db = User::user_exists($login,'login');
-
-    if ($user_db){
-
-      if (hash('sha256',$password) === $user_db["password"]){
-
-        $current_user = new User($user_db);
-        $_SESSION['active_user_id'] = json_decode($current_user->get_user_data(),true);
-
-        return $current_user;
-      }
-      else {
-        throw new Exception("Combinação Login/Senha inválida");
-      }
-    }
-    else {
-      throw new Exception("Usuário não cadastrado");
-    }
-  }
-
-  public static function logout(){
-    session_destroy();
-  }
-
-  //Funções utilitárias
-
-  public static function get_from_id($id){
-    //$id deve ser array
-    $db= new DBOBj(User::TABLE_NAME);
-
-    $result = $db->fetch($id);
-
-    if($result && sizeof($result) > 0)
-      return new User($result[0]);
-    else
-      return False;
-  }
-
+  /**
+  * Verifica se existe no BD um usuário que bata com os dados passados
+  *
+  * @param String $identifier -> identificador unico (email, id ou nome)
+  * @param String $type -> permite buscar por email, id, nome
+  *
+  * @return boolean
+  */
   public static function user_exists($identifier,$type){
 
     $db = new DBOBj(User::TABLE_NAME);
@@ -172,16 +225,48 @@ Class User extends DBObj{
       return false;
   }
 
-  private function get_fields(){
-    $user_info = array();
-    $user_info['id'] = $this->id;
-    $user_info['email'] = $this->email;
-    $user_info['login'] = $this->login;
-    $user_info['password'] = $this->password;
-    $user_info['registration_date'] = $this->registration_date;
-    $user_info['user_name'] = $this->user_name;
+  /* ------------------- Funções de acesso ao sistema ------------------------*/
 
-    return $user_info;
+  /**
+  * Verifica se as informações de login passadas batem com um usuário válido
+  *
+  * @param String $login
+  * @param String $password
+  *
+  * @return boolean
+  */
+  public static function login($login,$password){
+
+    $user_db = User::user_exists($login,'login');
+
+    if ($user_db){
+
+      if (hash('sha256',$password) === $user_db["password"]){
+
+        $current_user = new User($user_db);
+        $_SESSION['active_user_id'] = json_decode($current_user->get_user_data(),false);
+
+        return $current_user;
+      }
+      else {
+        throw new Exception("Combinação Login/Senha inválida");
+      }
+    }
+    else {
+      throw new Exception("Usuário não cadastrado");
+    }
   }
+
+  /**
+  * Encerra a sessão de usuário
+  *
+  * @param String $senha
+  *
+  * @return boolean
+  */
+  public static function logout(){
+    session_destroy();
+  }
+  
 }
 ?>

@@ -65,21 +65,19 @@ class Helper{
     /**
      * Avalia se há um usuário logado.
      *
-     * @return boolean, void
+     * @return boolean
      */
     public static function check_login_status(){
 
         if(isset($_SESSION['active_user_id'])){
             return True;
         }
-
         return False;
-
     }
 
     /**
      * Imprime html a partir de um template pre-renderizado.
-     * Importante para chamadas JSON
+     * Importante para chamadas AJAX
      *
      * @return void
      */
@@ -89,6 +87,11 @@ class Helper{
         print($content);
     }
 
+    /**
+     * Gera uma senha aleatória a partir do alfabeto padronizado
+     *
+     * @return string
+     */
     public static function random_password(){
 
     $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
