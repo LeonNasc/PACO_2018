@@ -120,12 +120,12 @@ Class User extends DBObj{
   */
   public function get_user_data($inner_call = false){
     //Argumento refere à chamada da função: Uso interno *true ou externo *false
-    if(!is_bool($tipo_de_chamada))
+    if(!is_bool($inner_call))
       throw new Exception("Chamada inválida");
 
     $returnable = $this->get_fields();
     //Chamada externa: Remove campos sensíveis (senha e email)
-    if (!$tipo_de_chamada){
+    if (!$inner_call){
       //unset($returnable['email']);
       unset($returnable['password']);
     }
@@ -244,7 +244,7 @@ Class User extends DBObj{
       if (hash('sha256',$password) === $user_db["password"]){
 
         $current_user = new User($user_db);
-        $_SESSION['active_user_id'] = json_decode($current_user->get_user_data(),false);
+        $_SESSION['active_user_id'] = json_decode($current_user->get_user_data(),true);
 
         return $current_user;
       }
@@ -267,6 +267,6 @@ Class User extends DBObj{
   public static function logout(){
     session_destroy();
   }
-  
+
 }
 ?>
