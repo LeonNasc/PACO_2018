@@ -1,10 +1,12 @@
 <?php
 use PHPMailer\PHPMailer\PHPMailer;
+
+//TODO: Documentar classe, retirar senha do email do produto final
+
 class Mailer {
 
   private static $instance;
   private $mailer = "null";
-
 
   private function __construct(){
       //Configura a instância do PHPMailer
@@ -28,13 +30,13 @@ class Mailer {
     return self::$instance;
   }
 
-  public function write($subject, $target, $content){
-    //target deve ser array
+  public function write($subject, $mailto, $content){
+    //$mailto deve ser array
     //$subject e content devem ser strings
-    if (!$subject || !$target || !$content)
+    if (!$subject || !$mailto || !$content)
       throw new Exception("Não existe um email a ser enviado");
 
-    $this->mailer->addAddress($target['email'],$target['name']);
+    $this->mailer->addAddress($mailto['email'],$mailto['name']);
     $this->mailer->Subject = $subject;
     $this->mailer->msgHTML($content);
   }

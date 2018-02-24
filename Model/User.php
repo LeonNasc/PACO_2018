@@ -94,16 +94,16 @@ Class User extends DBObj{
       return $insert = $this->set($this->get_fields());
   }
 
-  public function update_user_info($login=null,$password=null,$email=null){
+  public function update_user_info($new_info){
 
-    if(!isset($login) && !isset($password) && !isset($email)){
+    if(!isset($new_info)){
       throw new Exception("Nenhum alteração foi passada");
       return;
     }
 
-    $result = isset($login)? $this->set_login($login): false;
-    $result = isset($password)? $this->set_password($password) : false;
-    $result = isset($email)? $this->set_email($email) : false;
+    $result = isset($new_info['login'])? $this->set_login($login): false;
+    $result = isset($new_info['password'])? $this->set_password($password) : false;
+    $result = isset($new_info['email'])? $this->set_email($email) : false;
 
     if(User::user_exists($login,'login') || User::user_exists($email,'email'))
       throw new Exception("Já em uso");

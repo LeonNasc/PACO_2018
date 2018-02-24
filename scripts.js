@@ -1,4 +1,4 @@
-console.log("I'll have all the scripts");
+console.log("I'll have all the scripts4");
 
 function load_page(url, method, data, target){
 
@@ -52,16 +52,18 @@ function validate(key, value){
 
   xhr.send(data);
   xhr.onload = function(){
-    div.innerHTML = xhr.responseText;
-    if(xhr.responseText != '')
-      div.parentNode.reset();
-  }
+    var exists = JSON.parse(xhr.responseText).exists;
 
+    if(exists){
+      div.innerHTML = key + " já esta em uso!";
+      div.closest('form').reset();
+    }
+  }
 }
 
 function show_data(element){
   var tgt = document.getElementById("show_area");
-  var id = element.firstChild.nextSibling.firstChild.nextSibling.value;
+  var id = element.querySelector('#ptt_id').value;
 
   data = new FormData();
   data.append('task','get_data');
