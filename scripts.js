@@ -1,4 +1,12 @@
-console.log("I'll have all the scripts4");
+console.log("I'll have all the scripts!");
+
+function staging_redirect(){
+  var page =  document.getElementById("staging");
+
+  if(page){
+    window.location.href="/PACO_2018/index.php";
+    }
+}
 
 function load_page(url, method, data, target){
 
@@ -17,6 +25,7 @@ function load_page(url, method, data, target){
 
     xhr.onload = function(){
       target.innerHTML = xhr.responseText;
+      staging_redirect();
     }
 }
 

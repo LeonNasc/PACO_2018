@@ -50,12 +50,7 @@ class Helper{
         }
 
         try{
-            if($ajax == true){
-                return $template->draw($template_name, true);
-                }
-            else{
-                return Helper::return_template_html($template->draw($template_name, false));
-              }
+            return $template->draw($template_name, $ajax);
         }
         catch(Exception $e){
             Helper::make_template('error_page',array("message"=>"Template não existe"), $ajax);
@@ -75,17 +70,6 @@ class Helper{
         return False;
     }
 
-    /**
-     * Imprime html a partir de um template pre-renderizado.
-     * Importante para chamadas AJAX
-     *
-     * @return void
-     */
-    public static function return_template_html($template){
-        $content = $template;
-        header("Content-type:text/html");
-        print($content);
-    }
 
     /**
      * Gera uma senha aleatória a partir do alfabeto padronizado

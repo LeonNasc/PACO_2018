@@ -3,6 +3,33 @@ require("../config/config.php");
 
 use Rain\Tpl;
 
+if($_SERVER['REQUEST_METHOD'] == 'GET'){
+
+   switch($_GET['task']){
+
+    //Exibe o template com o form para registro de usuário
+    case 'registro':
+      Helper::make_template('registro',null,false);
+      break;
+
+    //Exibe o template com o form para edição de usuário
+    case 'editar':
+      Helper::make_template('profile',null,false);
+      break;
+
+    //Exibe o template com o form para recuperação de senha de usuário
+    case 'recuperar':
+      Helper::make_template('email_reset_prompt',null, false);
+      break;
+
+    //Desloga o usuário logado
+    case 'logout':
+      User::logout();
+      Helper::make_template('staging',null,false);
+      break;
+   }
+}
+
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
   switch($_POST['task']){
@@ -154,34 +181,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     default:
       exit();
       break;
-  }
-}
-else{
-
-  if(isset($_GET)){
-   switch($_GET['task']){
-
-    //Exibe o template com o form para registro de usuário
-    case 'registro':
-      Helper::make_template('registro',null,false);
-      break;
-
-    //Exibe o template com o form para edição de usuário
-    case 'editar':
-      Helper::make_template('profile',null,false);
-      break;
-
-    //Exibe o template com o form para recuperação de senha de usuário
-    case 'recuperar':
-      Helper::make_template('email_reset_prompt',null, false);
-      break;
-
-    //Desloga o usuário logado
-    case 'logout':
-      User::logout();
-      Helper::make_template('staging',null,false);
-      break;
-   }
   }
 }
 ?>

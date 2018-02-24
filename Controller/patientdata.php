@@ -1,6 +1,6 @@
 <?php
 
-if ($_SERVER['REQUEST_METHOD'] == GET){
+if ($_SERVER['REQUEST_METHOD'] == 'GET'){
 
   switch($_POST['task']){
 
@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] == GET){
     break;
   }
 }
-else if ($_SERVER['REQUEST_METHOD'] == POST){
+else if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
   switch($_POST['task']){
     case 'add_pre'
