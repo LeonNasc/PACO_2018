@@ -10,29 +10,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET'){
       break;
 
     case 'edit':
-      Helper::make_template('patient_form',array('task'=>'edit'));
+      Helper::make_template('patient_form',array('task'=>'edit','id'=>$_GET['id']));
       break;
 
     default:
-      $list = Patient::get_patient_list($_SESSION['active_user_id']['id']);
+      Helper::update_list('patients');
       break;
   }
 }
 else if ($_SERVER['REQUEST_METHOD'] == 'POST'){
   //Deve lidar com as funções ADD, DELETE e UPDATE paciente
+
   switch($_POST['task']){
 
     case 'add':
-      $patient['name'] = $_POST['nome'];
-      $patient['birth'] = $_POST['nascimento'];
-      $patient['sex'] = $_POST['sexo'];
+      $patient = &$_POST;
       $patient['owner'] = $_SESSION['active_user_id']['id'];
 
       $patient = new Patient($patient);
-
       $patient->add_patient();
-      $_SESSION['patient_list'] = json_decode(Patient::get_patient_list($_SESSION['active_user_id']['id']),true);
-      Helper::make_template('staging');
+      $patient = json_decode($patient->get_patient_data(), true);
+
+      Helper::make_template('patient_info',array('patient'=>$patient), false);
       exit();
 
       break;
@@ -40,8 +39,11 @@ else if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     case 'edit':
 
       $patient = Patient::get_from_id($_POST['id']);
+      $patient->change_info($_POST);
+      $patient->update_patient_info();
 
-
+      $patient = json_decode($patient->get_patient_data(),true);
+      Helper::make_template('patient_info',array('patient'=>$patient), false);
       break;
 
     case 'get_data':
@@ -55,7 +57,10 @@ else if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     case 'change_status':
 
       $patient = Patient::get_from_id($_POST['id']);
+      $patient->change_status();
+      $patient->update_patient_info();
       $patient = json_decode($patient->get_patient_data(), true);
+
 
       Helper::make_template('patient_info',array('patient'=>$patient), false);
       break;
@@ -65,13 +70,15 @@ else if ($_SERVER['REQUEST_METHOD'] == 'POST'){
       $patient = Patient::get_from_id($_POST['id']);
 
       //TODO: Deletar todas as prescrições, resultados e comentários para este paciente
-      $patient->delete();
-
+      $patient->delete($_POST['id']);
+      Helper::make_template('staging');
       break;
 
     default:
       exit();
       break;
+
+    Helper::update_list('patients');
   }
 }
 else {

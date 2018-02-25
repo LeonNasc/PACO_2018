@@ -8,9 +8,14 @@
     <a class="navbar-brand" href="/PACO_2018">💊 PACO</a>
 
     <div id="navbar-nav" class="collapse navbar-collapse">
-      <ul class="navbar-nav mr-auto">
-        {if="isset($_SESSION['active_user_id'])"}
 
+        {if="!isset($_SESSION['active_user_id'])"}
+        <ul class="navbar-nav mr-auto">
+        {else}
+        <ul class="navbar-nav mr-auto justify-content-end">
+        {/if}
+
+        {if="isset($_SESSION['active_user_id'])"}
         <li class="nav-item">
           <a class="nav-link" href='/PACO_2018/index.php'>Dashboard</a>
         </li>
@@ -20,28 +25,19 @@
         <li class="nav-item">
           <a class="nav-link" href="#contact">Comentários</a>
         </li>
-        <li class="nav-item justify-end-content">
+        <li class="nav-item">
           <a class="nav-link" href="Controller/users.php?task=logout">{$_SESSION['active_user_id']['user_name']}::Sair</a> {else}
           <li class="nav-item">
-            <a class="nav-link" href="#" onclick="load_page('Controller/users.php?task=registro','GET')"> Cadastre-se </a> {/if}
+            <a class="nav-link" href="#" onclick="load_page('Controller/users.php?task=registro','GET')"> Cadastre-se </a>
           </li>
-          {if="!isset($_SESSION['active_user_id'])"}
           <li class="nav-item">
             <a class="nav-link" href="#Sobre">Saiba mais</a>
           </li>
           {/if}
-      </ul>
+        </ul>
 
 
-        {if="isset($_SESSION['active_user_id'])"}
-          <label for="patientlist"></label>
-          <select style="width:256px" id="patientlist" class="form-control">
-            <option> -- Meus Pacientes -- </option>
-                  {loop="$patients"}
-                    <option> {$value.name}, {$value.admission_date}
-                  {/loop}
-              </select>
-        {else}
+      {if="!isset($_SESSION['active_user_id'])"}
           <form class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" name='login' type="text" placeholder="Login">
             <input class="form-control mr-sm-2" name='senha' type="password" placeholder="Senha">

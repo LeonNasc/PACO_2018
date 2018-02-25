@@ -81,6 +81,23 @@ function show_data(element){
   var html = load_page("Controller/patients.php", 'POST', data, tgt);
 }
 
+function patient_action_select(button, method){
+  var tgt = document.getElementById("show_area");
+  var option = button.value;
+
+  var option_list = {'Adicionar': 'add',
+                 'Acompanhar': 'list_pre',
+                 'Mudar Status': 'change_status',
+                 'Editar': 'edit',
+                 'Remover': 'delete',
+  }
+
+  var data = handle_form(button);
+  data.append('task', option_list[option]);
+
+  load_page("Controller/patients.php", method, data, tgt);
+}
+
 /* ---------------- FX ------------------*/
 
 function warn(){
