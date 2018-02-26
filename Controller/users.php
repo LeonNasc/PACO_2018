@@ -129,18 +129,20 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     */
     case 'recuperar':
       //Recuperar o usuário a partir do e-mail passado
-      $user = User::get_from_id(array('email'=>$_POST['email']));
+
+      $user = User::get_from_id(array('email'=>strtolower($_POST['email'])));
 
       if($user){
         //Gera uma nova senha temporaria
         $temp['password'] = Helper::random_password();
         $user->update_user_info($temp);
         $user = json_decode($user->get_user_data(),true);
+        $user['temp_pass'] = $temp['password'];
 
         //Montando o e-mail
         $mail = Mailer::get_instance();
-        $subject = utf8_encode('PACO - Recuperação de senha');
-        $content = Helper::make_template('email_pw_content', $user, true);
+        $subject = 'PACO - Recuperação de senha';
+        $content = Helper::make_template('acc_reset', $user, true);
 
         $mail->write($subject, array('email'=>$user['email'],'name'=>$user['user_name']),$content);
         $mail->send();

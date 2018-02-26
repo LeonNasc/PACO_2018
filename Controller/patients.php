@@ -10,7 +10,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET'){
       break;
 
     case 'edit':
-      Helper::make_template('patient_form',array('task'=>'edit','id'=>$_GET['id']));
+      $patient = Patient::get_from_id($_POST['id']);
+      $patient = json_decode($patient->get_patient_data(), true);
+      Helper::make_template('patient_form',array('task'=>'edit','id'=>$patient['id']));
       break;
 
     default:
@@ -66,10 +68,9 @@ else if ($_SERVER['REQUEST_METHOD'] == 'POST'){
       break;
 
     case 'delete':
+      //TODO: Deletar todas as prescrições, resultados e comentários para este paciente
 
       $patient = Patient::get_from_id($_POST['id']);
-
-      //TODO: Deletar todas as prescrições, resultados e comentários para este paciente
       $patient->delete($_POST['id']);
       Helper::make_template('staging');
       break;

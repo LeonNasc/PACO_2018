@@ -39,7 +39,7 @@ Class User extends DBObj{
     $now = new DateTime();
 
     $this->id = isset($user_info['id'])? $user_info['id'] : uniqid('us_');
-    $this->email = isset($user_info['email'])? $user_info['email'] : null;
+    $this->email = isset($user_info['email'])? strtolower($user_info['email']) : null;
     $this->user_name = isset($user_info['user_name'])? $user_info['user_name'] : 'Sem Nome';
     $this->login = $user_info['login'];
     $this->password = strlen($user_info['password'])>= 64 ? $user_info['password'] : hash('sha256',$user_info['password']);
@@ -81,7 +81,7 @@ Class User extends DBObj{
   * @return boolean
   */
   private function set_login($login){
-    $this->login = $login;
+    $this->login = strtolower($login);
     return true;
   }
 
@@ -93,7 +93,7 @@ Class User extends DBObj{
   * @return boolean
   */
   private function set_email($email){
-    $this->email = $email;
+    $this->email = strtolower($email);
     return true;
   }
 
@@ -180,12 +180,13 @@ Class User extends DBObj{
       return;
     }
 
-    $result = isset($new_info['login'])? $this->set_login($login): false;
-    $result = isset($new_info['password'])? $this->set_password($password) : false;
-    $result = isset($new_info['email'])? $this->set_email($email) : false;
+    $result = isset($new_info['login'])? $this->set_login($new_info['login']): false;
+    $result = isset($new_info['password'])? $this->set_password($new_info['password']) : false;
+    $result = isset($new_info['email'])? $this->set_email($new_info['email']) : false;
 
-    if(User::user_exists($login,'login') || User::user_exists($email,'email'))
-      throw new Exception("Já em uso");
+    if(isset($new_info['login']) || isset($new_info['email']))
+      if(User::user_exists($new_info['login'],'login') || User::user_exists($new_info['email'],'email'))
+        throw new Exception("Já em uso");
     else
       $result = $this->update($this->get_fields());
 
@@ -237,6 +238,8 @@ Class User extends DBObj{
   */
   public static function login($login,$password){
 
+    $login = strtolower($login);
+    
     $user_db = User::user_exists($login,'login');
 
     if ($user_db){

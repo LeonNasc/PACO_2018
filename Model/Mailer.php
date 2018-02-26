@@ -35,6 +35,7 @@ class Mailer {
       $this->mailer->Port = 587;
       $this->mailer->SMTPSecure = 'tls';
       $this->mailer->SMTPAuth = true;
+      $this->mailer->CharSet = 'UTF-8';
       $this->mailer->Username = "noreplypaco.bot@gmail.com"; //Retirar depois
       $this->mailer->Password = "f9ry4oo2"; //Retirar depois
       $this->mailer->setFrom($this->mailer->Username, 'PACO Bot');
