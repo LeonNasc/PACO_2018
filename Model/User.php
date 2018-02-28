@@ -184,9 +184,11 @@ Class User extends DBObj{
     $result = isset($new_info['password'])? $this->set_password($new_info['password']) : false;
     $result = isset($new_info['email'])? $this->set_email($new_info['email']) : false;
 
-    if(isset($new_info['login']) || isset($new_info['email']))
-      if(User::user_exists($new_info['login'],'login') || User::user_exists($new_info['email'],'email'))
+    if(isset($new_info['login']) || isset($new_info['email'])){
+      if(User::user_exists($new_info['login'],'login') || User::user_exists($new_info['email'],'email')){
         throw new Exception("Já em uso");
+        }
+      }
     else
       $result = $this->update($this->get_fields());
 
@@ -239,7 +241,7 @@ Class User extends DBObj{
   public static function login($login,$password){
 
     $login = strtolower($login);
-    
+
     $user_db = User::user_exists($login,'login');
 
     if ($user_db){
