@@ -78,6 +78,26 @@ Class DBObj extends PDO{
   }
 
   /**
+  * Permite que classes herdeiras buscarem nas suas tabelas por um item especifico
+  *
+  * @param string id
+  *
+  * @return
+  */
+  public static function get_from_id($id){
+    $db= new DBOBj(static::TABLE_NAME);
+
+    $result = $db->fetch(array('id'=>$id));
+
+    if($result && sizeof($result) > 0){
+      $ptt = new static($result[0]);
+      return $ptt;
+    }
+    else
+      return False;
+  }
+
+  /**
   * Inclui um array de valores no banco de dados.
   *
   * Transforma um array em uma query SQL válida no molde INSERT(values)

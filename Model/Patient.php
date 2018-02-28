@@ -89,18 +89,18 @@ Class Patient extends DBObj{
     return $result;
   }
 
-  public static function get_from_id($id){
-    $db= new DBOBj(Patient::TABLE_NAME);
-
-    $result = $db->fetch(array('id'=>$id));
-
-    if($result && sizeof($result) > 0){
-      $ptt = new Patient($result[0]);
-      return $ptt;
-    }
-    else
-      return False;
-  }
+  // public static function get_from_id($id){
+  //   $db= new DBOBj(Patient::TABLE_NAME);
+  //
+  //   $result = $db->fetch(array('id'=>$id));
+  //
+  //   if($result && sizeof($result) > 0){
+  //     $ptt = new Patient($result[0]);
+  //     return $ptt;
+  //   }
+  //   else
+  //     return False;
+  // }
 
   public function delete($id){
     DBObj::delete($id);

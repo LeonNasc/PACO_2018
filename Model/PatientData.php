@@ -5,7 +5,7 @@ class PatientData extends DBObj{
 
   const PRESCRIPTION = "prs_";
   const LAB_RESULT = "res_";
-  const COMMENTARY = "com_";
+  const COMMENT = "com_";
   const RESTORED = TRUE;
   const TABLE_NAME = 'patient_data_db';
 
@@ -44,9 +44,9 @@ class PatientData extends DBObj{
 
   public function update($data = null){
     return $this->update($this->get_fields());
-  }
+  }  
 
-  public static function get_from_date($date){
+  public static function get_list($date){
     return PatientData::fetch(array("date" => $date));
   }
 
