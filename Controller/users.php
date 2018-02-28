@@ -58,9 +58,18 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
       $user = new User($user_data);
 
       try{
-        $user->add_user();
-        User::login($_POST['login'],$_POST['senha']);
-        Helper::make_template("new_user",$user_data, true);
+        $mailer = Mailer::get_instance();
+
+        $mailto =array('email'=>$user_data['email'],'name'=>$user_data['user_name']);
+        $content = Helper::make_template("new_user",$user_data, true);
+
+        echo $content;
+        $mailer->write("PACO - Bem vindo!", $mailto ,$content);
+        if($mailer->send()){
+           $user->add_user();
+           User::login($_POST['login'],$_POST['senha']);
+         }
+
       }
       catch(Exception $e){
         Helper::make_template("error_page", array("message" => $e->getMessage()),true);
