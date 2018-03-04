@@ -99,19 +99,23 @@ function patient_action_select(button, method){
                  'Mudar Status': 'change_status',
                  'Editar': 'edit',
                  'Remover': 'delete',
-                 'Comentar' : function(){
-                   load_page('Controller/patientdata.php?task=add_com',method);
-                   console.log("Called")
-                   return null;
-                 }
   }
 
   var data = handle_form(button);
+  data.append('task', option_list[option]);
+  load_page("Controller/patients.php", method, data, tgt);
 
-  if(option_list[option] != 'Comentar'){
-    data.append('task', option_list[option]);
-    load_page("Controller/patients.php", method, data, tgt);
-  }
+}
+
+function patient_data_handler(button, method){
+  var tgt = document.getElementById("show_area");
+
+  data = handle_form(button);
+
+  if(!data.get('task'))
+    data.append('task','add_com');
+
+  load_page("Controller/patientdata.php", method, data, tgt);
 }
 
 /* ---------------- FX ------------------*/

@@ -1,50 +1,50 @@
 <?php
+require("../config/config.php");
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET'){
-var_dump($_GET);
+
   switch($_GET['task']){
 
     //Caminhos de exibição
-    case 'URI_view'
+    case 'URI_view':
 
     break;
-    case 'list_pre'
+    case 'list_pre':
       Helper::update_list('PRESCRIPTIONS');
       print(Helper::make_template('show_prescriptions', null, true));
     break;
-    case 'list_res'
+    case 'list_res':
       Helper::update_list('RESULTS');
       print(Helper::make_template('show_results', null, true));
     break;
-    case 'list_com'
+    case 'list_com':
       Helper::update_list('COMMENTS');
       print(Helper::make_template('show_comments',null, true));
     break;
-    default:
-
-    break;
 
     //Controla a exibição dos views pertinentes
-    case 'add_pre'
+    case 'add_pre':
 
 
     break;
-    case 'add_res'
+    case 'add_res':
 
     break;
-    case 'add_com'
-    print(Helper::make_template("comment_form", true));
-    break;
-    case 'edit_pre'
+    case 'add_com':
+      print(Helper::make_template("comment_form",null, true));
 
     break;
-    case 'edit_res'
+    case 'edit_pre':
 
     break;
-    case 'edit_com'
+    case 'edit_res':
+
+    break;
+    case 'edit_com':
 
     break;
   }
+  exit();
 }
 else if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
