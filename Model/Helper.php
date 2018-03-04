@@ -10,6 +10,10 @@ use Rain\Tpl;
 */
 class Helper{
 
+
+    const default_recents = 7;
+
+
     /**
      * Exibe a landing page.
      *
@@ -89,10 +93,30 @@ class Helper{
     return implode($password);
   }
 
+  public static function render_patient_data($type){
+
+    $list = PatientData::get_recent_data($_SESSION['active_patient'],$type, Helper::default_recents);
+    $list = //Set list as session variable
+    print(Helper::make_template('show_'.$type, $list, true));
+
+  }
+
   public static function update_list($list_type){
     switch($list_type){
       case 'patient':
       $_SESSION['patient_list'] = json_decode(Patient::get_patient_list($_SESSION['active_user_id']['id']),true);
+      break;
+      case 'COMMENTS':
+      $list = PatientData::get_recent_data($_SESSION['active_patient'],PatientData::COMMENT);
+      $_SESSION['on_view'] = $list;
+      break;
+      case 'RESULTS':
+      $list = PatientData::get_recent_data($_SESSION['active_patient'],PatientData::LAB_RESULT);
+      $_SESSION['on_view'] = $list;
+      break;
+      case 'PRESCRIPTIONS':
+      $list = PatientData::get_recent_data($_SESSION['active_patient'],PatientData::PRESCRIPTION);
+      $_SESSION['on_view'] = $list;
       break;
     }
   }

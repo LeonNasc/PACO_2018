@@ -54,7 +54,7 @@ class PatientData extends DBObj{
     return PatientData::fetch(array('patient'=>$patient));
   }
 
-  public static function get_data($patient,$type,$quantity = null){
+  public static function get_recent_data($patient,$type,$quantity = null){
     /*
       Exemplo de chamada (para prescrições)
       $patient_data->get_data($paciente, PatientData::PRESCRIPTION, 12).
@@ -64,9 +64,13 @@ class PatientData extends DBObj{
     $patient_data = array();
     $patient_data['patient']= $patient;
     $patient_data['content'] = $type;
+    $recents = $db->fetch($patient_data,null, true);
 
-    //TODO: Retornar somente quantidade solicitada no segundo argumento
-    return array_slice($db->fetch($patient_data, true),0,$quantity);
+    //Prevene que o slice seja maior que o tamanho da array
+    if($quantity > count($recents))
+      $quantity = null;
+
+    return array_slice($recents,0,$quantity -1);
   }
 
   public function to_JSON(){

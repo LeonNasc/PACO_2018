@@ -1,21 +1,24 @@
 <?php
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET'){
-
-  switch($_POST['task']){
+var_dump($_GET);
+  switch($_GET['task']){
 
     //Caminhos de exibição
     case 'URI_view'
 
     break;
     case 'list_pre'
-
+      Helper::update_list('PRESCRIPTIONS');
+      print(Helper::make_template('show_prescriptions', null, true));
     break;
     case 'list_res'
-
+      Helper::update_list('RESULTS');
+      print(Helper::make_template('show_results', null, true));
     break;
     case 'list_com'
-
+      Helper::update_list('COMMENTS');
+      print(Helper::make_template('show_comments',null, true));
     break;
     default:
 
@@ -30,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET'){
 
     break;
     case 'add_com'
-
+    print(Helper::make_template("comment_form", true));
     break;
     case 'edit_pre'
 

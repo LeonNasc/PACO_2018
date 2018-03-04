@@ -36,11 +36,12 @@
   <form id="actions">
     <input type='hidden' name='id' value="{$patient.id}"></input>
 
-    <input type='button' onclick="patient_action_select(this,'POST')" value="Acompanhar"></input>
-    <input type='button' onclick="patient_action_select(this,'POST')" value="Mudar Status"></input>
-    <input type='button' onclick="load_page('Controller/patients.php?task=edit&id={$patient.id}','GET',null,this.closest('#show_area'))" value="Editar"></input>
-    <input type="button" onclick="patient_action_select(this,'POST')" value="Remover"></input>
+    <input type='button' name="ignore" onclick="patient_action_select(this,'POST')" value="Acompanhar"></input>
+    <input type='button' name="ignore" onclick="patient_action_select(this,'GET')" value="Comentar"></input>
+    <input type='button' name="ignore" onclick="patient_action_select(this,'POST')" value="Mudar Status"></input>
+    <input type='button' name="ignore" onclick="patient_action_select(this,'GET')" value="Editar"></input>
+    <input type="button" name="ignore" onclick="patient_action_select(this,'POST')" value="Remover"></input>
   </form>
   <hr>
-  {include="comentarios"}
+  {include="show_comments"}
 </div>

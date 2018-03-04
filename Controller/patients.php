@@ -2,7 +2,6 @@
 require("../config/config.php");
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET'){
-
   switch($_GET['task']){
 
     case 'add':
@@ -10,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET'){
       break;
 
     case 'edit':
-      $patient = Patient::get_from_id($_POST['id']);
+      $patient = Patient::get_from_id($_GET['id']);
       $patient = json_decode($patient->get_patient_data(), true);
       Helper::make_template('patient_form',array('task'=>'edit','id'=>$patient['id']));
       break;
@@ -52,6 +51,7 @@ else if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
       $patient = Patient::get_from_id($_POST['id']);
       $patient = json_decode($patient->get_patient_data(), true);
+      $_SESSION['active_patient'] = $_POST['id'];
 
       Helper::make_template('patient_info',array('patient'=>$patient), false);
       break;

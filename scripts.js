@@ -16,6 +16,15 @@ function load_page(url, method, data, target){
     }
     var xhr = new XMLHttpRequest();
 
+
+    if(method =="GET" && data){
+      var params = "?";
+      data.forEach((value,key)=>{
+        if(key!="ignore")
+          params+= key + "=" + value + "&";
+      });
+      url = url + params;
+    }
     xhr.open(method, url, true);
 
     if(data)
@@ -78,7 +87,7 @@ function show_data(element){
   data.append('task','get_data');
   data.append('id', id);
 
-  var html = load_page("Controller/patients.php", 'POST', data, tgt);
+  load_page("Controller/patients.php", 'POST', data, tgt);
 }
 
 function patient_action_select(button, method){
@@ -90,12 +99,19 @@ function patient_action_select(button, method){
                  'Mudar Status': 'change_status',
                  'Editar': 'edit',
                  'Remover': 'delete',
+                 'Comentar' : function(){
+                   load_page('Controller/patientdata.php?task=add_com',method);
+                   console.log("Called")
+                   return null;
+                 }
   }
 
   var data = handle_form(button);
-  data.append('task', option_list[option]);
 
-  load_page("Controller/patients.php", method, data, tgt);
+  if(option_list[option] != 'Comentar'){
+    data.append('task', option_list[option]);
+    load_page("Controller/patients.php", method, data, tgt);
+  }
 }
 
 /* ---------------- FX ------------------*/
