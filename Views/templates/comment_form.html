@@ -1,3 +1,29 @@
 <h1> What up</h1>
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/R-SFMD3xduM" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+<!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/R-SFMD3xduM" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe> -->
+
+<div id="comment_form">
+
+  <fieldset class="card">
+    <form>
+    <legend>Novo comentário</legend>
+      <input type="hidden" name="task" value="add_com"/>
+      <input type="hidden" name="patient" value='{$_SESSION["active_patient"]}'/>
+      <input type="hidden" name="author" value='{$_SESSION["active_user_id"]["id"]}'/>
+
+      <label for='subject'></label>
+      <select name="subject" class="ptd_select">
+        <option value="admission">Nova admissão</option>
+        <option value="acompanhamento">Acompanhamento de paciente</option>
+        <option value="intercorrencia">Intercorrência com o paciente</option>
+        <option value="intervencao">Intervencao farmacêutica</option>
+        <option value="alta">Alta</option>
+      </select>
+
+      <label for="content"></label>
+      <textarea name="content" value="" class="ptd-content"></textarea>
+
+      <input type="button" onclick ="patient_data_handler(this,'POST')" value="Mostra"/>
+    </form>
+  </fieldset>
+</div>

@@ -87,6 +87,14 @@ ul, ol{
 .profile-form .form-control{
   margin-bottom:5px;
 }
+
+.ptd_select{
+  width:100%;
+}
+.ptd-content{
+  height:50vh;
+  width:100%;
+}
 #dashboard{
   min-height:75vh;
   height:auto;

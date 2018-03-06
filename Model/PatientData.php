@@ -34,15 +34,15 @@ class PatientData extends DBObj{
     return $this->set($this->get_fields());
   }
 
-  public function delete(){
-    return $this->delete($this->id);
+  public function delete($id){
+    return DBObj::delete($this->id);
   }
 
   public function edit($changes){
     $this->content = $changes;
   }
 
-  public function update(){
+  public function update_patient_data(){
     return $this->update($this->get_fields());
   }
 

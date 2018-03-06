@@ -118,6 +118,8 @@ function patient_data_handler(button, method){
   load_page("Controller/patientdata.php", method, data, tgt);
 }
 
+
+
 /* ---------------- FX ------------------*/
 
 function warn(){

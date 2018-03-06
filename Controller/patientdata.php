@@ -71,6 +71,8 @@ else if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
     case 'add_com':
       $comment = new PatientData($ptt_data, PatientData::COMMENT);
+
+      print($comment->to_JSON());
     break;
 
     case 'edit_data': //Caso geral para todos os PatientData
