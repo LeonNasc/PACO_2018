@@ -2,4 +2,13 @@
   Olá mundo!
 </h1>
 <hr>
-{$_SESSION['active_patient']}
+{loop="$_SESSION['on_view']"}
+<div class="card">
+<h3>{$value.subject} em {$value.date}</h3>
+  por: {$value.author}
+<hr>
+<p>
+  {$value.content}
+</p>
+</div>
+{/loop}

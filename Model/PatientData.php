@@ -62,9 +62,9 @@ class PatientData extends DBObj{
     $db = new DBObj(PatientData::TABLE_NAME);
 
     $patient_data = array();
-    $patient_data['patient']= $patient;
-    $patient_data['content'] = $type;
-    $recents = $db->fetch($patient_data,null, true);
+    $patient_data['patient']= substr($patient,4);
+    $patient_data['id'] = $type;
+    $recents = $db->fetch($patient_data, "AND" , true);
 
     //Prevene que o slice seja maior que o tamanho da array
     if($quantity > count($recents))

@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET'){
 
     break;
     case 'add_com':
-      print(Helper::make_template("comment_form",null, true));
+      print(Helper::make_template("comment_form",array('task'=> 'add_com'), true));
 
     break;
     case 'edit_pre':
@@ -72,7 +72,7 @@ else if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     case 'add_com':
       $comment = new PatientData($ptt_data, PatientData::COMMENT);
 
-      print($comment->to_JSON());
+      $comment->add();
     break;
 
     case 'edit_data': //Caso geral para todos os PatientData

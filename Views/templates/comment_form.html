@@ -7,7 +7,7 @@
   <fieldset class="card">
     <form>
     <legend>Novo comentário</legend>
-      <input type="hidden" name="task" value="add_com"/>
+      <input type="hidden" name="task" value="{$task}"/>
       <input type="hidden" name="patient" value='{$_SESSION["active_patient"]}'/>
       <input type="hidden" name="author" value='{$_SESSION["active_user_id"]["id"]}'/>
 
@@ -22,8 +22,11 @@
 
       <label for="content"></label>
       <textarea name="content" value="" class="ptd-content"></textarea>
-
-      <input type="button" onclick ="patient_data_handler(this,'POST')" value="Mostra"/>
+      {if="$task == 'add_com'"}
+      <input type="button" onclick ="patient_data_handler(this,'POST')" value="Adicionar Comentário"/>
+      {else}
+      <input type="button" onclick ="patient_data_handler(this,'POST')" value="Editar Comentário"/>
+      {/if}
     </form>
   </fieldset>
 </div>

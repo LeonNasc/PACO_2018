@@ -68,7 +68,7 @@ Class DBObj extends PDO{
     //Permite selecionar por qualquer campo passado, desde que venha como array
     $query_fields = $this->get_query_fields($selectors, " ".$selector_type." ",$likeness);
 
-    $query = "SELECT * FROM public.$this->table_name WHERE $query_fields";
+    $query = "SELECT * FROM $this->table_name WHERE $query_fields";
 
     $stmt = $this->database->prepare($query);
     $stmt->execute($selectors);
@@ -219,7 +219,7 @@ Class DBObj extends PDO{
       if (!$likeness)
         $update_info[] = "{$column} = :{$column}";
       else {
-        $update_info[] = "{$column} LIKE :{$column}%";
+        $update_info[] = "{$column} LIKE '%'||:{$column}||'%'";
       }
     }
 
