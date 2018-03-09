@@ -8,10 +8,6 @@ header{
   margin-bottom:1%;
 }
 
-select{
-  max-width:auto;
-}
-
 p{
   line-height:2em;
   margin:10px;
@@ -67,7 +63,6 @@ ul, ol{
 }
 
 .sidebars{
-  font-size:auto;
   max-width:35%;
   position:absolute;
   margin-right:65%;
