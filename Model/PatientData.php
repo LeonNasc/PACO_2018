@@ -65,12 +65,14 @@ class PatientData extends DBObj{
     $patient_data['patient']= substr($patient,4);
     $patient_data['id'] = $type;
     $recents = $db->fetch($patient_data, "AND" , true);
-
+    
     //Prevene que o slice seja maior que o tamanho da array
     if($quantity > count($recents))
-      $quantity = null;
-
-    return array_slice($recents,0,$quantity -1);
+      $quantity = count($recents);
+    
+    $recents = array_slice($recents,0,$quantity);
+    
+    return $recents;
   }
 
   public function to_JSON(){
