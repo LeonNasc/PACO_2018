@@ -191,7 +191,22 @@ Class DBObj extends PDO{
     $this->database = new PDO($dsn,$dbconfig['TESTDB']['user'],$dbconfig['TESTDB']['password']);
     $this->database->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
   }
-
+  
+  /**
+   * Retorna campos a partir da junção de duas tabelas.
+   * 
+   * 
+   * @param String $pivot
+   * @param String $original_table
+   * @param String $joined_table
+   * 
+   */
+  public function joined_fetch($pivot, $original_table, $joined_table){
+  
+    //TODO
+  
+  
+  }
   /**
   * Transforma um array em string válida para queries.
   *

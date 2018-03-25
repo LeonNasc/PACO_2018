@@ -1,11 +1,11 @@
 {function="Helper::update_list('COMMENTS')"}
-<h1>
-  Olá mundo!
-</h1>
+<h2>
+  Comentários recentes:
+</h2>
 <hr>
 {loop="$_SESSION['on_view']"}
 <div class="card">
-<h3>{$value.subject} em {$value.date}</h3>
+<h4>{$value.subject} em {$value.date}</h4>
   por: {$value.author}
 <hr>
 <p>
