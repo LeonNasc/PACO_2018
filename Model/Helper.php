@@ -102,6 +102,8 @@ class Helper{
   }
 
   public static function update_list($list_type){
+      
+
     switch($list_type){
       case 'patient':
       $_SESSION['patient_list'] = json_decode(Patient::get_patient_list($_SESSION['active_user_id']['id']),true);

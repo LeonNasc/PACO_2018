@@ -36,6 +36,7 @@ Class Patient extends DBObj{
 
   public function change_status(){
     $this->status = !$this->status;
+    
     /*Obs.: Quando PDO transforma o status para passar no statement,
     ele transforma false em ''. Por isso, uso um ternario em get_fields
     pra converter os valores booleanos nas strings 'TRUE' e 'FALSE' */
