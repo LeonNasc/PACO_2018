@@ -1,15 +1,18 @@
 {function="Helper::update_list('COMMENTS')"}
-<h1>
-  Olá mundo!
-</h1>
+<h3> Mostrando últimos comentários</h3>
+
 <hr>
-{loop="$_SESSION['on_view']"}
-<div class="card">
-<h3>{$value.subject} em {$value.date}</h3>
-  por: {$value.author}
-<hr>
-<p>
-  {$value.content}
-</p>
-</div>
-{/loop}
+{if="sizeof($_SESSION['on_view'])>0"}
+  {loop="$_SESSION['on_view']"}
+    <div class="card">
+    <h3>{$value.subject} em {$value.date}</h3>
+      por: {$value.author}
+    <hr>
+    <p>
+      {$value.content}
+    </p>
+    </div>
+  {/loop}
+{else}
+<span class="text-muted">Não há comentários para este paciente</span>
+{/if}
