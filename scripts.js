@@ -143,11 +143,10 @@ function give_emphasis(element){
       element.style.backgroundColor = "#fff"
       element.style.border = "1px solid rgba(0,0,0,.125)";
   },2000);
-
-
 }
 
 function collapse_toggle(target_id){
+
 
   let target = document.querySelector("#" + target_id);
 
@@ -155,6 +154,7 @@ function collapse_toggle(target_id){
     target.classList.remove('show');
   }
   else{
+    console.log("Foo");
     target.classList.add('show');
   }
 }

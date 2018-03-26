@@ -33,16 +33,20 @@
   </tr>
 
   </table>
-  <form id="actions">
-    <input type='hidden' name='id' value="{$patient.id}"></input>
-    <center>
-    <input type='button' class="btn btn-outline-success" name="ignore" onclick="patient_action_select(this,'POST')" value="Acompanhar"></input>
-    <input type='button' class="btn btn-outline-success" name="ignore" onclick="patient_data_handler(this,'GET')" value="Comentar"></input>
-    <input type='button' class="btn btn-outline-success" name="ignore" onclick="patient_action_select(this,'POST')" value="Mudar Status"></input>
-    <input type='button' class="btn btn-outline-success" name="ignore" onclick="patient_action_select(this,'GET')" value="Editar"></input>
-    <input type="button" class="btn btn-outline-success" name="ignore" onclick="patient_action_select(this,'POST')" value="Remover"></input>
-    </center>
-  </form>
+  <button onclick="collapse_toggle('actions')"class="btn btn-outline-success">Mostrar ações de usuário </button>
+
+  <div id="actions" class="collapse">
+    <form class="card">
+      <input type='hidden' name='id' value="{$patient.id}"></input>
+      <center>
+        <input type='button' class="btn btn-outline-success" name="ignore" onclick="patient_action_select(this,'POST')" value="Acompanhar"></input>
+        <input type='button' class="btn btn-outline-success" name="ignore" onclick="patient_data_handler(this,'GET')" value="Comentar"></input>
+        <input type='button' class="btn btn-outline-success" name="ignore" onclick="patient_action_select(this,'POST')" value="Mudar Status"></input>
+        <input type='button' class="btn btn-outline-success" name="ignore" onclick="patient_action_select(this,'GET')" value="Editar"></input>
+        <input type="button" class="btn btn-outline-success" name="ignore" onclick="patient_action_select(this,'POST')" value="Remover"></input>
+      </center>
+    </form>
+  </div>
   <hr>
   {include="show_comments"}
 </div>
