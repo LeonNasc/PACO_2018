@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET'){
     case 'edit':
       $patient = Patient::get_from_id($_GET['id']);
       $patient = json_decode($patient->get_patient_data(), true);
-      Helper::make_template('patient_form',array('task'=>'edit','id'=>$patient['id']));
+      Helper::make_template('patient_form',array('task'=>'edit','patient'=>$patient));
       break;
 
     default:
@@ -31,6 +31,8 @@ else if ($_SERVER['REQUEST_METHOD'] == 'POST'){
       $patient = new Patient($patient);
       $patient->add_patient();
       $patient = json_decode($patient->get_patient_data(), true);
+
+      $_SESSION['active_patient'] = $patient['id'];
 
       Helper::make_template('patient_info',array('patient'=>$patient), false);
       exit();

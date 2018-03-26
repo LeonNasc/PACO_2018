@@ -5,8 +5,8 @@
       <form id="patient-form" class="card-body">
         <span style="color:red" id="error_text"></span>
         <input name="task" type=hidden value={$task} required/>
-        {if="isset($id)"}
-        <input name="id" type=hidden value={$id} required/>
+        {if="isset($patient.id)"}
+        <input name="id" type=hidden value={$patient.id} required/>
         {/if}
         <div>
           <label for="nome">Nome:</label>
@@ -20,10 +20,10 @@
         <div>
           <label for="nascimento">Data de Nascimento:</label>
           <input class="form-control" type="date" name="birth" min="1910-01-01"
-          {if="isset($patient.name)"}
-            value={$patient.name}
+          {if="isset($patient.birth)"}
+            value={$patient.birth}
           {else}
-            value="1952-04-01"
+            value={$function="echo date('Y-m-d')"}
           {/if}
           required/>
         </div>
@@ -31,7 +31,7 @@
         <div>
           <label for="sexo">Sexo:</label>
           <select class="custom-select" name="sex">
-            <option value="True">Masculino</option>
+            <option value="True" selected>Masculino</option>
             <option value="False">Feminino</option>
         </select>
         </div>

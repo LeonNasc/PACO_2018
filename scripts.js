@@ -146,3 +146,15 @@ function give_emphasis(element){
 
 
 }
+
+function collapse_toggle(target_id){
+
+  let target = document.querySelector("#" + target_id);
+
+  if(target.classList.contains('show')){
+    target.classList.remove('show');
+  }
+  else{
+    target.classList.add('show');
+  }
+}

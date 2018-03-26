@@ -12,7 +12,7 @@
 
     <div id="dashboard" class="clearfix card">
 
-      <div id="pacientes" class="sidebars">
+      <div id="pacientes" class="sidebars col-2">
           <ul>
             <input id="ptt_add" type="button" class="btn btn-outline-success" onclick="load_page('Controller/patients.php?task=add','GET')" value="Novo paciente"></input>
             {loop="$patients"}
@@ -29,7 +29,7 @@
 
       </div>
 
-      <div id="show_area" class="content">
+      <div id="show_area" class="content col-10">
         {include="dashlanding"}
       </div>
 
