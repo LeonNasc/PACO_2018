@@ -76,6 +76,14 @@ Class DBObj extends PDO{
     return $result;
   }
 
+  protected function joined_fetch($original_table, $joined_table, $pivot){
+
+    //Pivot é onde o join junta as tabelas
+
+    $query = "SELECT * FROM $original_table INNER JOIN $joined_table ON $pivot";
+
+  }
+
   /**
   * Permite que classes herdeiras buscarem nas suas tabelas por um item especifico
   *
