@@ -130,7 +130,7 @@ Class User extends DBObj{
       unset($returnable['password']);
     }
 
-    return json_encode($returnable);
+    return $returnable;
   }
 
   /**
@@ -249,7 +249,7 @@ Class User extends DBObj{
       if (hash('sha256',$password) === $user_db["password"]){
 
         $current_user = new User($user_db);
-        $_SESSION['active_user_id'] = json_decode($current_user->get_user_data(),true);
+        $_SESSION['active_user_id'] = $current_user->get_user_data();
 
         return $current_user;
       }

@@ -63,8 +63,7 @@ Class DBObj extends PDO{
   * @return array or boolean
   */
   protected function fetch($selectors, $selector_type="AND", $likeness = false){
-    //$option pode ser: LIKE -
-
+    
     //Permite selecionar por qualquer campo passado, desde que venha como array
     $query_fields = $this->get_query_fields($selectors, " ".$selector_type." ",$likeness);
 
@@ -82,7 +81,7 @@ Class DBObj extends PDO{
   *
   * @param string id
   *
-  * @return
+  * @return obj, false
   */
   public static function get_from_id($id){
     $db= new DBOBj(static::TABLE_NAME);
@@ -90,8 +89,8 @@ Class DBObj extends PDO{
     $result = $db->fetch(array('id'=>$id));
 
     if($result && sizeof($result) > 0){
-      $ptt = new static($result[0]);
-      return $ptt;
+      $obj = new static($result[0]);
+      return $obj;
     }
     else
       return False;
@@ -166,32 +165,7 @@ Class DBObj extends PDO{
 
     return $stmt;
   }
-  /**
-  * Configura uma conexão de banco de dados a partir de um JSON
-  *
-  * Transforma o Json em array, monta um dsn e constroi um objeto PDO
-  * que será armazenado na variável de classe $database.
-  *
-  * @param String $dconfig_path Caminho até o json de configuração.
-  *
-  * @return void
-  */
-  //Gera as constantes de Banco de dados a partir do JSON de configuração
-  protected function configura_DB($dbconfig_path = "/../config/dbinfo.json"){
-
-    //Recupera dados de configuração de DB a partir de um arquivo
-    $dbconfig_data = fopen(__DIR__ .$dbconfig_path,"r");
-    $dbconfig = json_decode(stream_get_contents($dbconfig_data), true);
-    fclose($dbconfig_data);
-
-    $dsn = "pgsql:dbname=".$dbconfig['TESTDB']['dbname']. ";
-            host= ".$dbconfig['TESTDB']['host'].
-            $dbconfig['TESTDB']['config'];
-
-    $this->database = new PDO($dsn,$dbconfig['TESTDB']['user'],$dbconfig['TESTDB']['password']);
-    $this->database->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
-  }
-
+  
   /**
   * Transforma um array em string válida para queries.
   *
@@ -224,6 +198,42 @@ Class DBObj extends PDO{
     }
 
     return $update_info = implode($glue, $update_info);
+  }
+
+  /**
+   * Serializa os campos do objeto em um objeto JSON
+   * 
+   * @return String JSON
+   */
+  protected function to_JSON(){
+    return json_encode($this->get_fields(), JSON_PRETTY_PRINT);
+
+  }
+
+  /**
+  * Configura uma conexão de banco de dados a partir de um JSON
+  *
+  * Transforma o Json em array, monta um dsn e constroi um objeto PDO
+  * que será armazenado na variável de classe $database.
+  *
+  * @param String $dconfig_path Caminho até o json de configuração.
+  *
+  * @return void
+  */
+  //Gera as constantes de Banco de dados a partir do JSON de configuração
+  protected function configura_DB($dbconfig_path = "/../config/dbinfo.json"){
+
+    //Recupera dados de configuração de DB a partir de um arquivo
+    $dbconfig_data = fopen(__DIR__ .$dbconfig_path,"r");
+    $dbconfig = json_decode(stream_get_contents($dbconfig_data), true);
+    fclose($dbconfig_data);
+
+    $dsn = "pgsql:dbname=".$dbconfig['TESTDB']['dbname']. ";
+            host= ".$dbconfig['TESTDB']['host'].
+            $dbconfig['TESTDB']['config'];
+
+    $this->database = new PDO($dsn,$dbconfig['TESTDB']['user'],$dbconfig['TESTDB']['password']);
+    $this->database->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
   }
 
 }

@@ -57,16 +57,19 @@ Class Patient extends DBObj{
 
   public function get_patient_data(){
 
-    return json_encode($this->get_fields());
+    return $this->get_fields();
 
   }
 
-  public static function get_patient_list($owner){
+  public static function get_patient_list($owner, $json = false){
     $db = new DBObj(Patient::TABLE_NAME);
 
     $patient_list = $db->fetch(array('owner'=>$owner));
 
-    return json_encode($patient_list,JSON_PRETTY_PRINT);
+    if($json)
+      return json_encode($patient_list,JSON_PRETTY_PRINT);
+
+    return $patient_list;
   }
 
   //Funções de cadastro
@@ -90,20 +93,14 @@ Class Patient extends DBObj{
     return $result;
   }
 
-  // public static function get_from_id($id){
-  //   $db= new DBOBj(Patient::TABLE_NAME);
-  //
-  //   $result = $db->fetch(array('id'=>$id));
-  //
-  //   if($result && sizeof($result) > 0){
-  //     $ptt = new Patient($result[0]);
-  //     return $ptt;
-  //   }
-  //   else
-  //     return False;
-  // }
-
   public function delete($id){
+    //Deleta todos os dados de paciente do banco.
+    $patient_data_list = PatientData::fetch(array('patient'=>$id));
+    foreach($patient_data_list as $patient){
+
+      PatientData::delete($patient['id']);
+    }
+
     DBObj::delete($id);
   }
   //Funções utilitárias

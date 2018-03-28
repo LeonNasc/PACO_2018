@@ -75,11 +75,6 @@ class PatientData extends DBObj{
     return $recents;
   }
 
-  public function to_JSON(){
-    return json_encode($this->get_fields(), JSON_PRETTY_PRINT);
-
-  }
-
   private function get_fields(){
     $content_data = array();
     $content_data['id'] = $this->id;
