@@ -52,7 +52,7 @@ else if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     case 'get_data':
 
       $patient = Patient::get_from_id($_POST['id']);
-      $patient = json_decode($patient->get_patient_data(), true);
+      $patient = $patient->get_patient_data();
       $_SESSION['active_patient'] = $_POST['id'];
 
       Helper::make_template('patient_info',array('patient'=>$patient), false);

@@ -76,12 +76,22 @@ Class DBObj extends PDO{
     return $result;
   }
 
+  /**
+   * 
+   * Permite buscar uma conjunto de linhas do banco de dados com base em um JOIN
+   * 
+   * @param $origina_table tabela original
+   * @param $joined_table tabela contendo o campo do pivot
+   * @param $pivot ponto onde as duas tabelas são unidas
+   * 
+   */
   protected function joined_fetch($original_table, $joined_table, $pivot){
-
-    //Pivot é onde o join junta as tabelas
 
     $query = "SELECT * FROM $original_table INNER JOIN $joined_table ON $pivot";
 
+    $stmt = $this->database->prepare($query);
+    $stmt->execute();
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 
   /**
