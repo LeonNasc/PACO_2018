@@ -63,8 +63,12 @@ class PatientData extends DBObj{
 
     $patient_data['patient']= substr($patient,4);
     $patient_data['id'] = $type;
-    $query = self::TABLE_NAME.".author = ".User::TABLE_NAME .".id";
-    $recents = $db->joined_fetch(self::TABLE_NAME,User::TABLE_NAME,$query);
+    
+    $columns = self::TABLE_NAME. ".*, " . User::TABLE_NAME.".user_name";
+
+    $pivot = self::TABLE_NAME.".author = ".User::TABLE_NAME .".id";
+
+    $recents = $db->joined_fetch($columns, self::TABLE_NAME,User::TABLE_NAME,$pivot);
     
     //Prevene que o slice seja maior que o tamanho da array
     if($quantity > count($recents))
@@ -85,6 +89,10 @@ class PatientData extends DBObj{
     $content_data['date'] = $this->date;
 
     return $content_data;
+  }
+
+  public function to_JSON(){
+    return $this->JSONify($this->get_fields());
   }
 }
 ?>

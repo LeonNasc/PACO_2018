@@ -80,14 +80,15 @@ Class DBObj extends PDO{
    * 
    * Permite buscar uma conjunto de linhas do banco de dados com base em um JOIN
    * 
+   * @param $columns colunas desejadas das tabelas
    * @param $origina_table tabela original
    * @param $joined_table tabela contendo o campo do pivot
    * @param $pivot ponto onde as duas tabelas são unidas
    * 
    */
-  protected function joined_fetch($original_table, $joined_table, $pivot){
+  protected function joined_fetch($columns, $original_table, $joined_table, $pivot){
 
-    $query = "SELECT $original_table.id as origin_id,* FROM $original_table INNER JOIN $joined_table ON $pivot";
+    $query = "SELECT $columns FROM $original_table INNER JOIN $joined_table ON $pivot";
 
     $stmt = $this->database->prepare($query);
     $stmt->execute();
@@ -225,8 +226,8 @@ Class DBObj extends PDO{
    * 
    * @return String JSON
    */
-  protected function to_JSON(){
-    return json_encode($this->get_fields(), JSON_PRETTY_PRINT);
+  protected function JSONify($fields){
+    return json_encode($fields, JSON_PRETTY_PRINT);
 
   }
 

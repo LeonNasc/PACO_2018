@@ -12,7 +12,7 @@
       {$value.content}
     </p>
     <form>
-      <input type="hidden" name="patient_data_id" value={$_SESSION['on_view']}/>
+      <input type="hidden" name="patient_data_id" value="{$value.id}"/>
       <input type="hidden" name="task" value="edit_com" />
       <input type="button" value="Editar" onclick="patient_data_handler(this,'GET')" class="btn btn-outline-success"/>
     </form>

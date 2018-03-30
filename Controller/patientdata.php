@@ -42,14 +42,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET'){
 
     break;
     case 'edit_com':
-      print(Helper::make_template("comment_form",array('task'=>'edit_data'), true));
+      print(Helper::make_template("comment_form",array('task'=>'edit_data','patient_data_id'=>$_GET['patient_data_id']), true));
     break;
   }
   exit();
 }
 else if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
-  if(!isset($patient_data_id)){
+  var_dump($_POST);
+
+  if(!isset($_POST['patient_data_id'])){
     $ptt_data = array();
     $ptt_data['author'] = $_SESSION['active_user_id']['id'];
     $ptt_data['patient'] = $_POST['patient'];
@@ -57,7 +59,7 @@ else if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     $ptt_data['content'] = $_POST['content'];
   }
   else{
-    $patient_data = PatientData::get_from_id($patient_data_id);
+    $patient_data = PatientData::get_from_id($_POST['patient_data_id']);
   }
 
   switch($_POST['task']){
@@ -96,9 +98,9 @@ else if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         }
 
         $patient_data->edit($content);
-        $patient_data->update();
+        $patient_data->update_patient_data();
 
-        Helper::show_template('view',null, true);
+        Helper::make_template('view',null, true);
     break;
     default:
       exit();
