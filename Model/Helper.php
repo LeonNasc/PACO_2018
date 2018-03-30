@@ -110,6 +110,7 @@ class Helper{
       break;
       case 'COMMENTS':
       $list = PatientData::get_recent_data($_SESSION['active_patient'],PatientData::COMMENT);
+      var_dump($list);
       $_SESSION['on_view'] = $list;
       break;
       case 'RESULTS':

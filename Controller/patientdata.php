@@ -34,6 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET'){
       print(Helper::make_template("comment_form",array('task'=> 'add_com'), true));
 
     break;
+
     case 'edit_pre':
 
     break;
@@ -41,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET'){
 
     break;
     case 'edit_com':
-
+      print(Helper::make_template("comment_form",array('task'=>'edit_data'), true));
     break;
   }
   exit();
