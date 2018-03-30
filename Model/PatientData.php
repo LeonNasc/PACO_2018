@@ -34,7 +34,7 @@ class PatientData extends DBObj{
     return $this->set($this->get_fields());
   }
 
-  public function delete($id){
+  public function delete($id = null){
     return DBObj::delete($this->id);
   }
 
@@ -47,11 +47,15 @@ class PatientData extends DBObj{
   }
 
   public static function get_list($date){
-    return PatientData::fetch(array("date" => $date));
+    $db = new DBObj(PatientData::TABLE_NAME);
+
+    return $db->fetch(array("date" => $date));
   }
 
   public static function get_for_patient($patient){
-    return PatientData::fetch(array('patient'=>$patient));
+    $db = new DBObj(PatientData::TABLE_NAME);
+    
+    return $db->fetch(array('patient'=>$patient));;
   }
 
   public static function get_recent_data($patient,$type,$quantity = null){

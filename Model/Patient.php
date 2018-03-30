@@ -93,12 +93,13 @@ Class Patient extends DBObj{
     return $result;
   }
 
-  public function delete($id){
+  public function delete($id = null){
     //Deleta todos os dados de paciente do banco.
-    $patient_data_list = PatientData::fetch(array('patient'=>$id));
-    foreach($patient_data_list as $patient){
+    $patient_data_list = PatientData::get_for_patient($id);
 
-      PatientData::delete($patient['id']);
+    foreach($patient_data_list as $patient_data){
+      $patient_data = PatientData::get_from_id($patient_data['id']);
+      $patient_data->delete();
     }
 
     DBObj::delete($id);

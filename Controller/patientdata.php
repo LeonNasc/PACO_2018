@@ -99,13 +99,12 @@ else if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
         $patient_data->edit($content);
         $patient_data->update_patient_data();
-
-        Helper::make_template('view',null, true);
     break;
     default:
       exit();
-    break;
+    break;    
   }
+  Helper::make_template('view',null, true);
 }
 else {
   throw new Exception("Invalid method exception");
