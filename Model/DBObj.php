@@ -92,6 +92,8 @@ Class DBObj extends PDO{
     $stmt = $this->database->prepare($query);
     $stmt->execute();
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    return $result;
   }
 
   /**
