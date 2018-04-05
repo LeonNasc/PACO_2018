@@ -4,3 +4,4 @@ Views/cache/*
 #Alguns dados pessoais
 config/dbinfo.json
 config/testDB_current_tables
+
