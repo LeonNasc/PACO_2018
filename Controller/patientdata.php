@@ -49,8 +49,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET'){
 }
 else if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
-  var_dump($_POST);
-
   if(!isset($_POST['patient_data_id'])){
     $ptt_data = array();
     $ptt_data['author'] = $_SESSION['active_user_id']['id'];
@@ -99,17 +97,15 @@ else if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
         $patient_data->edit($content);
         $patient_data->update_patient_data();
+        print(Helper::make_template('stats',null, true));
     break;
     default:
       exit();
     break;    
   }
-  Helper::make_template('view',null, true);
+ 
 }
 else {
   throw new Exception("Invalid method exception");
 }
-
-
-
 ?>

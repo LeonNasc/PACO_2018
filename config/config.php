@@ -17,9 +17,9 @@ spl_autoload_register('meu_autoload');
 
 /* ------------------ Configuração de sessão  ---------------------------*/
 
-if(!isset($_SESSION))
+if(!isset($_SESSION)){
   session_start();
-
+}
 Helper::check_login_status();
 
 /* ------------------ Configuração do RainTPL ---------------------------*/

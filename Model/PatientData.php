@@ -74,7 +74,7 @@ class PatientData extends DBObj{
 
     $recents = $db->joined_fetch($columns, self::TABLE_NAME,User::TABLE_NAME,$pivot);
     
-    //Prevene que o slice seja maior que o tamanho da array
+    //Previne que o slice seja maior que o tamanho da array
     if($quantity > count($recents))
       $quantity = count($recents);
     

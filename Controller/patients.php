@@ -30,10 +30,11 @@ else if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
       $patient = new Patient($patient);
       $patient->add_patient();
-      $patient = json_decode($patient->get_patient_data(), true);
+      $patient = $patient->get_patient_data();
 
       $_SESSION['active_patient'] = $patient['id'];
-
+      //$_SESSION['last_seen'].push($patient['id']);
+    
       Helper::make_template('patient_info',array('patient'=>$patient), false);
       exit();
 

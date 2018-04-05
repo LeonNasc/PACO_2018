@@ -34,6 +34,14 @@ Class Patient extends DBObj{
 
   private function set_gender($sex){$this->sex = $sex;}
 
+
+  /**
+   * Altera o status de acompanhamento de um paciente
+   * 
+   * Se ativo, torna-se inativo. Se inativo, torna-se ativo.
+   * 
+   * @return null
+   */
   public function change_status(){
     $this->status = !$this->status;
     
@@ -47,6 +55,13 @@ Class Patient extends DBObj{
     }
   }
 
+  /**
+   * Setter para dados de paciente
+   * 
+   * @param $new_info: array com dados do paciente
+   * 
+   * @return null
+   */
   public function change_info($new_info){
 
     $this->set_name($new_info['name']);
@@ -55,12 +70,26 @@ Class Patient extends DBObj{
 
   }
 
+  /**
+   * Retorna um array contendo dados do paciente
+   * 
+   * @return array;
+   */
   public function get_patient_data(){
 
     return $this->get_fields();
 
   }
-
+  /**
+   * Obtém uma lista atualizada de pacientes para um usuário
+   * 
+   * 
+   * @param $owner: lista pacientes para um User
+   * @param $json: define se o formato de retorno será em JSON
+   * 
+   * @return $array ou String(JSON) com dados do paciente
+   * 
+   */
   public static function get_patient_list($owner, $json = false){
     $db = new DBObj(Patient::TABLE_NAME);
 
@@ -72,14 +101,28 @@ Class Patient extends DBObj{
     return $patient_list;
   }
 
-  //Funções de cadastro
+  /* ------------------------- Funções de cadastro ---------------------------- */
 
+  /**
+   * Inclui paciente ativo no banco de dados
+   * 
+   * 
+   * 
+   */
   public function add_patient(){
 
     return $this->set($this->get_fields());
 
   }
-  public function edit_patient($name, $birth = null){
+
+  /**
+   * Ediata os dados do paciente em questão. 
+   * 
+   * @param $name: Novo nome do paciente
+   * @param $birth: Nova data de nascimento do paciente
+   * 
+   */
+  public function edit_patient($name = null, $birth = null){
 
     $result = isset($name)? $this->set_name($name) : false;
     $result = isset($birth)? $this->set_birth($birth):false;
@@ -87,12 +130,29 @@ Class Patient extends DBObj{
     return $this->update_patient_info();
   }
 
+  /**
+   * Atualiza dados do paciente no banco de dados
+   * 
+   * @return boolean
+   * 
+   */
   public function update_patient_info(){
     $result = $this->update($this->get_fields());
 
     return $result;
   }
 
+  /**
+   * Deleta o registro de um paciente
+   * 
+   * Como isso envolve o constraint Patient_must_exist da tabela de patient_data, 
+   * delete deve remover todos os items referentes ao paciente a ser deletado na tabela
+   * referente a patient_data
+   * 
+   * @param $id : id do paciente a ser deletado
+   * 
+   * @return null
+   */
   public function delete($id = null){
     //Deleta todos os dados de paciente do banco.
     $patient_data_list = PatientData::get_for_patient($id);
@@ -104,9 +164,14 @@ Class Patient extends DBObj{
 
     DBObj::delete($id);
   }
-  //Funções utilitárias
+  /*---------------------------- Funções utilitárias ----------------------------------*/
 
-  private function get_fields(){
+  /**
+   * Reúne todos os campos do objeto como um array a ser utilizado
+   * 
+   * @return array $patient_data: dados do paciente 
+   */ 
+   private function get_fields(){
 
     $patient_data = array();
     $patient_data['id'] = $this->id;
