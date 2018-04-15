@@ -70,7 +70,7 @@ class PatientData extends DBObj{
     
     $columns = self::TABLE_NAME. ".*, " . User::TABLE_NAME.".user_name";
 
-    $pivot = self::TABLE_NAME.".author = ".User::TABLE_NAME .".id";
+    $pivot = self::TABLE_NAME.".author = ".User::TABLE_NAME .".id WHERE ". self::TABLE_NAME.".patient = '".$_SESSION['active_patient']."'";
 
     $recents = $db->joined_fetch($columns, self::TABLE_NAME,User::TABLE_NAME,$pivot);
     
