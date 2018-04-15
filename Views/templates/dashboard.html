@@ -14,7 +14,7 @@
 
       <div id="pacientes" class="sidebars col-2">
           <ul>
-            <input id="ptt_add" type="button" class="btn btn-outline-success" onclick="load_page('Controller/patients.php?task=add','GET')" value="Novo paciente"></input>
+            <input id="ptt_add" type="button" class="btn btn-outline-success" onclick="load_page('Controller/controller.php?task=add&actor_object=patient','GET')" value="Novo paciente"></input>
             {loop="$patients"}
             <li class='card' onmouseover="give_emphasis(this)" onclick="show_data(this)">
               <ul>

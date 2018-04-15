@@ -30,11 +30,12 @@
 
                 <div>
                     <input type="hidden" name="task" value="edit"></input>
+                    <input type="hidden" name="actor_object" value="user"></input>
                     <input type='password' class='form-control' name='senha' placeholder='Nova senha'></input>
                     <input type='password' class='form-control' name='validate' placeholder='Repita a senha' onblur="validate_pw()"></input> <!-- Criar em JS -->
                 </div>
                 <div>
-                  <input class="btn btn-danger registro-input" type="button" onclick="load_page('Controller/users.php','POST',this)" value="Alterar senha" />
+                  <input class="btn btn-danger registro-input" type="button" onclick="load_page('Controller/controller.php','POST',this)" value="Alterar senha" />
                 </div>
                 </fieldset>
             </form>
