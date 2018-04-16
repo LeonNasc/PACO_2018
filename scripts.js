@@ -187,7 +187,7 @@ router
       load_page('Controller/controller.php?task=editar&actor_object=user', 'GET');
     },
     'comments': function () {
-      load_page('Controller/controller.php?');
+      load_page('Controller/controller.php?task=list_com&actor_object=patient_data', 'GET');
     }
   })
   .resolve();

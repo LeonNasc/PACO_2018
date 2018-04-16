@@ -451,7 +451,7 @@ class Controller
 
                     $patient_data->edit($content);
                     $patient_data->update_patient_data();
-                    print(Helper::make_template('stats', null, true));
+                    
                     break;
                 default:
                     break;

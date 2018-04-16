@@ -1,5 +1,7 @@
 {function="Helper::update_list('COMMENTS')"}
 <h3> Mostrando últimos comentários</h3>
+{$name = Patient::get_from_id($_SESSION['active_patient'])->get_patient_data()['name']}
+<h2 class="text-muted">{$name}</h2>
 
 <hr>
 {if="sizeof($_SESSION['on_view'])>0"}
