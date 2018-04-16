@@ -456,7 +456,7 @@ class Controller
                 default:
                     break;
             }
-
+            print(Helper::make_template('patient_info', array('patient'=>Patient::get_from_id($_SESSION['active_patient'])->get_patient_data()), true));
         } else {
             throw new Exception("Método de acesso inválido");
         }
