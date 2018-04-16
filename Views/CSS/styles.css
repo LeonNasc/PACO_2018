@@ -39,12 +39,12 @@ ul, ol{
 }
 
 .icons-text{
-    font-size:0.75em;
-    line-height:1em;
+    font-size:1em;
+    line-height:1.2em;
+    margin-bottom:1em;
 }
 .ico{
-    max-width:120px;
-    max-height:120px;
+    max-width:6em;
 }
 
 .navbar{
