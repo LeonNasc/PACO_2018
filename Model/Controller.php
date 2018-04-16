@@ -297,6 +297,10 @@ class Controller
                     $_SESSION['active_patient'] = $patient['id'];
                     //$_SESSION['last_seen'].push($patient['id']);
 
+                    //Bug bizonho da primeira exibição
+                    $patient['sex'] = !$patient['sex'];
+                    $patient['status'] = !$patient['status'];                    
+
                     Helper::make_template('patient_info', array('patient' => $patient), false);
                     exit();
 
@@ -308,7 +312,7 @@ class Controller
                     $patient->change_info($params);
                     $patient->update_patient_info();
 
-                    $patient = json_decode($patient->get_patient_data(), true);
+                    $patient = $patient->get_patient_data();
                     Helper::make_template('patient_info', array('patient' => $patient), false);
                     break;
 
@@ -398,7 +402,6 @@ class Controller
                     print(Helper::make_template("comment_form", array('task' => 'edit_data', 'patient_data_id' => $params['patient_data_id']), true));
                     break;
             }
-            exit();
         } else if ($this->method == 'POST') {
 
             if (!isset($params['patient_data_id'])) {
@@ -451,7 +454,6 @@ class Controller
                     print(Helper::make_template('stats', null, true));
                     break;
                 default:
-                    exit();
                     break;
             }
 

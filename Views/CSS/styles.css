@@ -113,7 +113,7 @@ ul, ol{
 #dashboard{
   min-height:75vh;
   padding:0.3em;
-  height:auto;
+  min-height:50vw;
   overflow-y:hidden;
 }
 #profile{

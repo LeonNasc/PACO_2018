@@ -80,7 +80,7 @@ function validate(key, value) {
   }
 }
 
-function show_data(element) {
+function show_data(element, actor,type) {
   var tgt = document.getElementById("show_area");
   var id = element.querySelector('#ptt_id').value;
 
@@ -90,6 +90,17 @@ function show_data(element) {
   data.append('id', id);
 
   load_page("Controller/controller.php", 'POST', data, tgt);
+}
+
+function show_comments(){
+  var tgt = document.getElementById("show_area");
+  var id = element.querySelector('#ptt_id').value;
+
+  data = new FormData();
+  data.append('actor_object', 'patient');
+  data.append('task', 'get_data');
+  data.append('id', id);
+
 }
 
 function patient_action_select(button, method) {
@@ -145,15 +156,6 @@ function enable_button(element, user) {
       btn.disable = true;
   }, 500)
   
-}
-
-function give_emphasis(element) {
-  element.style.border = "1px solid #28a745";
-  element.style.backgroundColor = "#fefefe"
-  setTimeout(function () {
-    element.style.backgroundColor = "#fff"
-    element.style.border = "1px solid rgba(0,0,0,.125)";
-  }, 2000);
 }
 
 function collapse_toggle(btn,target_id) {
