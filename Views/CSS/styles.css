@@ -120,6 +120,11 @@ ul, ol{
   overflow-y:hidden;
 }
 
+#comentarios{
+  max-height:33vh;
+  overflow-y:scroll;
+}
+
 /* --------------- Elementos específicos ----------------*/
 #main-content{
   min-height:100vmin;

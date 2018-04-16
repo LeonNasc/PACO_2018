@@ -188,6 +188,12 @@ router
     },
     'comments': function () {
       load_page('Controller/controller.php?task=list_com&actor_object=patient_data', 'GET');
-    }
+    },
+    'prescriptions': function () {
+      load_page('Controller/controller.php?', 'GET');
+    },
+    'results': function () {
+      load_page('Controller/controller.php?', 'GET');
+    }    
   })
   .resolve();
