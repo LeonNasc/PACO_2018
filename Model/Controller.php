@@ -273,7 +273,7 @@ class Controller
 
                 case 'edit':
                     $patient = Patient::get_from_id($params['id']);
-                    $patient = json_decode($patient->get_patient_data(), true);
+                    $patient = $patient->get_patient_data();
                     Helper::make_template('patient_form', array('task' => 'edit', 'patient' => $patient));
                     break;
 

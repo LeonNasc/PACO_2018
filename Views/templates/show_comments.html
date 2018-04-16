@@ -4,7 +4,7 @@
 <hr>
 {if="sizeof($_SESSION['on_view'])>0"}
   {loop="$_SESSION['on_view']"}
-    <div class="card">
+    <div class="comment card">
     <h3 onclick="alert(visualizar)">{$value.subject} </h3>
       por: {$value.user_name} em {$value.date}
     <hr>

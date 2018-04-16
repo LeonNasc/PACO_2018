@@ -156,18 +156,16 @@ function give_emphasis(element) {
   }, 2000);
 }
 
-function collapse_toggle(target_id) {
+function collapse_toggle(btn,target_id) {
 
 
   let target = document.querySelector("#" + target_id);
 
-  if (target.classList.contains('show')) {
+  if (!target.classList.contains('show') || target.style.display == 'none') {
+    target.style.display = 'block';
     target.classList.remove('show');
   }
-  else {
-    console.log("Foo");
-    target.classList.add('show');
-  }
+  btn.style.display = 'none';
 }
 /*------------------- Rotas -----------------------*/
 
