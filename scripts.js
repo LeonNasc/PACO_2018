@@ -96,7 +96,7 @@ function patient_action_select(button, method) {
   var tgt = document.getElementById("show_area");
   var option = button.value;
 
-  data.append('actor_object', 'patient');
+
 
   var option_list = {
     'Adicionar': 'add',
@@ -107,6 +107,7 @@ function patient_action_select(button, method) {
   }
 
   var data = handle_form(button);
+  data.append('actor_object', 'patient');
   data.append('task', option_list[option]);
   load_page("Controller/controller.php", method, data, tgt);
 
@@ -140,7 +141,10 @@ function enable_button(element, user) {
   setTimeout(function () {
     if (element.value == user)
       btn.disabled = false;
+    else
+      btn.disable = true;
   }, 500)
+  
 }
 
 function give_emphasis(element) {
@@ -176,8 +180,8 @@ var router = new Navigo(root, useHash, hash);
 //Rotas em si
 router
   .on({
-    '/': function () {
-      console.log('rotas ok');
+    '/home': function () {
+      window.location.href="/PACO_2018";
     },
     'profile': function () {
       load_page('Controller/controller.php?task=editar&actor_object=user', 'GET');

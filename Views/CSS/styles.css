@@ -63,11 +63,10 @@ ul, ol{
 }
 
 .sidebars{
-  max-width:35%;
   position:absolute;
   margin-right:65%;
   padding-right:19px;
-  float:left;
+  /* float:left; */
   overflow-y:auto;
   height:100%;
   background-color:white;

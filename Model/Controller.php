@@ -326,7 +326,7 @@ class Controller
                     $patient = Patient::get_from_id($params['id']);
                     $patient->change_status();
                     $patient->update_patient_info();
-                    $patient = json_decode($patient->get_patient_data(), true);
+                    $patient = $patient->get_patient_data();
 
                     Helper::make_template('patient_info', array('patient' => $patient), false);
                     break;

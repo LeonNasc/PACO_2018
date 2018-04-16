@@ -10,9 +10,9 @@
       <center>Exibindo pacientes de {$_SESSION['active_user_id']['user_name']}</center>
     </h3>
 
-    <div id="dashboard" class="clearfix card">
+    <div id="dashboard" class="clearfix card row">
 
-      <div id="pacientes" class="sidebars col-2">
+      <div id="pacientes" class="sidebars col-sm-12 col-xs-12 col-md-3 col-3">
           <ul>
             <input id="ptt_add" type="button" class="btn btn-outline-success" onclick="load_page('Controller/controller.php?task=add&actor_object=patient','GET')" value="Novo paciente"></input>
             {loop="$patients"}
@@ -29,7 +29,7 @@
 
       </div>
 
-      <div id="show_area" class="content col-10">
+      <div id="show_area" class="content col-9">
         {include="stats"}
       </div>
 
