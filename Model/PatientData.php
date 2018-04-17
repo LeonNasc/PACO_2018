@@ -34,7 +34,7 @@ class PatientData extends DBObj{
     return $this->set($this->get_fields());
   }
 
-  public function delete($id){
+  public function delete($id = null){
     return DBObj::delete($this->id);
   }
 
@@ -47,11 +47,15 @@ class PatientData extends DBObj{
   }
 
   public static function get_list($date){
-    return PatientData::fetch(array("date" => $date));
+    $db = new DBObj(PatientData::TABLE_NAME);
+
+    return $db->fetch(array("date" => $date));
   }
 
   public static function get_for_patient($patient){
-    return PatientData::fetch(array('patient'=>$patient));
+    $db = new DBObj(PatientData::TABLE_NAME);
+    
+    return $db->fetch(array('patient'=>$patient));;
   }
 
   public static function get_recent_data($patient,$type,$quantity = null){
@@ -61,23 +65,22 @@ class PatientData extends DBObj{
     */
     $db = new DBObj(PatientData::TABLE_NAME);
 
-    $patient_data = array();
     $patient_data['patient']= substr($patient,4);
     $patient_data['id'] = $type;
-    $recents = $db->fetch($patient_data, "AND" , true);
     
-    //Prevene que o slice seja maior que o tamanho da array
+    $columns = self::TABLE_NAME. ".*, " . User::TABLE_NAME.".user_name";
+
+    $pivot = self::TABLE_NAME.".author = ".User::TABLE_NAME .".id WHERE ". self::TABLE_NAME.".patient = '".$_SESSION['active_patient']."'";
+
+    $recents = $db->joined_fetch($columns, self::TABLE_NAME,User::TABLE_NAME,$pivot);
+    
+    //Previne que o slice seja maior que o tamanho da array
     if($quantity > count($recents))
       $quantity = count($recents);
     
     $recents = array_slice($recents,0,$quantity);
     
     return $recents;
-  }
-
-  public function to_JSON(){
-    return json_encode($this->get_fields(), JSON_PRETTY_PRINT);
-
   }
 
   private function get_fields(){
@@ -90,6 +93,10 @@ class PatientData extends DBObj{
     $content_data['date'] = $this->date;
 
     return $content_data;
+  }
+
+  public function to_JSON(){
+    return $this->JSONify($this->get_fields());
   }
 }
 ?>

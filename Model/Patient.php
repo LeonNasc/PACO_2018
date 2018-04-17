@@ -34,6 +34,14 @@ Class Patient extends DBObj{
 
   private function set_gender($sex){$this->sex = $sex;}
 
+
+  /**
+   * Altera o status de acompanhamento de um paciente
+   * 
+   * Se ativo, torna-se inativo. Se inativo, torna-se ativo.
+   * 
+   * @return null
+   */
   public function change_status(){
     $this->status = !$this->status;
     
@@ -47,6 +55,13 @@ Class Patient extends DBObj{
     }
   }
 
+  /**
+   * Setter para dados de paciente
+   * 
+   * @param $new_info: array com dados do paciente
+   * 
+   * @return null
+   */
   public function change_info($new_info){
 
     $this->set_name($new_info['name']);
@@ -55,28 +70,59 @@ Class Patient extends DBObj{
 
   }
 
+  /**
+   * Retorna um array contendo dados do paciente
+   * 
+   * @return array;
+   */
   public function get_patient_data(){
 
-    return json_encode($this->get_fields());
+    return $this->get_fields();
 
   }
-
-  public static function get_patient_list($owner){
+  /**
+   * Obtém uma lista atualizada de pacientes para um usuário
+   * 
+   * 
+   * @param $owner: lista pacientes para um User
+   * @param $json: define se o formato de retorno será em JSON
+   * 
+   * @return $array ou String(JSON) com dados do paciente
+   * 
+   */
+  public static function get_patient_list($owner, $json = false){
     $db = new DBObj(Patient::TABLE_NAME);
 
     $patient_list = $db->fetch(array('owner'=>$owner));
 
-    return json_encode($patient_list,JSON_PRETTY_PRINT);
+    if($json)
+      return json_encode($patient_list,JSON_PRETTY_PRINT);
+
+    return $patient_list;
   }
 
-  //Funções de cadastro
+  /* ------------------------- Funções de cadastro ---------------------------- */
 
+  /**
+   * Inclui paciente ativo no banco de dados
+   * 
+   * 
+   * 
+   */
   public function add_patient(){
 
     return $this->set($this->get_fields());
 
   }
-  public function edit_patient($name, $birth = null){
+
+  /**
+   * Ediata os dados do paciente em questão. 
+   * 
+   * @param $name: Novo nome do paciente
+   * @param $birth: Nova data de nascimento do paciente
+   * 
+   */
+  public function edit_patient($name = null, $birth = null){
 
     $result = isset($name)? $this->set_name($name) : false;
     $result = isset($birth)? $this->set_birth($birth):false;
@@ -84,31 +130,48 @@ Class Patient extends DBObj{
     return $this->update_patient_info();
   }
 
+  /**
+   * Atualiza dados do paciente no banco de dados
+   * 
+   * @return boolean
+   * 
+   */
   public function update_patient_info(){
     $result = $this->update($this->get_fields());
 
     return $result;
   }
 
-  // public static function get_from_id($id){
-  //   $db= new DBOBj(Patient::TABLE_NAME);
-  //
-  //   $result = $db->fetch(array('id'=>$id));
-  //
-  //   if($result && sizeof($result) > 0){
-  //     $ptt = new Patient($result[0]);
-  //     return $ptt;
-  //   }
-  //   else
-  //     return False;
-  // }
+  /**
+   * Deleta o registro de um paciente
+   * 
+   * Como isso envolve o constraint Patient_must_exist da tabela de patient_data, 
+   * delete deve remover todos os items referentes ao paciente a ser deletado na tabela
+   * referente a patient_data
+   * 
+   * @param $id : id do paciente a ser deletado
+   * 
+   * @return null
+   */
+  public function delete($id = null){
+    //Deleta todos os dados de paciente do banco.
+    $patient_data_list = PatientData::get_for_patient($id);
 
-  public function delete($id){
+    foreach($patient_data_list as $patient_data){
+      $patient_data = PatientData::get_from_id($patient_data['id']);
+      $patient_data->delete();
+    }
+
     DBObj::delete($id);
   }
-  //Funções utilitárias
+  /*---------------------------- Funções utilitárias ----------------------------------*/
 
-  private function get_fields(){
+  /**
+   * Reúne todos os campos do objeto como um array a ser utilizado
+   * 
+   * @return array $patient_data: dados do paciente 
+   */ 
+   private function get_fields(){
 
     $patient_data = array();
     $patient_data['id'] = $this->id;
@@ -117,7 +180,7 @@ Class Patient extends DBObj{
     $patient_data['sex'] = $this->sex;
     $patient_data['admission_date'] = $this->admission_date;
     $patient_data['owner'] = $this->owner;
-    $patient_data['status'] = $this->status ? 1 : 0;
+    $patient_data['status'] = $this->status ? 'true' : 'false';
 
     return $patient_data;
   }

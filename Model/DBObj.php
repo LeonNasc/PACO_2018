@@ -63,8 +63,7 @@ Class DBObj extends PDO{
   * @return array or boolean
   */
   protected function fetch($selectors, $selector_type="AND", $likeness = false){
-    //$option pode ser: LIKE -
-
+    
     //Permite selecionar por qualquer campo passado, desde que venha como array
     $query_fields = $this->get_query_fields($selectors, " ".$selector_type." ",$likeness);
 
@@ -78,11 +77,32 @@ Class DBObj extends PDO{
   }
 
   /**
+   * 
+   * Permite buscar uma conjunto de linhas do banco de dados com base em um JOIN
+   * 
+   * @param $columns colunas desejadas das tabelas
+   * @param $origina_table tabela original
+   * @param $joined_table tabela contendo o campo do pivot
+   * @param $pivot ponto onde as duas tabelas são unidas
+   * 
+   */
+  protected function joined_fetch($columns, $original_table, $joined_table, $pivot){
+
+    $query = "SELECT $columns FROM $original_table INNER JOIN $joined_table ON $pivot";
+
+    $stmt = $this->database->prepare($query);
+    $stmt->execute();
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    return $result;
+  }
+
+  /**
   * Permite que classes herdeiras buscarem nas suas tabelas por um item especifico
   *
   * @param string id
   *
-  * @return
+  * @return obj, false
   */
   public static function get_from_id($id){
     $db= new DBOBj(static::TABLE_NAME);
@@ -90,8 +110,8 @@ Class DBObj extends PDO{
     $result = $db->fetch(array('id'=>$id));
 
     if($result && sizeof($result) > 0){
-      $ptt = new static($result[0]);
-      return $ptt;
+      $obj = new static($result[0]);
+      return $obj;
     }
     else
       return False;
@@ -166,47 +186,31 @@ Class DBObj extends PDO{
 
     return $stmt;
   }
+
+  /* ------------------------ Utilitários ----------------------------------*/
+
   /**
-  * Configura uma conexão de banco de dados a partir de um JSON
+  * Verifica se existe no BD um usuário que bata com os dados passados
   *
-  * Transforma o Json em array, monta um dsn e constroi um objeto PDO
-  * que será armazenado na variável de classe $database.
+  * @param String $identifier -> identificador unico (email, id ou nome)
+  * @param String $type -> permite buscar por email, id, nome
   *
-  * @param String $dconfig_path Caminho até o json de configuração.
-  *
-  * @return void
+  * @return boolean
   */
-  //Gera as constantes de Banco de dados a partir do JSON de configuração
-  protected function configura_DB($dbconfig_path = "/../config/dbinfo.json"){
+  public static function user_exists($identifier,$type){
 
-    //Recupera dados de configuração de DB a partir de um arquivo
-    $dbconfig_data = fopen(__DIR__ .$dbconfig_path,"r");
-    $dbconfig = json_decode(stream_get_contents($dbconfig_data), true);
-    fclose($dbconfig_data);
+    $db = new DBOBj(static::TABLE_NAME);
 
-    $dsn = "pgsql:dbname=".$dbconfig['TESTDB']['dbname']. ";
-            host= ".$dbconfig['TESTDB']['host'].
-            $dbconfig['TESTDB']['config'];
-
-    $this->database = new PDO($dsn,$dbconfig['TESTDB']['user'],$dbconfig['TESTDB']['password']);
-    $this->database->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
+    //Busca no BD se existe um registro referente ao usuário
+    $result = $db->fetch(array($type=> $identifier));
+    //Se existir, retorna um array com o $registro
+    if ($result && sizeof($result) > 0)
+      return $result[0];
+    else //Se não, retorna false
+      return false;
   }
   
-  /**
-   * Retorna campos a partir da junção de duas tabelas.
-   * 
-   * 
-   * @param String $pivot statement que define onde o join será feito
-   * @param String $original_table nome da tabela onde os campos serão pegos
-   * @param String $joined_table nome da tabela onde o inner join será feito
-   * 
-   */
-  public function joined_fetch($pivot, $original_table, $joined_table){
-  
-    //TODO
-    $query = "SELECT * FROM $original_table INNER JOIN $joined_table ON $pivot";
-  
-  }
+
   /**
   * Transforma um array em string válida para queries.
   *
@@ -239,6 +243,42 @@ Class DBObj extends PDO{
     }
 
     return $update_info = implode($glue, $update_info);
+  }
+
+  /**
+   * Serializa os campos do objeto em um objeto JSON
+   * 
+   * @return String JSON
+   */
+  protected function JSONify($fields){
+    return json_encode($fields, JSON_PRETTY_PRINT);
+
+  }
+
+  /**
+  * Configura uma conexão de banco de dados a partir de um JSON
+  *
+  * Transforma o Json em array, monta um dsn e constroi um objeto PDO
+  * que será armazenado na variável de classe $database.
+  *
+  * @param String $dconfig_path Caminho até o json de configuração.
+  *
+  * @return void
+  */
+  //Gera as constantes de Banco de dados a partir do JSON de configuração
+  protected function configura_DB($dbconfig_path = "/../config/dbinfo.json"){
+
+    //Recupera dados de configuração de DB a partir de um arquivo
+    $dbconfig_data = fopen(__DIR__ .$dbconfig_path,"r");
+    $dbconfig = json_decode(stream_get_contents($dbconfig_data), true);
+    fclose($dbconfig_data);
+
+    $dsn = "pgsql:dbname=".$dbconfig['TESTDB']['dbname']. ";
+            host= ".$dbconfig['TESTDB']['host'].
+            $dbconfig['TESTDB']['config'];
+
+    $this->database = new PDO($dsn,$dbconfig['TESTDB']['user'],$dbconfig['TESTDB']['password']);
+    $this->database->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
   }
 
 }

@@ -5,39 +5,41 @@
       <form id="patient-form" class="card-body">
         <span style="color:red" id="error_text"></span>
         <input name="task" type=hidden value={$task} required/>
-        {if="isset($id)"}
-        <input name="id" type=hidden value={$id} required/>
+        <input name="actor_object" type=hidden value="patient" /> 
+        {if="isset($patient.id)"}
+        <input name="id" type=hidden value={$patient.id} required/>
         {/if}
         <div>
           <label for="nome">Nome:</label>
-          <input class="form-control" type="text" name="name"
-          {if="isset($patient.name)"}
-            value={$patient.name}
-          {/if}
+          <input class="form-control" type="text" name="name" 
+          {if="isset($patient.name)"} 
+            value={$patient.name} 
+          {/if} 
           required/>
         </div>
 
         <div>
           <label for="nascimento">Data de Nascimento:</label>
           <input class="form-control" type="date" name="birth" min="1910-01-01"
-          {if="isset($patient.name)"}
-            value={$patient.name}
+          {if="isset($patient.birth)"} 
+            value={$patient.birth}
           {else}
-            value="1952-04-01"
-          {/if}
+            value={$function="echo date('Y-m-d')" } 
+          {/if} 
           required/>
         </div>
 
         <div>
           <label for="sexo">Sexo:</label>
           <select class="custom-select" name="sex">
-            <option value="True">Masculino</option>
+            <option value="True" selected>Masculino</option>
             <option value="False">Feminino</option>
-        </select>
+          </select>
         </div>
 
         <div>
-          <input class="btn btn-outline-success registro-input" type="button" onclick="load_page('Controller/patients.php','POST',this)" value="Adicionar Paciente" />
+          <input class="btn btn-outline-success registro-input" type="button" onclick="load_page('Controller/controller.php','POST',this)"
+            value="Adicionar Paciente" />
         </div>
 
         Todos os campos são obrigatórios

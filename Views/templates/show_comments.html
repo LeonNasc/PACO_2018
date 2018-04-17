@@ -1,15 +1,27 @@
 {function="Helper::update_list('COMMENTS')"}
-<h2>
-  Comentários recentes:
-</h2>
-<hr>
-{loop="$_SESSION['on_view']"}
-<div class="card">
-<h4>{$value.subject} em {$value.date}</h4>
-  por: {$value.author}
-<hr>
-<p>
-  {$value.content}
-</p>
+<div id="comentarios" class="card">
+  <h3> Mostrando últimos comentários</h3>
+  {$name = Patient::get_from_id($_SESSION['active_patient'])->get_patient_data()['name']}
+  <h2 class="text-muted">{$name}</h2>
+
+  <hr> 
+  {if="sizeof($_SESSION['on_view'])>0"} 
+  {loop="$_SESSION['on_view']"}
+  <div class="comment card">
+    <h3 onclick="alert(visualizar)">{$value.subject} </h3>
+    por: {$value.user_name} em {$value.date}
+    <hr>
+    <p>
+      {$value.content}
+    </p>
+    <form>
+      <input type="hidden" name="patient_data_id" value="{$value.id}" />
+      <input type="hidden" name="task" value="edit_com" />
+      <input type="button" value="Editar" onclick="patient_data_handler(this,'GET')" class="btn btn-outline-success" />
+    </form>
+  </div>
+  {/loop} 
+  {else}
+  <span class="text-muted">Não há comentários para este paciente</span>
+  {/if}
 </div>
-{/loop}

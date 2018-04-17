@@ -5,6 +5,7 @@
       <form id="registro-form" class="card-body" action="Controller/users.php" method="post">
         <span style="color:red" id="error_text"></span>
         <input name="task" type=hidden value="registrar" required>
+        <input type="hidden" name="actor_object" value="user"></input>
         <div>
           <label class="registro-label" for="nome">Nome:</label>
           <input class="form-control" type="text" name="nome" required/>
@@ -22,7 +23,7 @@
         </div>
         <br>
         <div>
-          <input class="btn btn-outline-success registro-input" type="button" onclick="load_page('Controller/users.php','POST',this)" value="Registrar" />
+          <input class="btn btn-outline-success registro-input" type="button" onclick="load_page('Controller/controller.php','POST',this)" value="Registrar" />
         </div>
         <div>
           <small>Todos os campos são obrigatórios</small>

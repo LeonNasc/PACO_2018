@@ -29,6 +29,7 @@ ul, ol{
     font-size:3vmin;
     height:auto;
     margin:0;
+    border-radius:0;
 }
 .pagebottom{
   padding: 1rem;
@@ -38,18 +39,38 @@ ul, ol{
 }
 
 .icons-text{
-    font-size:0.75em;
-    line-height:1em;
+    font-size:1em;
+    line-height:1.2em;
+    margin-bottom:1em;
 }
 .ico{
-    max-width:120px;
-    max-height:120px;
+    max-width:6em;
+}
+
+.navbar{
+  box-shadow: 0 2px 4px rgba(0,0,0,0.13), 0 2px 3px rgba(0,0,0,0.27);
+}
+
+.btn{
+  border-radius:0;
 }
 
 .card{
-  margin:1% 0 1% 0;
-  padding:2em;
+  margin:0.3em 0 0.3em 0;
+  padding:1.5em;
+  border-radius:0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 0.5s cubic-bezier(.25,.8,.25,1);
 }
+
+.card:hover, .btn:hover{
+  box-shadow: 0 3px 6px rgba(0,0,0,0.25), 0 5px 5px rgba(0,0,0,0.22);
+}
+
+.card:hover > .card:hover{
+  box-shadow: 0 3px 6px rgba(0,0,0,0.25), 0 5px 5px rgba(0,0,0,0.22);
+}
+
 
 .registro-label{
   width:64px;
@@ -63,18 +84,11 @@ ul, ol{
 }
 
 .sidebars{
-  max-width:35%;
   position:absolute;
-  margin-right:65%;
-  padding-right:19px;
-  float:left;
   overflow-y:auto;
-  height:100%;
-  background-color:white;
 }
 .content{
-  margin-left:35%;
-  max-width:65%;
+  margin-left:auto;
 }
 .profile-form{
   max-width:66vw;
@@ -91,21 +105,30 @@ ul, ol{
   width:100%;
 }
 
+.pttcard:hover{
+  border: 1px solid #28a745;
+  background-color:#fefefe;
+}
+
 #dashboard{
-  min-height:75vh;
-  height:auto;
+  min-height:75vw;
+  padding:0.3em;
   overflow-y:hidden;
 }
 #profile{
   overflow-y:hidden;
 }
+
+#comentarios{
+  height:33%;
+  overflow-y:scroll;
+  margin-bottom:0;
+}
+
 /* --------------- Elementos específicos ----------------*/
 #main-content{
   min-height:100vmin;
-  margin: 5% auto;
-}
-#main-content{
-  margin:2% auto 2%;
+  margin: 12vh auto;
 }
 
 #Sobre.card{
@@ -116,7 +139,16 @@ ul, ol{
   color:#FF0000;
 }
 
+#show_area{
+  overflow-y:hidden;
+}
+
+#shower{
+  display:none;
+}
+
 #ptt_add{
+  margin-top:2%;
   width:100%;
 }
 /*------------------Hacks 4 dayz --------------*/
@@ -132,4 +164,30 @@ html {
   html {
     font-size: 16px;
   }
+}
+
+@media only screen and (max-width: 699px) {
+  .sidebars {
+      display: none;
+      position:relative;
+      max-height:33vh;
+      padding-top:2em;
+      margin-top:2em;
+      border-top: 1px solid lightgrey;
+      overflow-y:scroll;
+  }
+  .profile-form{
+    margin-left:0;
+    max-width:100%;
+  }
+  #comentarios{
+    height:33%;
+  }
+  .content{
+    padding:0;
+    height:66%;
+  }
+  #shower{
+    display:block;
+  } 
 }

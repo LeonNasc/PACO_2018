@@ -1,0 +1,14 @@
+<div class="card">
+    <div id="patient_list">
+        {loop="$patients"}
+        <li class='card pttcard' onclick="show_comments(this)">
+            <ul>
+                <input type="hidden" id="ptt_id" name='id' value="{$value.id}"></input>
+                <li> Nome : {$value.name}</li>
+                <li> Nascimento : {$value.birth}</li>
+                <li> Admissão : {$value.admission_date}</li>
+            </ul>
+        </li>
+        {/loop}
+    </div>
+</div>

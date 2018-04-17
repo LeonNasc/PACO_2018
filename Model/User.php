@@ -130,7 +130,7 @@ Class User extends DBObj{
       unset($returnable['password']);
     }
 
-    return json_encode($returnable);
+    return $returnable;
   }
 
   /**
@@ -207,26 +207,6 @@ Class User extends DBObj{
     DBObj::delete($id);
   }
 
-  /**
-  * Verifica se existe no BD um usuário que bata com os dados passados
-  *
-  * @param String $identifier -> identificador unico (email, id ou nome)
-  * @param String $type -> permite buscar por email, id, nome
-  *
-  * @return boolean
-  */
-  public static function user_exists($identifier,$type){
-
-    $db = new DBOBj(User::TABLE_NAME);
-
-    //Busca no BD se existe um registro referente ao usuário
-    $result = $db->fetch(array($type=> $identifier));
-    //Se existir, retorna um array com o $registro
-    if ($result && sizeof($result) > 0)
-      return $result[0];
-    else //Se não, retorna false
-      return false;
-  }
 
   /* ------------------- Funções de acesso ao sistema ------------------------*/
 
@@ -249,7 +229,7 @@ Class User extends DBObj{
       if (hash('sha256',$password) === $user_db["password"]){
 
         $current_user = new User($user_db);
-        $_SESSION['active_user_id'] = json_decode($current_user->get_user_data(),true);
+        $_SESSION['active_user_id'] = $current_user->get_user_data();
 
         return $current_user;
       }

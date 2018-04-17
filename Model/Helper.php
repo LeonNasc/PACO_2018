@@ -92,7 +92,13 @@ class Helper{
     }
     return implode($password);
   }
-
+  /**
+   * A partir de um tipo de PatientData passado mostra os dados do paciente
+   * 
+   * @param $type: Tipo do patient data (ex.: PatientData::COMMENTS)
+   * 
+   * @return null;
+   */
   public static function render_patient_data($type){
 
     $list = PatientData::get_recent_data($_SESSION['active_patient'],$type, Helper::default_recents);
@@ -101,6 +107,14 @@ class Helper{
 
   }
 
+  /**
+   * Atualiza a lista de sessão para o item em visualização
+   * 
+   * 
+   * @param $list_type: tipo de lista a ser atualizada
+   * 
+   * @return null;
+   */
   public static function update_list($list_type){
       
 

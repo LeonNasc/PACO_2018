@@ -33,16 +33,21 @@
   </tr>
 
   </table>
-  <form id="actions">
-    <input type='hidden' name='id' value="{$patient.id}"></input>
-    <center>
-    <input type='button' class="btn btn-outline-success" name="ignore" onclick="patient_action_select(this,'POST')" value="Acompanhar"></input>
-    <input type='button' class="btn btn-outline-success" name="ignore" onclick="patient_data_handler(this,'GET')" value="Comentar"></input>
-    <input type='button' class="btn btn-outline-success" name="ignore" onclick="patient_action_select(this,'POST')" value="Mudar Status"></input>
-    <input type='button' class="btn btn-outline-success" name="ignore" onclick="patient_action_select(this,'GET')" value="Editar"></input>
-    <input type="button" class="btn btn-outline-success" name="ignore" onclick="patient_action_select(this,'POST')" value="Remover"></input>
-    </center>
-  </form>
-  <hr>
-  {include="show_comments"}
+  <button onclick="collapse_toggle(this,'actions')"class="btn btn-outline-success">Mostrar ações de usuário </button>
+
+  <div id="actions" class="collapse row">
+    <form class="card">
+      <input type='hidden' name='id' value="{$patient.id}"></input>
+      <center>
+        <input id="new_pre" type='button' class="col-2 btn btn-outline-success" name="ignore" onclick="patient_data_handler(this,'GET')" value="Nova prescrição"></input>
+        <input id="new_res" type='button' class="col-2 btn btn-outline-success" name="ignore" onclick="patient_data_handler(this,'GET')" value="Novos exames"></input>
+        <input id="new_com" type='button' class="col-2 btn btn-outline-success" name="ignore" onclick="patient_data_handler(this,'GET')" value="Novo comentário"></input>
+        <input type='button' class="col-2 btn btn-outline-success" name="ignore" onclick="patient_action_select(this,'POST')" value="Mudar Status"></input>
+        <input type='button' class="col-2 btn btn-outline-success" name="ignore" onclick="patient_action_select(this,'GET')" value="Editar"></input>
+        <input type="button" class="col-2 btn btn-outline-success" name="ignore" onclick="patient_action_select(this,'POST')" value="Remover"></input>
+      </center>
+    </form>
+  </div>
+  <hr>  
 </div>
+{include="show_comments"}
