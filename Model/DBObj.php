@@ -196,15 +196,15 @@ Class DBObj extends PDO{
    * Retorna campos a partir da junção de duas tabelas.
    * 
    * 
-   * @param String $pivot
-   * @param String $original_table
-   * @param String $joined_table
+   * @param String $pivot statement que define onde o join será feito
+   * @param String $original_table nome da tabela onde os campos serão pegos
+   * @param String $joined_table nome da tabela onde o inner join será feito
    * 
    */
   public function joined_fetch($pivot, $original_table, $joined_table){
   
     //TODO
-  
+    $query = "SELECT * FROM $original_table INNER JOIN $joined_table ON $pivot";
   
   }
   /**
