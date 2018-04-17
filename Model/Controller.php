@@ -382,10 +382,10 @@ class Controller
 
                 //Controla a exibição dos views pertinentes
                 case 'add_pre':
-
+                    print(Helper::make_template('404'));
                     break;
                 case 'add_res':
-
+                    print(Helper::make_template('results_form',array('task' => 'add_res'), true));
                     break;
                 case 'add_com':
                     print(Helper::make_template("comment_form", array('task' => 'add_com'), true));

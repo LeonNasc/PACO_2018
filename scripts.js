@@ -131,8 +131,21 @@ function patient_data_handler(button, method) {
 
   data.append('actor_object', 'patient_data');
 
-  if (!data.get('task'))
-    data.append('task', 'add_com');
+  switch(button.id){
+    case 'new_pre':
+    data.append('task', 'add_pre');
+    break;
+    case 'new_res':
+      data.append('task', 'add_res');
+    break;
+    case 'new_com':
+      data.append('task', 'add_com');
+    break;
+    default:
+      console.log(button.id);
+    break;
+  }
+
 
   load_page("Controller/controller.php", method, data, tgt);
 }

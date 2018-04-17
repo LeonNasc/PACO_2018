@@ -111,9 +111,8 @@ ul, ol{
 }
 
 #dashboard{
-  min-height:75vh;
+  min-height:75vw;
   padding:0.3em;
-  min-height:50vw;
   overflow-y:hidden;
 }
 #profile{
@@ -121,8 +120,9 @@ ul, ol{
 }
 
 #comentarios{
-  max-height:33vh;
+  height:33%;
   overflow-y:scroll;
+  margin-bottom:0;
 }
 
 /* --------------- Elementos específicos ----------------*/
@@ -137,6 +137,10 @@ ul, ol{
 
 #error_text{
   color:#FF0000;
+}
+
+#show_area{
+  overflow-y:hidden;
 }
 
 #shower{
@@ -175,6 +179,13 @@ html {
   .profile-form{
     margin-left:0;
     max-width:100%;
+  }
+  #comentarios{
+    height:33%;
+  }
+  .content{
+    padding:0;
+    height:66%;
   }
   #shower{
     display:block;

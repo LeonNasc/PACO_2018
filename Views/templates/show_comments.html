@@ -1,5 +1,5 @@
 {function="Helper::update_list('COMMENTS')"}
-<div id="comentarios">
+<div id="comentarios" class="card">
   <h3> Mostrando últimos comentários</h3>
   {$name = Patient::get_from_id($_SESSION['active_patient'])->get_patient_data()['name']}
   <h2 class="text-muted">{$name}</h2>

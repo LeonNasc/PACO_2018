@@ -19,7 +19,7 @@ Class Patient extends DBObj{
     $this->admission_date = isset($patient_info['admission_date'])?
       $patient_info['admission_date'] : $now->format("d/m/Y");
     $this->owner = $patient_info['owner'];
-    $this->status = isset($patient_info['status'])?$patient_info['status'] : true;
+    $this->status = isset($patient_info['status'])?$patient_info['status'] : 1;
 
     $this->table_name = Patient::TABLE_NAME;
     $this->configura_DB();
@@ -180,7 +180,7 @@ Class Patient extends DBObj{
     $patient_data['sex'] = $this->sex;
     $patient_data['admission_date'] = $this->admission_date;
     $patient_data['owner'] = $this->owner;
-    $patient_data['status'] = $this->status ? true : false;
+    $patient_data['status'] = $this->status ? 'true' : 'false';
 
     return $patient_data;
   }
