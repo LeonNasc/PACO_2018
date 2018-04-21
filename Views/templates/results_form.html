@@ -3,14 +3,37 @@
         <fieldset class="card">
           <form>
           <legend>Exames laboratoriais</legend>
-            {if="isset($patient_data_id)"}
+            {if="isset($patient_data_id)"} <!-- Para editar um dado anterior-->
             <input type="hidden" name="patient_data_id" value="{$patient_data_id}"/>
-            {/if}
+            {/if}            
             <input type="hidden" name="task" value="{$task}"/>
             <input type="hidden" name="patient" value='{$_SESSION["active_patient"]}'/>
             <input type="hidden" name="author" value='{$_SESSION["active_user_id"]["id"]}'/>
-      
-            <input type="text" name="hello"/>
+            
+            {if="isset($subject)"} <!--Caso o resultado já tenha um título-->
+            <input type="text" class="form-control" name="subject" value="{$subject}"/>
+            {else}
+            <label for="subject">Motivo dos exames</label>
+            <input type="text" class="form-control" name="subject"/>
+            {/if}
+
+            <fieldset>
+              <legend>Resultados</legend>
+
+              <div id="ex1">
+                <label for="nome_ex">Nome do exame</label>
+                <input type="text" class="form-control" name="nome_ex"/>
+
+                <label for="valor_ex">Valor do resultado</label>
+                <input type="text" class="form-control" name="valor_ex"/>
+
+                <label for="faixa_ex">Dentro da faixa desejada?</label>
+                <div class="row">
+                  <span class="col-3" ><input type="radio" name="faixa_ex" value="sim"/><label>&nbsp Sim</label></span>
+                  <span class="col-3" ><input type="radio"  name="faixa_ex" value="nao"/><label>&nbsp Não</label></span>
+                </div>
+              </div>
+            </fieldset>
             {if="$task == 'add_res'"}
             <br>
             <input type="button" class="btn btn-outline-success" onclick ="patient_data_handler(this,'POST')" value="Adicionar resultado"/>
