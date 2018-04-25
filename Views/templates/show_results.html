@@ -21,8 +21,9 @@
         </tr>
         {loop="$exams"}
         <tr>
-            {$index = "" . $counter}
-            <td>{$index}</td>            
+            {loop="$value"}
+                <td>{$value}</td>
+            {/loop}
         </tr>
         {/loop}
         </table>
@@ -35,6 +36,6 @@
   </div>
   {/loop} 
   {else}
-  <span class="text-muted">Não há comentários para este paciente</span>
+  <span class="text-muted">Não há exames laboratoriais para este paciente</span>
   {/if}
 </div>
