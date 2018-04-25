@@ -153,12 +153,28 @@ function to_JSON_send(formbutton){
 
   let entry = {};
 
-  for(var i = 0; i< el.length;i++){
-    if(el[i].name == '')
+  let formData = new FormData();
+  formData.append('task',el.task.value);
+  formData.append('patient',el.patient.value);
+  formData.append('author',el.author.value);
+  formData.append('subject',el.subject.value);
+
+  //Os quatro primeiros elementos são metadados
+  for(var i = 4; i< el.length;i++){
+    if(el[i].name == '' || el[i].value == '') //Exclui as entradas sem nome ou vazias
       continue;
+
+    if(el[i].type ="radio"){ //Exclui o faixa ex se tiver vazio
+      if (el[i-1].value == '' || el[i-2].value=='')
+        continue;
+    }
+
     entry[el[i].name] = el[i].value;
   }
-  console.log(entry);
+  formData.append('content', JSON.stringify(entry));
+  formData.append('actor_object', 'patient_data');
+
+  load_page("Controller/controller.php",'POST',formData,document.getElementById("show_area"));
 }
 
 function patient_action_select(button, method) {
