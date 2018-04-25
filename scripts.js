@@ -151,8 +151,14 @@ function make_new_form(type){
 function to_JSON_send(formbutton){
   let el = document.getElementById('form');
 
-  console.log(handle_form(formbutton));
+  let entry = {};
 
+  for(var i = 0; i< el.length;i++){
+    if(el[i].name == '')
+      continue;
+    entry[el[i].name] = el[i].value;
+  }
+  console.log(entry);
 }
 
 function patient_action_select(button, method) {
