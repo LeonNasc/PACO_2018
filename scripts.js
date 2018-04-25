@@ -168,8 +168,12 @@ function to_JSON_send(formbutton){
       if (el[i-1].value == '' || el[i-2].value=='')
         continue;
     }
+    let prop = el[i].name.substr(-3);
+    
+    var subitem = subitem ? subitem : {};
+    subitem[el[i].name] = el[i].value;
 
-    entry[el[i].name] = el[i].value;
+    entry[prop] = subitem ;
   }
   formData.append('content', JSON.stringify(entry));
   formData.append('actor_object', 'patient_data');
@@ -276,10 +280,10 @@ router
     'comments': function () {
       load_page('Controller/controller.php?task=list_com&actor_object=patient_data', 'GET');
     },
-    'prescriptions': function () {
-      load_page('Controller/controller.php?', 'GET');
-    },
     'results': function () {
+      load_page('Controller/controller.php?task=list_res&actor_object=patient_data', 'GET');
+    },
+    'prescriptions': function () {
       load_page('Controller/controller.php?', 'GET');
     }    
   })

@@ -433,7 +433,9 @@ class Controller
 
                 case 'add_res':
                     $result = new PatientData($ptt_data, PatientData::LAB_RESULT);
+                    
                     var_dump($result);
+                    //$result->add();
                     break;
 
                 case 'add_com':
