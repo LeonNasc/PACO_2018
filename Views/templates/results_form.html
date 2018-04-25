@@ -1,24 +1,61 @@
 <div id="results_form">
 
-        <fieldset class="card">
-          <form>
-          <legend>Exames laboratoriais</legend>
-            {if="isset($patient_data_id)"}
-            <input type="hidden" name="patient_data_id" value="{$patient_data_id}"/>
-            {/if}
-            <input type="hidden" name="task" value="{$task}"/>
-            <input type="hidden" name="patient" value='{$_SESSION["active_patient"]}'/>
-            <input type="hidden" name="author" value='{$_SESSION["active_user_id"]["id"]}'/>
-      
-            <input type="text" name="hello"/>
-            {if="$task == 'add_res'"}
-            <br>
-            <input type="button" class="btn btn-outline-success" onclick ="patient_data_handler(this,'POST')" value="Adicionar resultado"/>
-            {else}
-            <input type="button" class="btn btn-outline-success" onclick ="patient_data_handler(this,'POST')" value="Editar resultado"/>
-            {/if}
-            </center>
-          </form>
-        </fieldset>
-      </div>
-      
+  <fieldset class="card">
+    <form id="form">
+      <legend>Exames laboratoriais</legend>
+      {if="isset($patient_data_id)"}
+      <!-- Para editar um dado anterior-->
+      <input type="hidden" name="patient_data_id" value="{$patient_data_id}" /> 
+      {/if}
+      <input type="hidden" name="task" value="{$task}" />
+      <input type="hidden" name="patient" value='{$_SESSION["active_patient"]}' />
+      <input type="hidden" name="author" value='{$_SESSION["active_user_id"]["id"]}' /> 
+      {if="isset($subject)"}
+      <!--Caso o resultado já tenha um título-->
+      <input type="text" class="form-control" name="subject" value="{$subject}" /> 
+      {else}
+      <label for="subject">Motivo dos exames</label>
+      <input type="text" class="form-control" name="subject" /> 
+      <hr>
+      {/if}
+
+      <fieldset>
+        <legend>Resultados</legend>
+
+        <div id="ex1" class="row">
+          <div class="col-sm-12 col-lg-4">
+            <label for="nome_ex1">Nome do exame</label>
+            <input type="text" class="form-control" name="nome_ex1" />
+          </div>
+
+          <div class="col-sm-12 col-lg-4">
+            <label for="valor_ex1">Valor do resultado</label>
+            <input type="text" class="form-control" name="valor_ex1" />
+          </div>
+
+          <div class="col-sm-12 col-lg-4">
+            <label for="faixa_ex1">Dentro da faixa desejada?</label>
+            <div>
+              <span class="col-3">
+                <input type="radio" name="faixa_ex1" value="sim" />
+                <label>&nbsp Sim</label>
+              </span>
+              <span class="col-3">
+                <input type="radio" name="faixa_ex1" value="nao" />
+                <label>&nbsp Não</label>
+              </span>
+            </div>
+          </div>
+
+        </div>
+        
+      </fieldset>
+      <hr>
+      <button type="button" class="btn btn-outline-success" onclick="make_new_form('exames')">Adicionar mais exames</button>      
+      <hr>
+      <input type="button" class="btn btn-outline-success" onclick="to_JSON_send(this)" value="Salvar resultados"/> 
+      </center>
+    </form>
+    
+  </fieldset>
+</div>

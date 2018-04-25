@@ -103,6 +103,84 @@ function show_comments(){
 
 }
 
+function make_new_form(type){
+
+  if (type=='exames'){
+    let counter = 1;
+    while(document.getElementById("ex"+counter)){
+      counter++;
+    }
+    
+    let exam_id = "ex"+ counter;
+    let content =  
+    `<hr>
+    <div id="${exam_id}" class="row">
+      <div class="col-sm-12 col-lg-4">
+        <label for="nome_${exam_id}">Nome do exame</label>
+        <input type="text" class="form-control" name="nome_${exam_id}" />
+      </div>
+      <div class="col-sm-12 col-lg-4">
+        <label for="valor_${exam_id}">Valor do resultado</label>
+        <input type="text" class="form-control" name="valor_${exam_id}" />
+      </div>
+      <div class="col-sm-12 col-lg-4">
+        <label for="faixa_${exam_id}">Dentro da faixa desejada?</label>
+        <div>
+          <span class="col-3">
+            <input type="radio" name="faixa_${exam_id}" value="sim" />
+            <label>&nbsp Sim</label>
+          </span>
+          <span class="col-3">
+            <input type="radio" name="faixa_${exam_id}" value="nao" />
+            <label>&nbsp Não</label>
+          </span>
+        </div>
+      </div>
+    </div>`;
+
+    let el = document.createElement('span');
+    el.innerHTML = content;
+
+    document.getElementById("ex1").parentElement.append(el);
+  }
+
+  return false;
+
+}
+
+function to_JSON_send(formbutton){
+  let el = document.getElementById('form');
+
+  let entry = {};
+
+  let formData = new FormData();
+  formData.append('task',el.task.value);
+  formData.append('patient',el.patient.value);
+  formData.append('author',el.author.value);
+  formData.append('subject',el.subject.value);
+
+  //Os quatro primeiros elementos são metadados
+  for(var i = 4; i< el.length;i++){
+    if(el[i].name == '' || el[i].value == '') //Exclui as entradas sem nome ou vazias
+      continue;
+
+    if(el[i].type ="radio"){ //Exclui o faixa ex se tiver vazio
+      if (el[i-1].value == '' || el[i-2].value=='')
+        continue;
+    }
+    let prop = el[i].name.substr(-3);
+    
+    var subitem = subitem ? subitem : {};
+    subitem[el[i].name] = el[i].value;
+
+    entry[prop] = subitem ;
+  }
+  formData.append('content', JSON.stringify(entry));
+  formData.append('actor_object', 'patient_data');
+
+  load_page("Controller/controller.php",'POST',formData,document.getElementById("show_area"));
+}
+
 function patient_action_select(button, method) {
   var tgt = document.getElementById("show_area");
   var option = button.value;
@@ -202,10 +280,10 @@ router
     'comments': function () {
       load_page('Controller/controller.php?task=list_com&actor_object=patient_data', 'GET');
     },
-    'prescriptions': function () {
-      load_page('Controller/controller.php?', 'GET');
-    },
     'results': function () {
+      load_page('Controller/controller.php?task=list_res&actor_object=patient_data', 'GET');
+    },
+    'prescriptions': function () {
       load_page('Controller/controller.php?', 'GET');
     }    
   })

@@ -46,8 +46,9 @@ class Controller
         return self::$instance;
     }
 
-    public function show_404(){
-      Helper::make_template('404');
+    public function show_404()
+    {
+        Helper::make_template('404');
     }
 
     /**
@@ -299,7 +300,7 @@ class Controller
 
                     //Bug bizonho da primeira exibição
                     $patient['sex'] = !$patient['sex'];
-                    $patient['status'] = !$patient['status'];                    
+                    $patient['status'] = !$patient['status'];
 
                     Helper::make_template('patient_info', array('patient' => $patient), false);
                     exit();
@@ -385,11 +386,21 @@ class Controller
                     print(Helper::make_template('404'));
                     break;
                 case 'add_res':
-                    print(Helper::make_template('results_form',array('task' => 'add_res'), true));
+                    if (isset($params['subject'])) {
+                        $params['task'] = 'add_res';
+                        print(Helper::make_template('results_form', $params, true));
+                    } else {
+                        print(Helper::make_template('results_form', array('task' => 'add_res'), true));
+                    }
+
                     break;
                 case 'add_com':
-                    print(Helper::make_template("comment_form", array('task' => 'add_com'), true));
-
+                    if (isset($params['subject'])) {
+                        $params['task'] = 'add_com';
+                        print(Helper::make_template('comment_form', $params, true));
+                    }
+                    else
+                        print(Helper::make_template("comment_form", array('task' => 'add_com'), true));
                     break;
 
                 case 'edit_pre':
@@ -422,6 +433,8 @@ class Controller
 
                 case 'add_res':
                     $result = new PatientData($ptt_data, PatientData::LAB_RESULT);
+                    
+                    $result->add();
                     break;
 
                 case 'add_com':
@@ -451,12 +464,12 @@ class Controller
 
                     $patient_data->edit($content);
                     $patient_data->update_patient_data();
-                    
+
                     break;
                 default:
                     break;
             }
-            print(Helper::make_template('patient_info', array('patient'=>Patient::get_from_id($_SESSION['active_patient'])->get_patient_data()), true));
+            print(Helper::make_template('patient_info', array('patient' => Patient::get_from_id($_SESSION['active_patient'])->get_patient_data()), true));
         } else {
             throw new Exception("Método de acesso inválido");
         }
