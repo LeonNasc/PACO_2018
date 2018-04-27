@@ -25,7 +25,13 @@
   
       <label for="content"></label>
       <center>
+        
+      {if="isset($data.content)"}  
       <textarea name="content" value="" class="ptd-content form-control">{$data.content}</textarea>
+      {else}
+      <textarea name="content" value="" class="ptd-content form-control"></textarea>
+      {/if}
+      
       {if="$task == 'add_com'"}
       <br>
       <input type="button" class="btn btn-outline-success" onclick ="patient_data_handler(this,'POST')" value="Adicionar Comentário"/>

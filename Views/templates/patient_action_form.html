@@ -1,10 +1,11 @@
 <hr>
+{$patient =  $_SESSION['active_patient']}
 <button onclick="collapse_toggle(this,'actions')" style="width:100%" class="btn btn-outline-success">Mostrar ações de usuário </button>
 <script src="/PACO_2018/scripts.js"></script>
 
   <div id="actions" class="collapse row">
     <form class="card col-12">
-      <input type='hidden' name='id' value="{$patient.id}"></input>
+      <input type='hidden' name='id' value="{$patient}"></input>
       <center>
         <input id="new_pre" type='button' class="col-xl-3 col-lg-4 col-sm-12 btn btn-outline-success" name="ignore" onclick="patient_data_handler(this,'GET')" value="Nova prescrição"></input>
         <input id="new_res" type='button' class="col-xl-3 col-lg-4 col-sm-12 btn btn-outline-success" name="ignore" onclick="patient_data_handler(this,'GET')" value="Novos exames"></input>
