@@ -116,7 +116,10 @@ class Helper{
    * @return null;
    */
   public static function update_list($list_type){
-      
+    
+    if(!isset($_SESSION['active_patient'])){
+        return;
+    }
 
     switch($list_type){
       case 'patient':

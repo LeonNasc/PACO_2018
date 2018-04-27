@@ -407,7 +407,7 @@ class Controller
 
                     break;
                 case 'edit_res':
-
+                print(Helper::make_template("results_form", array('task' => 'edit_data', 'patient_data_id' => $params['patient_data_id']), true));
                     break;
                 case 'edit_com':
                     print(Helper::make_template("comment_form", array('task' => 'edit_data', 'patient_data_id' => $params['patient_data_id']), true));
@@ -428,18 +428,19 @@ class Controller
             switch ($params['task']) {
 
                 case 'add_pre':
+                    $source = 'show_prescriptions';
                     $prescription = new PatientData($ptt_data, PatientData::PRESCRIPTION);
                     break;
 
                 case 'add_res':
-                    $result = new PatientData($ptt_data, PatientData::LAB_RESULT);
-                    
+                    $source = 'show_results';
+                    $result = new PatientData($ptt_data, PatientData::LAB_RESULT);                    
                     $result->add();
                     break;
 
                 case 'add_com':
+                    $source = 'show_comments'; 
                     $comment = new PatientData($ptt_data, PatientData::COMMENT);
-
                     $comment->add();
                     break;
 
@@ -469,7 +470,7 @@ class Controller
                 default:
                     break;
             }
-            print(Helper::make_template('patient_info', array('patient' => Patient::get_from_id($_SESSION['active_patient'])->get_patient_data()), true));
+            print(Helper::make_template($source, array('patient' => Patient::get_from_id($_SESSION['active_patient'])->get_patient_data()), true));
         } else {
             throw new Exception("Método de acesso inválido");
         }

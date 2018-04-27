@@ -7,6 +7,7 @@
     <form>
     <legend>Comentário</legend>
       {if="isset($patient_data_id)"}
+      {$data = JSON_decode(PatientData::get_from_id($patient_data_id)->to_JSON(), true)}
       <input type="hidden" name="patient_data_id" value="{$patient_data_id}"/>
       {/if}
       <input type="hidden" name="task" value="{$task}"/>
@@ -24,7 +25,7 @@
   
       <label for="content"></label>
       <center>
-      <textarea name="content" value="" class="ptd-content form-control"></textarea>
+      <textarea name="content" value="" class="ptd-content form-control">{$data.content}</textarea>
       {if="$task == 'add_com'"}
       <br>
       <input type="button" class="btn btn-outline-success" onclick ="patient_data_handler(this,'POST')" value="Adicionar Comentário"/>
