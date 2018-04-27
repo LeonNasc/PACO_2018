@@ -164,18 +164,22 @@ function to_JSON_send(formbutton){
     if(el[i].name == '' || el[i].value == '') //Exclui as entradas sem nome ou vazias
       continue;
 
-    if(el[i].type ="radio"){ //Exclui o faixa ex se tiver vazio
-      if (el[i-1].value == '' || el[i-2].value=='')
+    if(el[i].type ="radio" && (el[i-1].value == '' || el[i-2].value=='')){ //Exclui o faixa ex se tiver vazio
+      // if {
+        
+      // }
         continue;
     }
     let prop = el[i].name.slice(-3);
     
     var subitem = subitem ? subitem : {};
     subitem[el[i].name.slice(0,-4)] = el[i].value;
+    console.log(subitem);
     if(subitem.nome && subitem.valor && subitem.faixa){
       entry[prop] = subitem ;
       subitem = {};
     }
+    
   }
   console.log(entry);
   formData.append('content', JSON.stringify(entry));

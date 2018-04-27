@@ -4,15 +4,16 @@
     <form id="form">
       <legend>Exames laboratoriais</legend>
       {if="isset($patient_data_id)"}
+      {$data = JSON_decode(PatientData::get_from_id($patient_data_id)->to_JSON(), true)}
       <!-- Para editar um dado anterior-->
       <input type="hidden" name="patient_data_id" value="{$patient_data_id}" /> 
       {/if}
       <input type="hidden" name="task" value="{$task}" />
       <input type="hidden" name="patient" value='{$_SESSION["active_patient"]}' />
       <input type="hidden" name="author" value='{$_SESSION["active_user_id"]["id"]}' /> 
-      {if="isset($subject)"}
+      {if="isset($data)"}
       <!--Caso o resultado já tenha um título-->
-      <input type="text" class="form-control" name="subject" value="{$subject}" /> 
+      <input type="text" class="form-control" name="subject" value="{$data.subject}" /> 
       {else}
       <label for="subject">Motivo dos exames</label>
       <input type="text" class="form-control" name="subject" /> 
@@ -25,19 +26,19 @@
         <div id="ex1" class="row">
           <div class="col-sm-12 col-lg-4">
             <label for="nome_ex1">Nome do exame</label>
-            <input type="text" class="form-control" name="nome_ex1" />
+            <input type="text" class="form-control" name="nome_ex1"/>
           </div>
 
           <div class="col-sm-12 col-lg-4">
             <label for="valor_ex1">Valor do resultado</label>
-            <input type="text" class="form-control" name="valor_ex1" />
+            <input type="text" class="form-control" name="valor_ex1"/>
           </div>
 
           <div class="col-sm-12 col-lg-4">
-            <label for="faixa_ex1">Dentro da faixa desejada?</label>
+            <label for="faixa_ex1">Dentro da faixa de referência?</label>
             <div>
               <span class="col-3">
-                <input type="radio" name="faixa_ex1" value="sim" />
+                <input type="radio" name="faixa_ex1" value="sim" checked/>
                 <label>&nbsp Sim</label>
               </span>
               <span class="col-3">
