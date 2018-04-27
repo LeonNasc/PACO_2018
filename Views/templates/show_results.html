@@ -21,9 +21,9 @@
         </tr>
         {loop="$exams"}
         <tr>
-            {loop="$value"}
-                <td>{$value}</td>
-            {/loop}
+            <td>{$value.nome}</td>
+            <td>{$value.valor}</td>
+            <td>{$value.faixa}</td>
         </tr>
         {/loop}
         </table>
