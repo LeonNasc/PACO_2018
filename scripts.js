@@ -84,23 +84,12 @@ function show_data(element, actor,type) {
   var tgt = document.getElementById("show_area");
   var id = element.querySelector('#ptt_id').value;
 
-  data = new FormData();
+  let data = new FormData();
   data.append('actor_object', 'patient');
   data.append('task', 'get_data');
   data.append('id', id);
 
   load_page("Controller/controller.php", 'POST', data, tgt);
-}
-
-function show_comments(){
-  var tgt = document.getElementById("show_area");
-  var id = element.querySelector('#ptt_id').value;
-
-  data = new FormData();
-  data.append('actor_object', 'patient');
-  data.append('task', 'get_data');
-  data.append('id', id);
-
 }
 
 function make_new_form(type){
@@ -164,7 +153,7 @@ function to_JSON_send(formbutton){
     if(el[i].name == '' || el[i].value == '') //Exclui as entradas sem nome ou vazias
       continue;
 
-    if(el[i].type ="radio" && (el[i-1].value == '' || el[i-2].value=='')){ //Exclui o faixa ex se tiver vazio
+    if(el[i].type =="radio" && (el[i-1].value == '' || el[i-2].value=='')){ //Exclui o faixa ex se tiver vazio
       // if {
         
       // }
@@ -173,8 +162,9 @@ function to_JSON_send(formbutton){
     let prop = el[i].name.slice(-3);
     
     var subitem = subitem ? subitem : {};
-    subitem[el[i].name.slice(0,-4)] = el[i].value;
-    console.log(subitem);
+    if(!(el[i].type=="radio") || el[i].checked){
+      subitem[el[i].name.slice(0,-4)] = el[i].value;
+    }
     if(subitem.nome && subitem.valor && subitem.faixa){
       entry[prop] = subitem ;
       subitem = {};
