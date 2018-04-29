@@ -204,6 +204,16 @@ Class User extends DBObj{
   * @return boolean
   */
   public function delete($id){
+    
+    $patients = Patient::get_patient_list($id);
+    
+    foreach($patients as $patient){
+      
+      $patient = $patient->get_from_id($patient['id']);
+      $patient->delete();
+      
+    }
+    
     DBObj::delete($id);
   }
 
