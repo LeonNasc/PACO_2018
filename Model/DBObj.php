@@ -88,7 +88,7 @@ Class DBObj extends PDO{
    */
   protected function joined_fetch($columns, $original_table, $joined_table, $pivot){
 
-    $query = "SELECT $columns FROM $original_table INNER JOIN $joined_table ON $pivot";
+    $query = "SELECT $columns FROM $original_table INNER JOIN $joined_table ON $pivot ORDER BY date DESC";
 
     $stmt = $this->database->prepare($query);
     $stmt->execute();
