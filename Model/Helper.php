@@ -38,7 +38,7 @@ class Helper{
      *
      * @param string $template_name: Nome do template a ser passado
      * @param array $params : Parametros que serão renderizados no template
-     * @param boolean $ajax : Define se será retornado somente o HTML como texto
+     * @param boolean $ajax : Define se o conteúdo será retornado em uma requisição AJAX
      *
      * @return string
      */
@@ -82,62 +82,80 @@ class Helper{
      */
     public static function random_password(){
 
-    $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
-    $password = array();
-    $alpha_length = strlen($alphabet) - 1;
-    for ($i = 0; $i < 8; $i++)
-    {
-        $n = rand(0, $alpha_length);
-        $password[] = $alphabet[$n];
+      $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+      $password = array();
+      $alpha_length = strlen($alphabet) - 1;
+        
+      for ($i = 0; $i < 8; $i++)
+      {
+          $n = rand(0, $alpha_length);
+          $password[] = $alphabet[$n];
+      }
+      return implode($password);
     }
-    return implode($password);
-  }
-  /**
-   * A partir de um tipo de PatientData passado mostra os dados do paciente
-   * 
-   * @param $type: Tipo do patient data (ex.: PatientData::COMMENTS)
-   * 
-   * @return null;
-   */
-  public static function render_patient_data($type){
-
-    $list = PatientData::get_recent_data($_SESSION['active_patient'],$type, Helper::default_recents);
-    $list = //Set list as session variable
-    print(Helper::make_template('show_'.$type, $list, true));
-
-  }
-
-  /**
-   * Atualiza a lista de sessão para o item em visualização
-   * 
-   * 
-   * @param $list_type: tipo de lista a ser atualizada
-   * 
-   * @return null;
-   */
-  public static function update_list($list_type){
+  
+      /**
+       * A partir de um tipo de PatientData passado mostra os dados do paciente
+       * 
+       * @param $type: Tipo do patient data (ex.: PatientData::COMMENTS)
+       * 
+       * @return null;
+       */
+      public static function render_patient_data($type){
     
-    if(!isset($_SESSION['active_patient'])){
-        return;
+        $data = PatientData::get_recent_data($_SESSION['active_patient'],$type, Helper::default_recents);
+        $data = //Set list as session variable
+        print(Helper::make_template('show_'.$type, $data, true));
+    
+      }
+    
+      /**
+       * Atualiza a lista de sessão para o item em visualização
+       * 
+       * 
+       * @param $list_type: tipo de lista a ser atualizada
+       * 
+       * @return null;
+       */
+      public static function update_list($list_type){
+        
+        if(!isset($_SESSION['active_patient'])){
+            return;
+        }
+    
+        switch($list_type){
+          case 'patient':
+          $_SESSION['patient_list'] = json_decode(Patient::get_patient_list($_SESSION['active_user_id']['id']),true);
+          break;
+          case 'COMMENTS':
+          $list = PatientData::get_recent_data($_SESSION['active_patient'],PatientData::COMMENT);
+          $_SESSION['on_view'] = $list;
+          break;
+          case 'RESULTS':
+          $list = PatientData::get_recent_data($_SESSION['active_patient'],PatientData::LAB_RESULT);
+          $_SESSION['on_view'] = $list;
+          break;
+          case 'PRESCRIPTIONS':
+          $list = PatientData::get_recent_data($_SESSION['active_patient'],PatientData::PRESCRIPTION);
+          $_SESSION['on_view'] = $list;
+          break;
+        }
+      }
+       
+       /**
+       * Lê o arquivo de configuração e retorna um array com os parâmetros
+       * 
+       * @param $path: Caminho do arquivo de configuração
+       * 
+       * @return null;
+       */
+      public static function read_config($path){
+        //Recupera dados de configuração de DB a partir do arquivo de configuração
+        $dbconfig_data = fopen(__DIR__ .$path,"r");
+        $dbconfig = json_decode(stream_get_contents($dbconfig_data), true);
+        fclose($dbconfig_data);
+        
+        return $dbconfig;
+      }
     }
-
-    switch($list_type){
-      case 'patient':
-      $_SESSION['patient_list'] = json_decode(Patient::get_patient_list($_SESSION['active_user_id']['id']),true);
-      break;
-      case 'COMMENTS':
-      $list = PatientData::get_recent_data($_SESSION['active_patient'],PatientData::COMMENT);
-      $_SESSION['on_view'] = $list;
-      break;
-      case 'RESULTS':
-      $list = PatientData::get_recent_data($_SESSION['active_patient'],PatientData::LAB_RESULT);
-      $_SESSION['on_view'] = $list;
-      break;
-      case 'PRESCRIPTIONS':
-      $list = PatientData::get_recent_data($_SESSION['active_patient'],PatientData::PRESCRIPTION);
-      $_SESSION['on_view'] = $list;
-      break;
-    }
-  }
-}
 ?>

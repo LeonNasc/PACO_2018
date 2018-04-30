@@ -1,6 +1,19 @@
 <?php
 Class Patient extends DBObj{
-
+  
+  /**
+   * 
+   * Atributos da classe paciente que representam os mesmos dados no BD
+   * 
+   * @var string $id : Uniqid com prefixo ptt_
+   * @var string $name: Nome do paciente
+   * @var string $birth: Data de nascimento do paciente
+   * @var boolean $sex: Sexo do paciente (M ou F)
+   * @var date $admission_date: Data da última admissão do paciente
+   * @var string $owner: id do usuário responsável pelo paciente
+   * @var boolean $status: Se o paciente está em acompanhamento ou de alta
+   * 
+   */ 
   private $id, $name, $birth, $sex, $admission_date, $owner, $status;
 
   const TABLE_NAME = "patients_db";
@@ -27,18 +40,34 @@ Class Patient extends DBObj{
     return $this;
   }
 
-  //Getters e setters
-  private function set_name($name){$this->name = $name;}
+  /* ------------------------ Getters e setters --------------------------------*/
+  
+  /**
+   * Seta o nome do paciente
+   * 
+   * @var String $name: Nome do paciente
+   */
+  private function set_name($name){$this->name = $name;} 
+ 
+  /**
+   * Seta a data de nascimento do paciente
+   * 
+   * @var String $birth: Data de nascimento do paciente
+   */
+  private function set_birth($date){$this->birth = $date;} //Setter de 
 
-  private function set_birth($date){$this->birth = $date;}
-
+  /**
+   * Seta o sexo do paciente
+   * 
+   * @var String $sex: Boolean (False = feminino, true = masculino)
+   */
   private function set_gender($sex){$this->sex = $sex;}
 
 
   /**
    * Altera o status de acompanhamento de um paciente
    * 
-   * Se ativo, torna-se inativo. Se inativo, torna-se ativo.
+   * Se ativo, torna-se inativo e vice-versa
    * 
    * @return null
    */
@@ -95,9 +124,10 @@ Class Patient extends DBObj{
 
     $patient_list = $db->fetch(array('owner'=>$owner));
 
-    if($json)
+    if($json){
       return json_encode($patient_list,JSON_PRETTY_PRINT);
-
+    }
+    
     return $patient_list;
   }
 
@@ -105,8 +135,6 @@ Class Patient extends DBObj{
 
   /**
    * Inclui paciente ativo no banco de dados
-   * 
-   * 
    * 
    */
   public function add_patient(){
@@ -116,7 +144,7 @@ Class Patient extends DBObj{
   }
 
   /**
-   * Ediata os dados do paciente em questão. 
+   * Edita os dados do paciente. 
    * 
    * @param $name: Novo nome do paciente
    * @param $birth: Nova data de nascimento do paciente
@@ -155,7 +183,7 @@ Class Patient extends DBObj{
    */
   public function delete($id = null){
     //Deleta todos os dados de paciente do banco.
-    $patient_data_list = PatientData::get_for_patient($id);
+    $patient_data_list = PatientData::get_for_patient($this->id);
 
     foreach($patient_data_list as $patient_data){
       $patient_data = PatientData::get_from_id($patient_data['id']);

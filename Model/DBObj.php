@@ -242,7 +242,7 @@ Class DBObj extends PDO{
       }
     }
 
-    return $updated_info = implode($glue, $update_info);
+    return $updated_info = implode($glue, $updated_info);
   }
 
   /**
@@ -266,13 +266,10 @@ Class DBObj extends PDO{
   * @return void
   */
   //Gera as constantes de Banco de dados a partir do JSON de configuração
-  protected function configura_DB($dbconfig_path = "/../config/dbinfo.json"){
+  protected function configura_DB(){
 
-    //Recupera dados de configuração de DB a partir do arquivo de configuração
-    $dbconfig_data = fopen(__DIR__ .$dbconfig_path,"r");
-    $dbconfig = json_decode(stream_get_contents($dbconfig_data), true);
-    fclose($dbconfig_data);
-
+    $dbconfig = Helper::read_config(CONFIG_PATH);
+    
     $dsn = "pgsql:dbname=".$dbconfig['TESTDB']['dbname']. ";
             host= ".$dbconfig['TESTDB']['host'].
             $dbconfig['TESTDB']['config'];

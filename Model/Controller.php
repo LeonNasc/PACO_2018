@@ -24,21 +24,18 @@ class Controller
      */
     private $method;
 
-    private function __construct()
-    {
+    private function __construct(){
 
     }
 
-    public function set_method($method)
-    {$this->method = $method;}
+    public function set_method($method) {$this->method = $method;}
 
     /**
      * Verifica se existe uma instância de Controller ativa e a cria, caso não exista
      *
      * @return Controller
      */
-    public static function get_instance()
-    {
+    public static function get_instance() {
         if (!self::$instance) {
             self::$instance = new self();
         }
@@ -46,9 +43,14 @@ class Controller
         return self::$instance;
     }
 
-    public function show_404()
-    {
+    /**
+     * Mostra a página de erro quando solicitado
+     *
+     * @return Controller
+     */
+    public function show_404(){
         Helper::make_template('404');
+        return false;
     }
 
     /**
@@ -58,8 +60,7 @@ class Controller
      *
      *
      */
-    public function control_user_actions($params)
-    {
+    public function control_user_actions($params) {
 
         //Separa a tarefa em curso das demais ações
         $task = $params['task'];
@@ -89,7 +90,8 @@ class Controller
                     Helper::make_template('staging', null, false);
                     break;
             }
-        } else { //($method == 'POST')
+        } 
+        else { //($method == 'POST')
 
             switch ($task) {
 
@@ -260,8 +262,7 @@ class Controller
      *
      *
      */
-    public function control_patient_actions($params)
-    {
+    public function control_patient_actions($params){
 
         $task = $params['task'];
 

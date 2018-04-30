@@ -1,5 +1,10 @@
 <?php
 
+/*-------------------------- Constantes ---------------------------------*/
+define('CONFIG_PATH', "/../config/dbinfo.json");
+define('AUTOLOAD_PATH', "/../vendor/autoload.php");
+
+
 date_default_timezone_set("America/Sao_Paulo");
 
 /* -------------------- Configuração de Erros ---------------------------*/
@@ -8,7 +13,7 @@ ini_set("display_errors", "on");
 ini_set("log_errors", 1);
 /* -------------------- Configuração de autoloads -----------------------*/
 //Autoloader do composer
-require_once(__DIR__."/../vendor/autoload.php");
+require_once(__DIR__.AUTOLOAD_PATH);
 
 function meu_autoload($class_name) {
    include __DIR__."/../Model/" . $class_name . '.php';

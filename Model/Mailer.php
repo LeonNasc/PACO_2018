@@ -36,8 +36,11 @@ class Mailer {
       $this->mailer->SMTPSecure = 'tls';
       $this->mailer->SMTPAuth = true;
       $this->mailer->CharSet = 'UTF-8';
-      $this->mailer->Username = "noreplypaco.bot@gmail.com"; //Retirar depois
-      $this->mailer->Password = "f9ry4oo2"; //Retirar depois
+      
+      //Configura o bot de email
+      $email_data = Helper::read_config(CONFIG_PATH);
+      $this->mailer->Username = $email_data['TESTDB']['Mailer']['login'];
+      $this->mailer->Password = $email_data['TESTDB']['Mailer']['password'];
       $this->mailer->setFrom($this->mailer->Username, 'Leon @ PACO');
   }
 

@@ -135,7 +135,7 @@ ul, ol{
 }
 
 #show_area{
-  overflow-y:hidden;
+  overflow-y:scroll;
 }
 
 #shower{
