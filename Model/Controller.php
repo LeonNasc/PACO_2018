@@ -174,7 +174,7 @@ class Controller
                     try {
                         $user = User::get_from_id(array('id' => $_SESSION['active_user_id']['id']));
                         $user->update_user_info($new_info);
-                        $_SESSION['active_user_id'] = json_decode($user->get_user_data(), true);
+                        $_SESSION['active_user_id'] = $user->get_user_data();
                     } catch (Exception $e) {
                         Helper::make_template('error_page', array('message' => $e->getMessage()));
                     }
@@ -201,7 +201,7 @@ class Controller
                         //Gera uma nova senha temporaria
                         $temp['password'] = Helper::random_password();
                         $user->update_user_info($temp);
-                        $user = json_decode($user->get_user_data(), true);
+                        $user = $user->get_user_data();
                         $user['temp_pass'] = $temp['password'];
 
                         //Montando o e-mail
@@ -341,6 +341,7 @@ class Controller
 
                     $patient = Patient::get_from_id($params['id']);
                     $patient->delete($params['id']);
+                    unset($_SESSION['active_patient']);
                     Helper::make_template('staging');
                     break;
 
