@@ -102,7 +102,7 @@ Class DBObj extends PDO{
   *
   * @param string id
   *
-  * @return obj, false
+  * @return obj, boolean
   */
   public static function get_from_id($id){
     $db= new DBOBj(static::TABLE_NAME);
@@ -197,12 +197,12 @@ Class DBObj extends PDO{
   *
   * @return boolean
   */
-  public static function user_exists($identifier,$type){
+  public static function collide($id,$type){
 
     $db = new DBOBj(static::TABLE_NAME);
 
     //Busca no BD se existe um registro referente ao usuário
-    $result = $db->fetch(array($type=> $identifier));
+    $result = $db->fetch(array($type=> $id));
     //Se existir, retorna um array com o $registro
     if ($result && sizeof($result) > 0)
       return $result[0];
@@ -232,17 +232,17 @@ Class DBObj extends PDO{
   */
   private function get_query_fields($data, $glue, $likeness = false){
 
-    $update_info = array(); //Array vazia que vai ser base para string de update
+    $updated_info = array(); //Array vazia que vai ser base para string de update
 
     foreach ($data as $column => $value) {
-      if (!$likeness)
-        $update_info[] = "{$column} = :{$column}";
+      if ($likeness)
+        $updated_info[] = "{$column} LIKE '%'||:{$column}||'%'";
       else {
-        $update_info[] = "{$column} LIKE '%'||:{$column}||'%'";
+        $updated_info[] = "{$column} = :{$column}";
       }
     }
 
-    return $update_info = implode($glue, $update_info);
+    return $updated_info = implode($glue, $update_info);
   }
 
   /**
@@ -268,7 +268,7 @@ Class DBObj extends PDO{
   //Gera as constantes de Banco de dados a partir do JSON de configuração
   protected function configura_DB($dbconfig_path = "/../config/dbinfo.json"){
 
-    //Recupera dados de configuração de DB a partir de um arquivo
+    //Recupera dados de configuração de DB a partir do arquivo de configuração
     $dbconfig_data = fopen(__DIR__ .$dbconfig_path,"r");
     $dbconfig = json_decode(stream_get_contents($dbconfig_data), true);
     fclose($dbconfig_data);

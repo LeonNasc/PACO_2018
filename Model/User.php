@@ -52,25 +52,6 @@ Class User extends DBObj{
     return $this;
   }
 
-  /**
-  * Construtor alternativo, gera um User a partir de um id
-  *
-  * @param string $id
-  *
-  * @return User, boolean
-  */
-  public static function get_from_id($id){
-    //$id deve ser array
-    $db= new DBOBj(User::TABLE_NAME);
-
-    $result = $db->fetch($id);
-
-    if($result && sizeof($result) > 0)
-      return new User($result[0]);
-    else
-      return False;
-  }
-
   /* --------------------- Getters e Setters -----------------------------*/
 
   /**
@@ -159,7 +140,7 @@ Class User extends DBObj{
   */
   public function add_user(){
     //Se não existir um cadastro desse usuário
-    if((User::user_exists($this->login,'login') || User::user_exists($this->email,'login')))
+    if((User::collide($this->login,'login') || User::collide($this->email,'login')))
       throw new Exception("Usuario já existe");
     else
       return $insert = $this->set($this->get_fields());
@@ -185,7 +166,7 @@ Class User extends DBObj{
     $result = isset($new_info['email'])? $this->set_email($new_info['email']) : false;
 
     if(isset($new_info['login']) || isset($new_info['email'])){
-      if(User::user_exists($new_info['login'],'login') || User::user_exists($new_info['email'],'email')){
+      if(User::collide($new_info['login'],'login') || User::collide($new_info['email'],'email')){
         throw new Exception("Já em uso");
         }
       }
@@ -232,7 +213,7 @@ Class User extends DBObj{
 
     $login = strtolower($login);
 
-    $user_db = User::user_exists($login,'login');
+    $user_db = User::collide($login,'login');
 
     if ($user_db){
 
