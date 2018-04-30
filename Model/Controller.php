@@ -431,6 +431,7 @@ class Controller
                 case 'add_pre':
                     $source = 'show_prescriptions';
                     $prescription = new PatientData($ptt_data, PatientData::PRESCRIPTION);
+                    $prescription->add();
                     break;
 
                 case 'add_res':

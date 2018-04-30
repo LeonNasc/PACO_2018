@@ -272,7 +272,7 @@ function to_JSON_send(formbutton, type) {
 
   formData.append('content', JSON.stringify(entry));
   formData.append('actor_object', 'patient_data');
-  //  load_page("Controller/controller.php", 'POST', formData, document.getElementById("show_area"));
+  load_page("Controller/controller.php", 'POST', formData, document.getElementById("show_area"));
 }
 
 function patient_action_select(button, method) {
