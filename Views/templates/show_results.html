@@ -3,7 +3,7 @@
   {include="patient_action_form"}
   {function="Helper::update_list('RESULTS')"}
   <div id="comentarios" class="card">
-    <h3> Mostrando últimos comentários</h3>
+    <h3> Mostrando últimos resultados</h3>
     {$name = Patient::get_from_id($_SESSION['active_patient'])->get_patient_data()['name']}
     <h2 class="text-muted">{$name}</h2>
 

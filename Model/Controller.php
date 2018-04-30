@@ -383,7 +383,8 @@ class Controller
 
                 //Controla a exibição dos views pertinentes
                 case 'add_pre':
-                    print(Helper::make_template('404'));
+                    $params['task'] = 'add_pre';
+                    print(Helper::make_template('prescriptions_form', $params, true));
                     break;
                 case 'add_res':
                     if (isset($params['subject'])) {

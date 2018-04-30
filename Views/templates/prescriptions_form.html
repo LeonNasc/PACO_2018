@@ -1,0 +1,96 @@
+<div id="prescriptions_form">
+
+    <fieldset class="card">
+      <form id="form">
+        <legend>Prescrições médicas</legend>
+        {if="isset($patient_data_id)"}
+        {$data = JSON_decode(PatientData::get_from_id($patient_data_id)->to_JSON(), true)}
+        <!-- Para editar um dado anterior-->
+        <input type="hidden" name="patient_data_id" value="{$patient_data_id}" /> 
+        {/if}
+        <input type="hidden" name="task" value="{$task}" />
+        <input type="hidden" name="patient" value='{$_SESSION["active_patient"]}' />
+        <input type="hidden" name="author" value='{$_SESSION["active_user_id"]["id"]}' /> 
+        {if="isset($data)"}
+        <!--Caso o resultado já tenha um título-->
+        <input type="text" class="form-control" name="subject" value="{$data.subject}" /> 
+        {else}
+        <label for="subject">Finalidade da prescrição</label>
+        <input type="text" class="form-control" name="subject" /> 
+        <hr>
+        {/if}
+  
+        <fieldset>
+          <legend>Medicamentos</legend>
+  
+          <div id="med1" class="row">
+            <div class="col-sm-12 col-lg-4">
+              <label for="nome_med1">Medicamento</label>
+              <input type="text" class="form-control" name="nome_med1"/>
+            </div>
+  
+            <div class="col-sm-12 col-lg-2">
+              <label for="dose_med1">Dose</label>
+              <input type="text" class="form-control" name="dose_med1"/>
+            </div>
+            
+            <div class="col-sm-12 col-lg-2">
+                <label for="freq_med1">Via</label>
+                <div>
+                  <select name=via_med1 class="custom-select">
+                      <option value="oral" selected>Oral</option>
+                      <option value="SL">Sublingual</option>
+                      <option value="sonda">Sonda</option>
+                      <option value="IV">Intravenosa</option>
+                      <option value="IM">Intramuscular</option>
+                      <option value="SC">Subcutânea</option>
+                      <option value="tópica">Tópica</option>
+                      <option value="IT">Intratecal</option>
+                      <option value="retal">Retal</option>
+                  </select>
+                </div>
+              </div>
+    
+            
+            <div class="col-sm-12 col-lg-4">
+              <label for="freq_med1">Frequência</label>
+              <div>
+                <select name=freq_med1 class="custom-select">
+                    <optgroup label="1x/dia">
+                        <option value="1x/dia - manhã">Manhã</option>
+                        <option value="1x/dia - tarde">Tarde</option>
+                        <option value="1x/dia - noite">Noite</option>
+                    </optgroup>
+                    <optgroup label="2x/dia">
+                        <option value="2x/dia - manhã e noite">Manhã e noite</option>
+                        <option value="2x/dia - manhã e almoço">Manhã e almoço</option>
+                        <option value="2x/dia - manhã e tarde">Manhã e tarde</option>
+                        <option value="2x/dia - tarde e noite">Tarde e noite</option>
+                    </optgroup>
+                    <optgroup label="3x/dia">
+                    <option value="Nas refeições">Nas refeições</option>
+                    <option value="3x/dia - manhã, tarde e noite">Manhã, tarde e noite</option>
+                    </optgroup>
+                    <optgroup label="Outros horários">
+                        <option value="6/6h">4x/dia</option>
+                        <option value="4/4h">6x/dia</option>
+                        <option value="SOS">SOS</option>
+                        <option value="Dias alternados">Dias alternados</option>
+                        <option value="Semanal">Semanalmente</option>
+                    </optgroup>
+                </select>
+              </div>
+            </div>
+  
+          </div>
+          
+        </fieldset>
+        <hr>
+        <button type="button" class="btn btn-outline-success" onclick="make_new_form('prescricao')">Adicionar novo medicamento</button>
+        <hr>
+        <input type="button" class="btn btn-outline-success" onclick="to_JSON_send(this)" value="Salvar prescrição"/> 
+        </center>
+      </form>
+      
+    </fieldset>
+  </div>
