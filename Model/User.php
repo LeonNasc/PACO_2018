@@ -193,11 +193,10 @@ Class User extends DBObj{
       $patient = $patient->get_from_id($patient['id']);
       $patient->delete();
       
-    }
-    
+    }    
     DBObj::delete($id);
+    $this->logout();
   }
-
 
   /* ------------------- Funções de acesso ao sistema ------------------------*/
 

@@ -225,27 +225,32 @@ class Controller
                  * Devolve ao usuário à página inicial, deslogado.
                  */
                 case 'delete':
-                    $user = User::get_from_id(array('id' => $_SESSION['active_user_id']['id']));
-                    $user->delete($_SESSION['active_user_id']['id']);
-                    User::logout();
-                    Helper::make_template('staging', null, false);
+
+                    UserController::delete_user($_SESSION['active_user_id']['id']);
+                    
                     break;
 
-                /*
-                 * Caso 5: Uma função de front-end verifica se é não existe um usuário igual
-                 * no banco de dados
-                 *
-                 * Devolve ao usuário à página inicial, deslogado.
-                 */
+                /* A função validate(scripts.js) verifica se existe um nome
+                *  de usuario ou email em uso no banco de dados.
+                *  Ela usa um JSON na resposta XHR, então aqui convertemos o array em json
+                */
                 case 'collide':
-                    if (isset($params['login']) && User::user_exists($params['login'], 'login')) {
-                        print(json_encode(array('exists' => true)));
-                    } else if (isset($params['email']) && User::user_exists($params['email'], 'email')) {
-                        print(json_encode(array('exists' => true)));
-                    } else {
-                        print(json_encode(array('exists' => false)));
+
+                    if(isset($params['login'])){
+                        $user_info = $params['login'];
+                    }
+                    else if(isset($params['email'])){
+                        $user_info = $params['email'];
+                    }
+                    else{
+                        echo "Nenhum parametro de usuário passado para colisão";
+                        exit();
                     }
 
+                    $printable_JSON = json_encode(array('exists' => UserController::collide_user($user_info)));
+                    
+                    print($printable_JSON);
+                    
                     break;
 
                 default:

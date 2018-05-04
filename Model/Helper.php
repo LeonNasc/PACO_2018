@@ -80,7 +80,7 @@ class Helper{
      *
      * @return string
      */
-    public static function random_password(){
+    public static function make_random_password(){
 
       $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
       $password = array();
