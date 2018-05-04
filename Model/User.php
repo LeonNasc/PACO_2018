@@ -38,19 +38,46 @@ Class User extends DBObj{
 
     $now = new DateTime();
 
-    $this->id = isset($user_info['id'])? $user_info['id'] : uniqid('us_');
-    $this->email = isset($user_info['email'])? strtolower($user_info['email']) : null;
-    $this->user_name = isset($user_info['user_name'])? $user_info['user_name'] : 'Sem Nome';
+    $this->id = isset($user_info['id'])? 
+    $user_info['id'] : uniqid('us_');
+    
+    $this->email = isset($user_info['email'])? 
+    strtolower($user_info['email']) : null;
+    
+    $this->user_name = isset($user_info['user_name'])?
+    $user_info['user_name'] : 'Sem Nome';
+    
     $this->login = $user_info['login'];
-    $this->password = strlen($user_info['password'])>= 64 ? $user_info['password'] : hash('sha256',$user_info['password']);
+    
+    $this->password = User::is_hashed_password($user_info['password'])? 
+    $user_info['password'] : hash_password($user_info['password']) ;
+    
     $this->registration_date = isset($user_info['registration_date'])?
     $user_info['registration_date']:$now->format("d/m/Y");
+    
     $this->table_name = User::TABLE_NAME;
 
     $this->configura_DB();
 
     return $this;
   }
+  
+   /**
+    * Instancia um usuário a partir dos parametros da form de registro
+    * 
+    */
+    public static function make_new_from_form($form_fields){
+      
+      $user_data = array();
+      $user_data['user_name'] = $form_fields['nome'];
+      $user_data['email'] = $form_fields['email'];
+      $user_data['login'] = $form_fields['login'];
+      $user_data['password'] = $form_fields['senha'];
+
+      $user = new User($user_data);
+        
+      return $user;
+    }
 
   /* --------------------- Getters e Setters -----------------------------*/
 
@@ -155,9 +182,6 @@ Class User extends DBObj{
   /**
   * Tenta atualizar os dados da instância atual no banco de dados
   *
-  * @param array $new_info
-  *  -- $new_info pode ter 3 opções: login, password e email
-  *
   * @return boolean
   */
   public function update_user_info($new_info){
@@ -210,9 +234,9 @@ Class User extends DBObj{
       if (hash('sha256',$password) === $user_db["password"]){
 
         $current_user = new User($user_db);
-        $_SESSION['active_user_id'] = $current_user->get_user_data();
-
-        return $current_user;
+        User::set_active_user($current_user);
+        
+        return true;
       }
       else {
         throw new Exception("Combinação Login/Senha inválida");
@@ -241,6 +265,20 @@ Class User extends DBObj{
      
      $_SESSION['active_user_id'] = $user->get_user_data();
      
+   }
+   
+   /**
+    * Retorna true se a senha ocupar 256 bits (Assim como um string codificado em SHA256)
+    */
+   private static function is_hashed_password($password){
+     return (strlen($password) == 64);
+   }
+   
+   /**
+    * Codifica a senha do usuario em SHA256
+    */
+   private static function hash_password($password){
+     return hash('sha256',$password);
    }
 }
 ?>

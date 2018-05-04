@@ -1,72 +1,64 @@
 <?php
 
+//Controla as ações de usuário: Registro, Login, Edição, Remoção e Recuperação
 class UserController {
 
-    private $active_user, $login_status;
+        /**
+         * A partir dos dados passados, cria um objeto usuário novo e o insere no banco
+         * de dados.
+         *
+         * Devolve ao usuário um template apresentando o usuário ao sistema após
+         * realizar seu login.
+         *
+         * Em caso de erro, apresenta uma página de erro genérica.
+         */
+        public static function register_user($user_info){
+    
+            $user = User::make_new_from_form($user_info);
+            $user_data = $user->get_user_data();
+            
+            try {
+                $mailer = Mailer::get_instance();
+    
+                $mailto = array('email' => $user_data['email'], 'name' => $user_data['user_name']);
+                $content = Helper::make_template("new_user", $user_data, true);
+                $mailer->write("PACO - Bem vindo!", $mailto, $content);
 
-    // //Controla as ações de usuário: Registro, Login, Edição, Remoção e Recuperação
+                echo $content;
+                if ($mailer->send()) {
+                    $user->add_user();
+                    User::login($params['login'], $params['senha']);
+                }
+    
+            } catch (Exception $e) {
+                Helper::make_template("error_page", array("message" => $e->getMessage()), true);
+                exit();
+            }
+        }
 
-    //             /*
-    //              * Caso 1: Novo usuário se registra.
-    //              *
-    //              * A partir da form passada, cria um objeto usuário novo e o insere no banco
-    //              * de dados.
-    //              *
-    //              * Devolve ao usuário um template apresentando o usuário ao sistema após
-    //              * realizar seu login.
-    //              *
-    //              * Em caso de erro, apresenta uma página de erro genérica.
-    //              */
-    //             case 'registrar':
+        /**
+         * A partir do login e senha passados, verifica-se se existe um usuário
+         * cadastrado e se a combinação login/senha é valida.
+         *
+         * Devolve ao usuário um template que o direciona para o dashboard, se OK.
+         *
+         * Em caso de erro, apresenta uma página de erro relatando o erro encontrado.
+         */
+        public static function log_user($login, $senha){
+            try {
+                $login_status = User::login($login, $senha);
+                
+            } catch (Exception $e) {
+                Helper::make_template("error_page", array("message" => $e->getMessage()), false);
+                return false;
+            }
+            
+            if($login_status){
+                Helper::make_template("staging", null, false);
+            }
+        }
 
-    //                 $user_data = array();
-    //                 $user_data['user_name'] = $params['nome'];
-    //                 $user_data['email'] = $params['email'];
-    //                 $user_data['login'] = $params['login'];
-    //                 $user_data['password'] = $params['senha'];
-
-    //                 $user = new User($user_data);
-
-    //                 try {
-    //                     $mailer = Mailer::get_instance();
-
-    //                     $mailto = array('email' => $user_data['email'], 'name' => $user_data['user_name']);
-    //                     $content = Helper::make_template("new_user", $user_data, true);
-
-    //                     echo $content;
-    //                     $mailer->write("PACO - Bem vindo!", $mailto, $content);
-    //                     if ($mailer->send()) {
-    //                         $user->add_user();
-    //                         User::login($params['login'], $params['senha']);
-    //                     }
-
-    //                 } catch (Exception $e) {
-    //                     Helper::make_template("error_page", array("message" => $e->getMessage()), true);
-    //                     exit();
-    //                 }
-    //                 break;
-
-    //             /*
-    //              * Caso 2: Um usuário tenta fazer login.
-    //              *
-    //              * A partir do login e senha passados, verifica-se se existe um usuário
-    //              * cadastrado e se a combinação login/senha é valida.
-    //              *
-    //              * Devolve ao usuário um template que o direciona para o dashboard, se OK.
-    //              *
-    //              * Em caso de erro, apresenta uma página de erro relatando o erro encontrado.
-    //              */
-    //             case 'login':
-    //                 try {
-    //                     User::login($params['login'], $params['senha']);
-    //                 } catch (Exception $e) {
-    //                     Helper::make_template("error_page", array("message" => $e->getMessage()), false);
-    //                     exit();
-    //                 }
-    //                 Helper::make_template("staging", null, false);
-    //                 break;
-
-        /*
+        /**
          * Edita informações de usuário
          *
          * O usuário pode desejar mudar seu login, senha ou e-mail a partir da form
@@ -76,7 +68,7 @@ class UserController {
          */
         public static function edit_user($user_id, array $user_info){
 
-            $user = User::get_from_id(array('id' => $user_id));
+            $user = User::get_from_id($user_id);
             
             foreach($user_info as $type => $value){
                 
@@ -158,6 +150,6 @@ class UserController {
 
             return $collided;
         }
-}
+    }
 
 ?>
