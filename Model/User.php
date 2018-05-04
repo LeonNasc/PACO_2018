@@ -119,7 +119,7 @@ Class User extends DBObj{
   * @return boolean
   */
   public function set_password($new_password){
-    $this->password = hash('sha256',$new_password);
+    $this->password = User::hash_password($new_password);
     return true;
   }
 
@@ -138,6 +138,7 @@ Class User extends DBObj{
       throw new Exception("Chamada inválida");
 
     $returnable = $this->get_fields();
+    
     //Chamada externa: Remove campos sensíveis (senha e email)
     if (!$inner_call){
       //unset($returnable['email']);

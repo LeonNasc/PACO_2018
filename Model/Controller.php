@@ -29,7 +29,9 @@ class Controller
     }
 
     public function set_method($method) {$this->method = $method;}
-
+    
+    public function get_method() {return $this->method;}
+    
     /**
      * Verifica se existe uma instância de Controller ativa e a cria, caso não exista
      *
@@ -52,112 +54,116 @@ class Controller
         Helper::make_template('404');
         return false;
     }
+    
+    /**
+     *
+     * Monta os formulários para as ações de usuário: Registro, Login, Edição, Remoção e Recuperação
+     * 
+     */
+    public function render_user_forms($params){
+        $task = $params['task'];
+        
+        switch ($task) {
+
+            //Exibe o template com o form para registro de usuário
+            case 'registro':
+                Helper::make_template('registro', null, false);
+                break;
+
+            //Exibe o template com o form para edição de usuário
+            case 'editar':
+                Helper::make_template('profile', null, false);
+                break;
+
+            //Exibe o template com o form para recuperação de senha de usuário
+            case 'recuperar':
+                Helper::make_template('email_reset_prompt', null, false);
+                break;
+
+            //Desloga o usuário logado
+            case 'logout':
+                User::logout();
+                Helper::make_template('staging', null, false);
+                break;
+        }
+    }
+
 
     /**
      *
-     *
-     * Documentar ações de usuário
-     *
-     *
+     * Controla as ações de usuário: Registro, Login, Edição, Remoção e Recuperação
+     * 
      */
     public function control_user_actions($params) {
 
         //Separa a tarefa em curso das demais ações
         $task = $params['task'];
 
-        if ($this->method == 'GET') {
-
-            switch ($task) {
-
-                //Exibe o template com o form para registro de usuário
-                case 'registro':
-                    Helper::make_template('registro', null, false);
-                    break;
-
-                //Exibe o template com o form para edição de usuário
-                case 'editar':
-                    Helper::make_template('profile', null, false);
-                    break;
-
-                //Exibe o template com o form para recuperação de senha de usuário
-                case 'recuperar':
-                    Helper::make_template('email_reset_prompt', null, false);
-                    break;
-
-                //Desloga o usuário logado
-                case 'logout':
-                    User::logout();
-                    Helper::make_template('staging', null, false);
-                    break;
-            }
-        } 
-        else { //($method == 'POST')
-            //Controla as ações de usuário: Registro, Login, Edição, Remoção e Recuperação
-            switch ($task) {
+        switch ($task) {
+            
+            //Caso 1: Novo usuário se registra.
+            case 'registrar':
                 
-                //Caso 1: Novo usuário se registra.
-                case 'registrar':
-                    
-                    UserController::register_user($params);
-                    
-                    break;
-
-                //Caso 2: Um usuário tenta fazer login.
-                case 'login':
-                    
-                    UserController::log_user($params['login'], $params['senha']);
+                UserController::register_user($params);
                 
-                    break;
+                break;
 
-                //Caso 3: Um usuário deseja editar suas informações
-                case 'edit':
-                    
-                    UserController::edit_user($_SESSION['active_user_id']['id'], $params);
-                    
-                    break;
+            //Caso 2: Um usuário tenta fazer login.
+            case 'login':
+                
+                UserController::log_user($params['login'], $params['senha']);
+            
+                break;
 
-                //Caso 4: Um usuário esqueceu sua senha e deseja acesso ao sistema
-                case 'recuperar':
+            //Caso 3: Um usuário deseja editar suas informações
+            case 'edit':
+                
+                UserController::edit_user($_SESSION['active_user_id']['id'], $params);
+                
+                break;
 
-                    UserController::restore_user($params['email']);
+            //Caso 4: Um usuário esqueceu sua senha e deseja acesso ao sistema
+            case 'recuperar':
 
-                    break;
+                UserController::restore_user($params['email']);
 
-                // Caso 5: Um usuário deseja cancelar seu acesso ao sistema
-                case 'delete':
+                break;
 
-                    UserController::delete_user($_SESSION['active_user_id']['id']);
-                    
-                    break;
+            // Caso 5: Um usuário deseja cancelar seu acesso ao sistema
+            case 'delete':
 
-                /* A função validate(scripts.js) verifica se existe um nome
-                *  de usuario ou email em uso no banco de dados.
-                *  Ela usa um JSON na resposta XHR, então aqui temos de converter o array em json
-                */
-                case 'collide':
+                UserController::delete_user($_SESSION['active_user_id']['id']);
+                
+                break;
 
-                    if(isset($params['login'])){
-                        $user_info = $params['login'];
-                    }
-                    else if(isset($params['email'])){
-                        $user_info = $params['email'];
-                    }
-                    else{
-                        echo "Nenhum parametro de usuário passado para colisão";
-                        exit();
-                    }
+            /* A função validate(scripts.js) verifica se existe um nome
+            *  de usuario ou email em uso no banco de dados.
+            *  Ela usa um JSON na resposta XHR, então aqui temos de converter o array em json
+            */
+            case 'collide':
 
-                    $printable_JSON = json_encode(array('exists' => UserController::collide_user($user_info)));
-                    
-                    print($printable_JSON);
-                    
-                    break;
-
-                default:
+                if(isset($params['login'])){
+                    $user_info = $params['login'];
+                }
+                else if(isset($params['email'])){
+                    $user_info = $params['email'];
+                }
+                else{
+                    echo "Nenhum parametro de usuário passado para colisão";
                     exit();
-                    break;
-            }
+                }
+
+                $printable_JSON = json_encode(array('exists' => UserController::collide_user($user_info)));
+                
+                print($printable_JSON);
+                
+                break;
+
+            default:
+                exit();
+                break;
         }
+    
     }
 
     /**
