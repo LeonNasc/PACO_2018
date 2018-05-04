@@ -119,10 +119,11 @@ class UserController {
 
                 $mail->write($subject, array('email' => $user['email'], 'name' => $user['user_name']), $content);
                 $mail->send();
-                
+
                 Helper::make_template('email_sent', array('email' => $user['email']), false);
             }
         }
+        
         /**
         * A partir do id de usuário, deleta e remove o usuário do BD
         *
