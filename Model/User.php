@@ -61,9 +61,12 @@ Class User extends DBObj{
   *
   * @return boolean
   */
-  private function set_login($login){
-    $this->login = strtolower($login);
-    return true;
+  public function set_login($login){
+    if(!User::collide($login,'login')){
+      $this->login = strtolower($login);
+      return true;  
+    }
+    return false;
   }
 
   /**
@@ -73,9 +76,12 @@ Class User extends DBObj{
   *
   * @return boolean
   */
-  private function set_email($email){
-    $this->email = strtolower($email);
-    return true;
+  public function set_email($email){
+    if(!User::collide($email,'email')){
+      $this->email = strtolower($email);
+      return true;
+    }
+    return false;
   }
 
   /**
@@ -85,7 +91,7 @@ Class User extends DBObj{
   *
   * @return boolean
   */
-  private function set_password($new_password){
+  public function set_password($new_password){
     $this->password = hash('sha256',$new_password);
     return true;
   }
@@ -155,22 +161,7 @@ Class User extends DBObj{
   * @return boolean
   */
   public function update_user_info($new_info){
-
-    if(!isset($new_info)){
-      throw new Exception("Nenhum alteração foi passada");
-      return;
-    }
-
-    $result = isset($new_info['login'])? $this->set_login($new_info['login']): false;
-    $result = isset($new_info['password'])? $this->set_password($new_info['password']) : false;
-    $result = isset($new_info['email'])? $this->set_email($new_info['email']) : false;
-
-    if(isset($new_info['login']) || isset($new_info['email'])){
-      if(User::collide($new_info['login'],'login') || User::collide($new_info['email'],'email')){
-        throw new Exception("Já em uso");
-        }
-      }
-    else
+    
       $result = $this->update($this->get_fields());
 
     return $result;
@@ -242,6 +233,14 @@ Class User extends DBObj{
   public static function logout(){
     session_destroy();
   }
-
+  
+   /**
+   * Coloca o usuário atual como usuário ativo
+   */
+   public static function set_active_user(User $user){
+     
+     $_SESSION['active_user_id'] = $user->get_user_data();
+     
+   }
 }
 ?>

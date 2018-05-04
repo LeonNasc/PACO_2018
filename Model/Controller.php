@@ -168,19 +168,9 @@ class Controller
                  * Em caso de erro, apresenta uma página de erro relatando o erro encontrado.
                  */
                 case 'edit':
-
-                    $new_info['login'] = isset($params['login']) ? $params['login'] : null;
-                    $new_info['password'] = isset($params['senha']) ? $params['senha'] : null;
-                    $new_info['email'] = isset($params['email']) ? $params['email'] : null;
-
-                    try {
-                        $user = User::get_from_id(array('id' => $_SESSION['active_user_id']['id']));
-                        $user->update_user_info($new_info);
-                        $_SESSION['active_user_id'] = $user->get_user_data();
-                    } catch (Exception $e) {
-                        Helper::make_template('error_page', array('message' => $e->getMessage()));
-                    }
-                    Helper::make_template('profile', null, false);
+                    
+                    UserController::edit_user($_SESSION['active_user_id']['id'], $params);
+                    
                     break;
 
                 /*

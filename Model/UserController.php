@@ -66,31 +66,42 @@ class UserController {
     //                 Helper::make_template("staging", null, false);
     //                 break;
 
-    //             /*
-    //              * Caso 3: Um usuário deseja editar suas informações
-    //              *
-    //              * O usuário pode desejar mudar seu login, senha ou e-mail a partir da form
-    //              * associada.
-    //              *
-    //              * Devolve ao usuário um template com sua página de perfil, se OK.
-    //              *
-    //              * Em caso de erro, apresenta uma página de erro relatando o erro encontrado.
-    //              */
-    //             case 'edit':
+        /*
+         * Edita informações de usuário
+         *
+         * O usuário pode desejar mudar seu login, senha ou e-mail a partir da form
+         * associada.
+         *
+         * Devolve ao usuário um template com sua página de perfil, se OK.
+         */
+        public static function edit_user($user_id, array $user_info){
 
-    //                 $new_info['login'] = isset($params['login']) ? $params['login'] : null;
-    //                 $new_info['password'] = isset($params['senha']) ? $params['senha'] : null;
-    //                 $new_info['email'] = isset($params['email']) ? $params['email'] : null;
-
-    //                 try {
-    //                     $user = User::get_from_id(array('id' => $_SESSION['active_user_id']['id']));
-    //                     $user->update_user_info($new_info);
-    //                     $_SESSION['active_user_id'] = $user->get_user_data();
-    //                 } catch (Exception $e) {
-    //                     Helper::make_template('error_page', array('message' => $e->getMessage()));
-    //                 }
-    //                 Helper::make_template('profile', null, false);
-    //                 break;
+            $user = User::get_from_id(array('id' => $user_id));
+            
+            foreach($user_info as $type => $value){
+                
+                switch($type){
+                        case 'login':
+                            $user->set_login($value);
+                            break;
+                        case 'email':
+                            $user->set_email($value);
+                            break;
+                        case 'senha':
+                            $user->set_password($value);
+                            break;
+                        default:
+                            //Faz nada
+                            break;
+                    }
+            }
+            
+            
+            $user->update_user_info($user_info);
+            User::set_active_user($user);
+            Helper::make_template('profile', null, false);
+            
+        }
 
         /**
         * A partir do e-mail passado, caso exista um usuário cadastrado, envia um
@@ -101,23 +112,21 @@ class UserController {
         *
         * Em caso de erro, apresenta uma página de erro relatando o erro encontrado.
         */
-        public static function restore_user($user_mail){
+        public static function restore_user(string $user_mail){
 
             $user = User::get_from_id(array('email' => strtolower($user_mail)));
 
             if ($user) {
                 //Gera uma nova senha temporaria
-                $temp['password'] = Helper::make_random_password();
-                $user->update_user_info($temp);
-                $user = $user->get_user_data();
-                $user['temp_pass'] = $temp['password'];
+                $user->update_user_info(array('password'=>Helper::make_random_password()));
+                $user_data = $user->get_user_data();
 
                 //Montando o e-mail
                 $mail = Mailer::get_instance();
                 $subject = 'PACO - Recuperação de senha';
-                $content = Helper::make_template('acc_reset', $user, true);
+                $content = Helper::make_template('acc_reset', $user_data, true);
 
-                $mail->write($subject, array('email' => $user['email'], 'name' => $user['user_name']), $content);
+                $mail->write($subject, array('email' => $user_data['email'], 'name' => $user_data['user_name']), $content);
                 $mail->send();
 
                 Helper::make_template('email_sent', array('email' => $user['email']), false);
@@ -143,13 +152,12 @@ class UserController {
         *
         * @return boolean $collided;
         */
-        public static function collide_user($user_info){
+        public static function collide_user(array $user_info){
 
             $collided = User::collide($user_info, 'login') || User::collide($user_info, 'email'); 
 
             return $collided;
         }
-
 }
 
 ?>
