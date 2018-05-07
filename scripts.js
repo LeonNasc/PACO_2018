@@ -80,13 +80,13 @@ function validate(key, value) {
   }
 }
 
-function show_data(element, actor, type) {
+function set_active_patient_and_display(element, actor, type) {
   var tgt = document.getElementById("show_area");
   var id = element.querySelector('#ptt_id').value;
 
   let data = new FormData();
   data.append('actor_object', 'patient');
-  data.append('task', 'get_data');
+  data.append('task', 'set_active');
   data.append('id', id);
 
   load_page("Controller/controller.php", 'POST', data, tgt);

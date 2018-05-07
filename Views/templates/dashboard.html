@@ -22,7 +22,7 @@
           <input id="ptt_add" type="button" class="btn btn-outline-success" onclick="load_page('Controller/controller.php?task=add&actor_object=patient','GET')"
             value="Novo paciente"></input>
           {loop="$patients"}
-          <li class='card pttcard' onclick="show_data(this)">
+          <li class='card pttcard' onclick="set_active_patient_and_display(this)">
             <ul>
               <input type="hidden" id="ptt_id" name='id' value="{$value.id}"></input>
               <li> Nome : {$value.name}</li>

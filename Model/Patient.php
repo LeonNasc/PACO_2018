@@ -25,14 +25,22 @@ Class Patient extends DBObj{
 
     $now = new DateTime();
 
-    $this->id = isset($patient_info['id']) ? $patient_info['id'] : uniqid('ptt_');
+    $this->id = isset($patient_info['id'])?
+      $patient_info['id'] : uniqid('ptt_');
+    
     $this->name = $patient_info['name'];
+    
     $this->birth = $patient_info['birth'];
+    
     $this->sex = $patient_info['sex'];
+    
     $this->admission_date = isset($patient_info['admission_date'])?
       $patient_info['admission_date'] : $now->format("d/m/Y");
+      
     $this->owner = $patient_info['owner'];
-    $this->status = isset($patient_info['status'])?$patient_info['status'] : 1;
+    
+    $this->status = isset($patient_info['status'])?
+    $patient_info['status'] : 1;
 
     $this->table_name = Patient::TABLE_NAME;
     $this->configura_DB();
@@ -54,7 +62,7 @@ Class Patient extends DBObj{
    * 
    * @var String $birth: Data de nascimento do paciente
    */
-  private function set_birth($date){$this->birth = $date;} //Setter de 
+  private function set_birth($date){$this->birth = $date;} 
 
   /**
    * Seta o sexo do paciente
@@ -125,7 +133,7 @@ Class Patient extends DBObj{
     $patient_list = $db->fetch(array('owner'=>$owner));
 
     if($json){
-      return json_encode($patient_list,JSON_PRETTY_PRINT);
+      return json_encode($patient_list);
     }
     
     return $patient_list;
@@ -183,6 +191,7 @@ Class Patient extends DBObj{
    */
   public function delete($id = null){
     //Deleta todos os dados de paciente do banco.
+    
     $patient_data_list = PatientData::get_for_patient($this->id);
 
     foreach($patient_data_list as $patient_data){
@@ -190,7 +199,8 @@ Class Patient extends DBObj{
       $patient_data->delete();
     }
 
-    DBObj::delete($id);
+    DBObj::delete($this->id);
+    unset($_SESSION['active_patient']);
   }
   /*---------------------------- Funções utilitárias ----------------------------------*/
 

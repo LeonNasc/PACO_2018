@@ -61,26 +61,23 @@ class Controller
      * 
      */
     public function render_user_forms($params){
+        
         $task = $params['task'];
         
         switch ($task) {
 
-            //Exibe o template com o form para registro de usuário
             case 'registro':
                 Helper::make_template('registro', null, false);
                 break;
 
-            //Exibe o template com o form para edição de usuário
             case 'editar':
                 Helper::make_template('profile', null, false);
                 break;
 
-            //Exibe o template com o form para recuperação de senha de usuário
             case 'recuperar':
                 Helper::make_template('email_reset_prompt', null, false);
                 break;
 
-            //Desloga o usuário logado
             case 'logout':
                 User::logout();
                 Helper::make_template('staging', null, false);
@@ -96,50 +93,40 @@ class Controller
      */
     public function control_user_actions($params) {
 
-        //Separa a tarefa em curso das demais ações
         $task = $params['task'];
 
         switch ($task) {
             
-            //Caso 1: Novo usuário se registra.
             case 'registrar':
                 
                 UserController::register_user($params);
                 
                 break;
 
-            //Caso 2: Um usuário tenta fazer login.
             case 'login':
                 
                 UserController::log_user($params['login'], $params['senha']);
             
                 break;
 
-            //Caso 3: Um usuário deseja editar suas informações
             case 'edit':
                 
                 UserController::edit_user($_SESSION['active_user_id']['id'], $params);
                 
                 break;
 
-            //Caso 4: Um usuário esqueceu sua senha e deseja acesso ao sistema
             case 'recuperar':
 
                 UserController::restore_user($params['email']);
 
                 break;
 
-            // Caso 5: Um usuário deseja cancelar seu acesso ao sistema
             case 'delete':
 
                 UserController::delete_user($_SESSION['active_user_id']['id']);
                 
                 break;
-
-            /* A função validate(scripts.js) verifica se existe um nome
-            *  de usuario ou email em uso no banco de dados.
-            *  Ela usa um JSON na resposta XHR, então aqui temos de converter o array em json
-            */
+            
             case 'collide':
 
                 if(isset($params['login'])){
@@ -152,7 +139,9 @@ class Controller
                     echo "Nenhum parametro de usuário passado para colisão";
                     exit();
                 }
-
+                
+                /* A função validate(scripts.js) verifica se existe um nome de usuario ou email em uso no banco de dados.
+                Ela usa um JSON na resposta XHR, então aqui temos de converter o array em json */
                 $printable_JSON = json_encode(array('exists' => UserController::collide_user($user_info)));
                 
                 print($printable_JSON);
@@ -198,7 +187,15 @@ class Controller
             //Deve lidar com as funções ADD, DELETE e UPDATE paciente
 
             switch ($params['task']) {
-
+                
+                case 'set_active':
+                    
+                    $_SESSION['active_patient'] = $params['id'];
+                    
+                    echo PatientController::render_patient_info($_SESSION['active_patient']);
+                    
+                    break;
+                
                 case 'add':
                     $patient = &$params;
                     $patient['owner'] = $_SESSION['active_user_id']['id'];
@@ -229,31 +226,15 @@ class Controller
                     Helper::make_template('patient_info', array('patient' => $patient), false);
                     break;
 
-                case 'get_data':
-
-                    $patient = Patient::get_from_id($params['id']);
-                    $patient = $patient->get_patient_data();
-                    $_SESSION['active_patient'] = $params['id'];
-
-                    Helper::make_template('patient_info', array('patient' => $patient), false);
-                    break;
-
                 case 'change_status':
 
-                    $patient = Patient::get_from_id($params['id']);
-                    $patient->change_status();
-                    $patient->update_patient_info();
-                    $patient = $patient->get_patient_data();
-
-                    Helper::make_template('patient_info', array('patient' => $patient), false);
+                    PatientController::change_patient_status($params['id']);
+                    echo PatientController::render_patient_info($params['id']);
                     break;
 
                 case 'delete':
-                    //TODO: Deletar todas as prescrições, resultados e comentários para este paciente
-
-                    $patient = Patient::get_from_id($params['id']);
-                    $patient->delete($params['id']);
-                    unset($_SESSION['active_patient']);
+                    
+                    PatientController::delete_patient($params['id']);
                     Helper::make_template('staging');
                     break;
 
