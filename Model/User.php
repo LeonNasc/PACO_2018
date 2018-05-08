@@ -264,8 +264,14 @@ Class User extends DBObj{
    */
    public static function set_active_user(User $user){
      
-     $_SESSION['active_user_id'] = $user->get_user_data();
+     $_SESSION['active_user'] = $user->get_user_data();
      
+   }
+   /**
+    * Retorna o id do usuário ativo
+    */
+   public static function get_active_user_id(){
+     return $_SESSION['active_user']['id'];
    }
    
    /**

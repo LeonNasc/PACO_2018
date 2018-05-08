@@ -68,7 +68,7 @@ class Helper{
      */
     public static function check_login_status(){
 
-        if(isset($_SESSION['active_user_id'])){
+        if(User::get_active_user_id()){
             return True;
         }
         return False;
@@ -125,7 +125,7 @@ class Helper{
     
         switch($list_type){
           case 'patient':
-          $_SESSION['patient_list'] = json_decode(Patient::get_patient_list($_SESSION['active_user_id']['id']),true);
+          $_SESSION['patient_list'] = json_decode(Patient::get_patient_list(User::get_active_user_id()),true);
           break;
           case 'COMMENTS':
           $list = PatientData::get_recent_data($_SESSION['active_patient'],PatientData::COMMENT);

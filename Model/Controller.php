@@ -111,7 +111,7 @@ class Controller
 
             case 'edit':
                 
-                UserController::edit_user($_SESSION['active_user_id']['id'], $params);
+                UserController::edit_user(User::get_active_user_id(), $params);
                 
                 break;
 
@@ -123,7 +123,7 @@ class Controller
 
             case 'delete':
 
-                UserController::delete_user($_SESSION['active_user_id']['id']);
+                UserController::delete_user(User::get_active_user_id());
                 
                 break;
             
@@ -197,8 +197,8 @@ class Controller
                     break;
                 
                 case 'add':
-                    $patient = &$params;
-                    $patient['owner'] = $_SESSION['active_user_id']['id'];
+                    $patient_info = &$params;
+                    $patient_info['owner'] = User::get_active_user_id();
 
                     $patient = new Patient($patient);
                     $patient->add_patient();
@@ -218,12 +218,9 @@ class Controller
 
                 case 'edit':
 
-                    $patient = Patient::get_from_id($params['id']);
-                    $patient->change_info($params);
-                    $patient->update_patient_info();
-
-                    $patient = $patient->get_patient_data();
-                    Helper::make_template('patient_info', array('patient' => $patient), false);
+                    PatientController::edit_patient($params['id'],$params);
+                    echo PatientController::render_patient_info($params['id']);
+                                    
                     break;
 
                 case 'change_status':
@@ -312,7 +309,7 @@ class Controller
 
             if (!isset($params['patient_data_id'])) {
                 $ptt_data = array();
-                $ptt_data['author'] = $_SESSION['active_user_id']['id'];
+                $ptt_data['author'] = User::get_active_user_id();
                 $ptt_data['patient'] = $params['patient'];
                 $ptt_data['subject'] = $params['subject'];
                 $ptt_data['content'] = $params['content'];
