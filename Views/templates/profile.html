@@ -12,14 +12,14 @@
         </nav>
 
         <div class="content col-sm-12 col-xs-12 col-md-10 col-lg-10">
-            <h3>{$_SESSION['active_user_id']['user_name']}</h3>
+            <h3>{$_SESSION['active_user']['user_name']}</h3>
 
             <div id='dados'>
                 <table>
-                <tr><th>Nome:</th><td>{$_SESSION['active_user_id']['user_name']}</td>
-                <tr><th>ID:</th><td>{$_SESSION['active_user_id']['id']}</td>
-                <tr><th>Email:</th><td>{$_SESSION['active_user_id']['email']}</td>
-                <tr><th>Membro desde:&nbsp</th><td>{$_SESSION['active_user_id']['registration_date']}</td>
+                <tr><th>Nome:</th><td>{$_SESSION['active_user']['user_name']}</td>
+                <tr><th>ID:</th><td>{$_SESSION['active_user']['id']}</td>
+                <tr><th>Email:</th><td>{$_SESSION['active_user']['email']}</td>
+                <tr><th>Membro desde:&nbsp</th><td>{$_SESSION['active_user']['registration_date']}</td>
                 </table>
             </div>
             <hr>
@@ -66,7 +66,7 @@
                 <div>
                     <input type="hidden" name="actor_object" value="user"></input>
                     <input type="hidden" name="task" value="delete"></input>
-                    <input type='text' class='form-control' name='delete' placeholder="{$_SESSION['active_user_id']['login']}" onfocus="warn(this,this.placeholder)" onkeyup="enable_button(this,this.placeholder)"></input>
+                    <input type='text' class='form-control' name='delete' placeholder="{$_SESSION['active_user']['login']}" onfocus="warn(this,this.placeholder)" onkeyup="enable_button(this,this.placeholder)"></input>
                     <small>Uma vez deletada, a conta não poderá ser restaurada</small>
                 </div>
                 <div>

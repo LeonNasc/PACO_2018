@@ -105,7 +105,7 @@ Class Patient extends DBObj{
     $this->set_birth($new_info['birth']);
     $this->set_gender($new_info['sex']);
 
-  }
+  }  
 
   /**
    * Retorna um array contendo dados do paciente

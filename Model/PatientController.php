@@ -2,25 +2,16 @@
 
 class PatientController {
   
-  // case 'add':
-  //     $patient = &$params;
-  //     $patient['owner'] = User::get_active_user_id();
+  public static function add_user($params){
+      $patient = &$params;
+      $patient['owner'] = User::get_active_user_id();
+      $patient = new Patient($patient);
 
-  //     $patient = new Patient($patient);
-  //     $patient->add_patient();
-  //     $patient = $patient->get_patient_data();
+      $patient->add_patient();
 
-  //     $_SESSION['active_patient'] = $patient['id'];
-  //     //$_SESSION['last_seen'].push($patient['id']);
+      PatientController::set_active_patient($patient);
 
-  //     //Bug bizonho da primeira exibição
-  //     $patient['sex'] = !$patient['sex'];
-  //     $patient['status'] = !$patient['status'];
-
-  //     Helper::make_template('patient_info', array('patient' => $patient), false);
-  //     exit();
-
-  //     break;
+  }
 
   public static function edit_patient($id,$params){
 
@@ -46,12 +37,25 @@ class PatientController {
       $patient->delete();
   }
   
-  public static function render_patient_info($patient_id){
+  public static function render_patient_info(Patient $patient){
     
-    $patient = Patient::get_from_id($patient_id);
     $patient = $patient->get_patient_data();
     
     return Helper::make_template('patient_info', array('patient' => $patient), true);
+  }
+
+  /*------------ Funções de sessão -------*/
+
+  public static function set_active_patient(Patient $patient){
+    $_SESSION['active_patient'] = $patient->get_patient_data()['id'];
+  }
+
+  public static function get_active_patient(){
+    if(isset($_SESSION['active_patient'])){
+      return Patient::get_from_id($_SESSION['active_patient']);
+    }
+    else
+      return new Exception("Nenhum paciente ativo");
   }
 }
 ?>

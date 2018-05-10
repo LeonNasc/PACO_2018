@@ -1,6 +1,5 @@
-{include="meta"}
-
-
+{$patient =  PatientController::get_active_patient()->get_patient_data()}
+{$user_id = UserController::get_active_user_id()}
 <div id="comment_form">
 
   <fieldset class="card">
@@ -11,8 +10,8 @@
       <input type="hidden" name="patient_data_id" value="{$patient_data_id}"/>
       {/if}
       <input type="hidden" name="task" value="{$task}"/>
-      <input type="hidden" name="patient" value='{$_SESSION["active_patient"]}'/>
-      <input type="hidden" name="author" value='{$_SESSION["active_user_id"]["id"]}'/>
+      <input type="hidden" name="patient" value='{$patient.id}'/>
+      <input type="hidden" name="author" value='{$user_id}'/>
 
       <label for='subject'></label>
       <select name="subject" class="ptd_select form-control">

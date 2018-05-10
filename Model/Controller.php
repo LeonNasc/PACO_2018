@@ -111,7 +111,7 @@ class Controller
 
             case 'edit':
                 
-                UserController::edit_user(User::get_active_user_id(), $params);
+                UserController::edit_user(UserController::get_active_user_id(), $params);
                 
                 break;
 
@@ -123,7 +123,7 @@ class Controller
 
             case 'delete':
 
-                UserController::delete_user(User::get_active_user_id());
+                UserController::delete_user(UserController::get_active_user_id());
                 
                 break;
             
@@ -190,15 +190,15 @@ class Controller
                 
                 case 'set_active':
                     
-                    $_SESSION['active_patient'] = $params['id'];
+                    PatientController::set_active_patient(Patient::get_from_id($params['id']));
                     
-                    echo PatientController::render_patient_info($_SESSION['active_patient']);
+                    echo PatientController::render_patient_info(PatientController::get_active_patient());
                     
                     break;
                 
                 case 'add':
                     $patient_info = &$params;
-                    $patient_info['owner'] = User::get_active_user_id();
+                    $patient_info['owner'] = UserController::get_active_user_id();
 
                     $patient = new Patient($patient);
                     $patient->add_patient();
@@ -309,7 +309,7 @@ class Controller
 
             if (!isset($params['patient_data_id'])) {
                 $ptt_data = array();
-                $ptt_data['author'] = User::get_active_user_id();
+                $ptt_data['author'] = UserController::get_active_user_id();
                 $ptt_data['patient'] = $params['patient'];
                 $ptt_data['subject'] = $params['subject'];
                 $ptt_data['content'] = $params['content'];

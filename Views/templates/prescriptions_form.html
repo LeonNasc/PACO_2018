@@ -10,7 +10,7 @@
         {/if}
         <input type="hidden" name="task" value="{$task}" />
         <input type="hidden" name="patient" value='{$_SESSION["active_patient"]}' />
-        <input type="hidden" name="author" value='{$_SESSION["active_user_id"]["id"]}' /> 
+        <input type="hidden" name="author" value='{$_SESSION["active_user"]["id"]}' /> 
         {if="isset($data)"}
         <!--Caso o resultado já tenha um título-->
         <input type="text" class="form-control" name="subject" value="{$data.subject}" /> 

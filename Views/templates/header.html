@@ -9,11 +9,11 @@
 
     <div id="navbar-nav" class="collapse navbar-collapse">
 
-      {if="!isset($_SESSION['active_user_id'])"}
+      {if="!isset($_SESSION['active_user'])"}
       <ul class="navbar-nav mr-auto">
         {else}
         <ul class="navbar-nav mr-auto justify-content-end">
-          {/if} {if="isset($_SESSION['active_user_id'])"}
+          {/if} {if="isset($_SESSION['active_user'])"}
           <li class="nav-item">
             <a class="nav-link" href='#!/home' data-navigo>Dashboard</a>
           </li>
@@ -30,7 +30,7 @@
             <a class="nav-link" href="#!/results">Exames</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="Controller/controller.php?task=logout&actor_object=user">{$_SESSION['active_user_id']['user_name']}::Sair</a> {else}
+            <a class="nav-link" href="Controller/controller.php?task=logout&actor_object=user">{$_SESSION['active_user']['user_name']}::Sair</a> {else}
             <li class="nav-item">
               <a class="nav-link" href="#" onclick="load_page('Controller/controller.php?task=registro&actor_object=user','GET')"> Cadastre-se </a>
             </li>
@@ -41,7 +41,7 @@
         </ul>
 
 
-        {if="!isset($_SESSION['active_user_id'])"}
+        {if="!isset($_SESSION['active_user'])"}
         <form class="form-inline my-2 my-lg-0">
           <input type='hidden' name='actor_object' value='user' />
           <input type='hidden' name='task' value='login' />
