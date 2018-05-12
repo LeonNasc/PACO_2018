@@ -3,14 +3,15 @@
 class PatientController {
   
   public static function add_user($params){
-      $patient = &$params;
-      $patient['owner'] = User::get_active_user_id();
+      $patient = $params;
+      $patient['owner'] = UserController::get_active_user_id();
       $patient = new Patient($patient);
 
       $patient->add_patient();
 
       PatientController::set_active_patient($patient);
 
+      return $patient;
   }
 
   public static function edit_patient($id,$params){
@@ -18,9 +19,8 @@ class PatientController {
       $patient = Patient::get_from_id($id);
       $patient->change_info($params);
       $patient->update_patient_info();
-
-      $patient = $patient->get_patient_data();
-      Helper::make_template('patient_info', array('patient' => $patient), false);
+      
+      return $patient;
   }
 
   public static function change_patient_status($patient_id){
@@ -29,6 +29,7 @@ class PatientController {
       $patient->change_status();
       $patient->update_patient_info();
       
+      return $patient;
   }
 
   public static function delete_patient($patient_id){

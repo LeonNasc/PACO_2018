@@ -1,4 +1,7 @@
-{$patient =  PatientController::get_active_patient()->get_patient_data()}
+{if="($task != 'add')"}
+  {$patient =  PatientController::get_active_patient()->get_patient_data()}
+{/if}
+
 {$user_id = UserController::get_active_user_id()}
 
 <div class="card">

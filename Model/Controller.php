@@ -18,20 +18,40 @@ class Controller
     private static $instance;
 
     /**
+     * Tarefa atual
+     */
+    private $task = "";
+
+    /**
      * Mantém o método HTTP/HTTPS atual
      *
      * @var String
      */
     private $method;
 
-    private function __construct(){
+    /**
+     * 
+     * Armazena os dados de operação
+     * 
+     */
+    private $dados;
 
+    private function __construct(){
+        //Restrito por padrão
     }
 
     public function set_method($method) {$this->method = $method;}
     
     public function get_method() {return $this->method;}
     
+    public function set_task($task) {$this->task = $task;}
+
+    public function get_task() { return $this->task;}
+
+    public function set_dados(Array $dados) {$this->dados = $dados;}
+
+    public function get_task() { return $this->dados;}
+
     /**
      * Verifica se existe uma instância de Controller ativa e a cria, caso não exista
      *
@@ -43,6 +63,40 @@ class Controller
         }
 
         return self::$instance;
+    }
+    /**
+     * 
+     * 
+     */
+    public function handle_forms($actor){
+        switch($actor){
+            case 'user':
+              $controller->render_user_forms();
+            break;
+            case 'patient':
+              $controller->render_patient_forms($this->get_dados());
+            break;
+            case 'patient_data':
+              $controller->control_patientdata_actions($this->get_dados());
+            break;
+        }
+    }
+    /**
+     * 
+     * 
+     */
+    public function handle_data($actor){
+        switch($actor){
+            case 'user':
+              $controller->control_user_actions($this->get_dados());
+            break;
+            case 'patient':
+              $controller->control_patient_actions($this->get_dados());
+            break;
+            case 'patient_data':
+              $controller->control_patientdata_actions($this->get_dados());
+            break;
+        }
     }
 
     /**
@@ -60,11 +114,9 @@ class Controller
      * Monta os formulários para as ações de usuário: Registro, Login, Edição, Remoção e Recuperação
      * 
      */
-    public function render_user_forms($params){
-        
-        $task = $params['task'];
-        
-        switch ($task) {
+    public function render_user_forms(){
+         
+        switch ($this->task) {
 
             case 'registro':
                 Helper::make_template('registro', null, false);
@@ -91,33 +143,31 @@ class Controller
      * Controla as ações de usuário: Registro, Login, Edição, Remoção e Recuperação
      * 
      */
-    public function control_user_actions($params) {
+    public function control_user_actions($dados) {
 
-        $task = $params['task'];
-
-        switch ($task) {
+        switch ($this->task) {
             
             case 'registrar':
                 
-                UserController::register_user($params);
+                UserController::register_user($dados);
                 
                 break;
 
             case 'login':
                 
-                UserController::log_user($params['login'], $params['senha']);
+                UserController::log_user($dados['login'], $dados['senha']);
             
                 break;
 
             case 'edit':
                 
-                UserController::edit_user(UserController::get_active_user_id(), $params);
+                UserController::edit_user(UserController::get_active_user_id(), $dados);
                 
                 break;
 
             case 'recuperar':
 
-                UserController::restore_user($params['email']);
+                UserController::restore_user($dados['email']);
 
                 break;
 
@@ -130,14 +180,14 @@ class Controller
             case 'collide':
 
                 if(isset($params['login'])){
-                    $user_info = $params['login'];
+                    $user_info = $dados['login'];
                 }
                 else if(isset($params['email'])){
-                    $user_info = $params['email'];
+                    $user_info = $dados['email'];
                 }
                 else{
-                    echo "Nenhum parametro de usuário passado para colisão";
-                    exit();
+                    //Nenhum parametro de usuário passado para colisão
+                    return false;
                 }
                 
                 /* A função validate(scripts.js) verifica se existe um nome de usuario ou email em uso no banco de dados.
@@ -149,7 +199,7 @@ class Controller
                 break;
 
             default:
-                exit();
+                return new Exception("Ação inválida");
                 break;
         }
     
@@ -157,95 +207,69 @@ class Controller
 
     /**
      *
-     *
-     * Documentar ações de paciente
-     *
-     *
+     * Monta os formulários para as ações de paciente: Adicionar e editar dados
+     * 
      */
-    public function control_patient_actions($params){
+    public function render_patient_forms(){
+        switch ($this->task) {
 
-        $task = $params['task'];
+            case 'add':
+                Helper::make_template('patient_form', array('task' => 'add'));
+                break;
 
-        if ($this->method == 'GET') {
-            switch ($task) {
+            case 'edit':
+                $patient = Patient::get_from_id($this->get_dados()['id'])->get_patient_data();
+                $patient_info = Array('task' => 'edit', 'patient' => $patient);
+                Helper::make_template('patient_form', $patient_info);
+                break;
 
-                case 'add':
-                    Helper::make_template('patient_form', array('task' => 'add'));
-                    break;
-
-                case 'edit':
-                    $patient = Patient::get_from_id($params['id']);
-                    $patient = $patient->get_patient_data();
-                    Helper::make_template('patient_form', array('task' => 'edit', 'patient' => $patient));
-                    break;
-
-                default:
-                    Helper::update_list('patients');
-                    break;
-            }
-        } else if ($this->method == 'POST') {
-            //Deve lidar com as funções ADD, DELETE e UPDATE paciente
-
-            switch ($params['task']) {
-                
-                case 'set_active':
-                    
-                    PatientController::set_active_patient(Patient::get_from_id($params['id']));
-                    
-                    echo PatientController::render_patient_info(PatientController::get_active_patient());
-                    
-                    break;
-                
-                case 'add':
-                    $patient_info = &$params;
-                    $patient_info['owner'] = UserController::get_active_user_id();
-
-                    $patient = new Patient($patient);
-                    $patient->add_patient();
-                    $patient = $patient->get_patient_data();
-
-                    $_SESSION['active_patient'] = $patient['id'];
-                    //$_SESSION['last_seen'].push($patient['id']);
-
-                    //Bug bizonho da primeira exibição
-                    $patient['sex'] = !$patient['sex'];
-                    $patient['status'] = !$patient['status'];
-
-                    Helper::make_template('patient_info', array('patient' => $patient), false);
-                    exit();
-
-                    break;
-
-                case 'edit':
-
-                    PatientController::edit_patient($params['id'],$params);
-                    echo PatientController::render_patient_info($params['id']);
-                                    
-                    break;
-
-                case 'change_status':
-
-                    PatientController::change_patient_status($params['id']);
-                    echo PatientController::render_patient_info($params['id']);
-                    break;
-
-                case 'delete':
-                    
-                    PatientController::delete_patient($params['id']);
-                    Helper::make_template('staging');
-                    break;
-
-                default:
-                    exit();
-                    break;
-
-                    Helper::update_list('patients');
-            }
-        } else {
-            throw new Exception("Metodo de acesso inválido");
+            default:
+                return new Exception("Ação inválida");
+                break;
         }
     }
 
+    /**
+     * Controla as açoes de paciente
+     * Lida com as funcionalidades ADD, DELETE e UPDATE dos pacientes
+     */
+    public function control_patient_actions($dados){   
+
+        switch ($this->task) {
+            
+            case 'set_active':
+                PatientController::set_active_patient(Patient::get_from_id($dados['id']));                
+                echo PatientController::render_patient_info(PatientController::get_active_patient());
+                
+                break;
+            
+            case 'add':
+
+                $patient = PatientController::add_user($this->get_dados());
+                echo PatientController::render_patient_info(PatientController::get_active_patient());
+
+                break;
+
+            case 'edit':
+                PatientController::edit_patient($dados['id'],$dados);                 
+                echo PatientController::render_patient_info(PatientController::get_active_patient());
+                break;
+
+            case 'change_status':
+                PatientController::change_patient_status($dados['id']);
+                echo PatientController::render_patient_info(PatientController::get_active_patient());
+                break;
+
+            case 'delete':
+                PatientController::delete_patient($dados['id'];);
+                Helper::make_template('staging');
+                break;
+
+            default:
+                throw new Exception("Ação inválida");
+                break;
+        }
+    }
     public function control_patientdata_actions($params)
     {
 
@@ -369,6 +393,8 @@ class Controller
         }
 
     }
+
+    
 
     /**
      * Desabilita a função mágica clone

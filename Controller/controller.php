@@ -4,42 +4,26 @@ require("../config/config.php");
 
 use Rain\Tpl;
 
+$info_passed = $_GET ? $_GET : $_POST;
+
 $controller = Controller::get_instance();
 $controller->set_method($_SERVER['REQUEST_METHOD']);
+$controller->set_task($info_passed['task']);
+$controller->set_dados($info_passed);
 
-$info_passed = $_GET? $_GET : $_POST;
-$actor = isset($info_passed['actor_object'])?$info_passed['actor_object']:null;
+if(isset($info_passed['actor_object'])){
+  $actor = $info_passed['actor_object'];
+}
 
+//A maioria das formas são geradas via GET
 if($controller->get_method() == 'GET'){
-  switch($actor){
-      case 'user':
-        $controller->render_user_forms($info_passed);
-      break;
-      case 'patient':
-        $controller->control_patient_actions($info_passed);
-      break;
-      case 'patient_data':
-        $controller->control_patientdata_actions($info_passed);
-      break;
-      default:
-        $controller->show_404();
-      break;
-  }
+  $controller->handle_forms($actor);
+}
+//Por sua vez, a maior parte da lógica é requisitada via POST
+else if ($controller->get_method() == 'POST'){
+  $controller->handle_data($actor);
 }
 else{
-  switch($actor){
-      case 'user':
-        $controller->control_user_actions($info_passed);
-      break;
-      case 'patient':
-        $controller->control_patient_actions($info_passed);
-      break;
-      case 'patient_data':
-        $controller->control_patientdata_actions($info_passed);
-      break;
-      default:
-        $controller->show_404();
-      break;
-  }
+  $controller->show_404();
 }
 ?>

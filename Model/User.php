@@ -228,14 +228,13 @@ Class User extends DBObj{
 
     $login = strtolower($login);
 
-    $user_db = User::collide($login,'login');
+    $user_record = User::collide($login,'login');
 
-    if ($user_db){
+    if ($user_record){
 
-      if (hash('sha256',$password) === $user_db["password"]){
+      if (User::hash_password($password) === $user_record["password"]){
 
-        $current_user = new User($user_db);
-        User::set_active_user($current_user);
+        UserController::set_active_user(new User($user_record));
         
         return true;
       }
@@ -258,23 +257,6 @@ Class User extends DBObj{
   public static function logout(){
     session_destroy();
   }
-  
-   /**
-   * Coloca o usuário atual como usuário ativo
-   */
-   public static function set_active_user(User $user){
-     
-     $_SESSION['active_user'] = $user->get_user_data();
-     
-   }
-   /**
-    * Retorna o id do usuário ativo
-    */
-   public static function get_active_user_id(){
-      if(isset($_SESSION['active_user'])){
-        return $_SESSION['active_user']['id'];
-      }
-   }
    
    /**
     * Retorna true se a senha ocupar 256 bits (Assim como um string codificado em SHA256)
