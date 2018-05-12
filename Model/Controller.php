@@ -50,7 +50,7 @@ class Controller
 
     public function set_dados(Array $dados) {$this->dados = $dados;}
 
-    public function get_task() { return $this->dados;}
+    public function get_dados() { return $this->dados;}
 
     /**
      * Verifica se existe uma instância de Controller ativa e a cria, caso não exista
@@ -71,13 +71,13 @@ class Controller
     public function handle_forms($actor){
         switch($actor){
             case 'user':
-              $controller->render_user_forms();
+              $this->render_user_forms();
             break;
             case 'patient':
-              $controller->render_patient_forms($this->get_dados());
+              $this->render_patient_forms($this->get_dados());
             break;
             case 'patient_data':
-              $controller->control_patientdata_actions($this->get_dados());
+              $this->control_patientdata_actions($this->get_dados());
             break;
         }
     }
@@ -88,13 +88,13 @@ class Controller
     public function handle_data($actor){
         switch($actor){
             case 'user':
-              $controller->control_user_actions($this->get_dados());
+              $this->control_user_actions($this->get_dados());
             break;
             case 'patient':
-              $controller->control_patient_actions($this->get_dados());
+              $this->control_patient_actions($this->get_dados());
             break;
             case 'patient_data':
-              $controller->control_patientdata_actions($this->get_dados());
+              $this->control_patientdata_actions($this->get_dados());
             break;
         }
     }
@@ -261,7 +261,7 @@ class Controller
                 break;
 
             case 'delete':
-                PatientController::delete_patient($dados['id'];);
+                PatientController::delete_patient($dados['id']);
                 Helper::make_template('staging');
                 break;
 
@@ -394,7 +394,12 @@ class Controller
 
     }
 
-    
+    public static function get_stats($user){
+        $stats = Array();
+        $stats['recente'] = PatientController::get_active_patient()->get_patient_data()['name'];
+
+        return $stats;
+    }    
 
     /**
      * Desabilita a função mágica clone
