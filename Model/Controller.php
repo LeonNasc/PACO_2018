@@ -396,9 +396,14 @@ class Controller
 
     public static function get_stats($user){
         $stats = Array();
-        $stats['recente'] = PatientController::get_active_patient()->get_patient_data()['name'];
+        $stats['recente'] = PatientController::get_active_patient();
 
-        return $stats;
+        if($stats['recente']){
+            $stats['recente']= $stats['recente']->get_patient_data();
+            return $stats;    
+        }
+        
+        return 'indefinido';
     }    
 
     /**

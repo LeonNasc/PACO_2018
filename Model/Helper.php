@@ -11,7 +11,7 @@ use Rain\Tpl;
 class Helper{
 
 
-    const default_recents = 7;
+    const DEFAULT_RECENTS = 7;
 
 
     /**
@@ -103,7 +103,7 @@ class Helper{
        */
       public static function render_patient_data($type){
     
-        $data = PatientData::get_recent_data($_SESSION['active_patient'],$type, Helper::default_recents);
+        $data = PatientData::get_recent_data($_SESSION['active_patient'],$type, Helper::DEFAULT_RECENTS);
         $data = //Set list as session variable
         print(Helper::make_template('show_'.$type, $data, true));
     

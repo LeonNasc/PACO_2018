@@ -56,7 +56,7 @@ class PatientController {
       return Patient::get_from_id($_SESSION['active_patient']);
     }
     else
-      return new Exception("Nenhum paciente ativo");
+      return null;
   }
 }
 ?>
