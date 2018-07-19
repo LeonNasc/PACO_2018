@@ -70,7 +70,11 @@
                 }
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
+<<<<<<< Updated upstream
             "time": "2018-03-27T13:49:45+00:00"
+=======
+            "time": "2018-01-05T13:19:58+00:00"
+>>>>>>> Stashed changes
         },
         {
             "name": "rain/raintpl",
@@ -207,7 +211,11 @@
                 "constructor",
                 "instantiate"
             ],
+<<<<<<< Updated upstream
             "time": "2017-07-22T11:58:36+00:00"
+=======
+            "time": "2015-06-14T21:17:01+00:00"
+>>>>>>> Stashed changes
         },
         {
             "name": "myclabs/deep-copy",
@@ -255,7 +263,11 @@
                 "object",
                 "object graph"
             ],
+<<<<<<< Updated upstream
             "time": "2018-06-11T23:09:50+00:00"
+=======
+            "time": "2017-10-19T19:58:43+00:00"
+>>>>>>> Stashed changes
         },
         {
             "name": "phar-io/manifest",
@@ -572,7 +584,11 @@
                 "spy",
                 "stub"
             ],
+<<<<<<< Updated upstream
             "time": "2018-04-18T13:57:24+00:00"
+=======
+            "time": "2018-02-19T10:16:54+00:00"
+>>>>>>> Stashed changes
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -635,7 +651,11 @@
                 "testing",
                 "xunit"
             ],
+<<<<<<< Updated upstream
             "time": "2018-04-06T15:36:58+00:00"
+=======
+            "time": "2017-12-06T09:29:45+00:00"
+>>>>>>> Stashed changes
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -905,7 +925,11 @@
                 "testing",
                 "xunit"
             ],
+<<<<<<< Updated upstream
             "time": "2018-07-03T06:40:40+00:00"
+=======
+            "time": "2018-02-26T07:01:09+00:00"
+>>>>>>> Stashed changes
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -964,7 +988,11 @@
                 "mock",
                 "xunit"
             ],
+<<<<<<< Updated upstream
             "time": "2018-07-13T03:27:23+00:00"
+=======
+            "time": "2018-01-06T05:45:45+00:00"
+>>>>>>> Stashed changes
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
