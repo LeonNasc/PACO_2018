@@ -1,0 +1,188 @@
+/*----------- Mudanças de estilo em elementos -----------*/
+footer{
+  left: 0;
+  right:0;
+  position:absolute;
+}
+header{
+  margin-bottom:1%;
+}
+
+p{
+  line-height:2em;
+  margin:10px;
+  text-align:justify;
+}
+
+ul, ol{
+  padding:0;
+  list-style-type: none;
+}
+
+/*----------- Mudanças de estilo em classes -------------*/
+.landing-jumbo{
+    background-image:url("https://images.newrepublic.com/a15ce6d85e011dcb0fc8415a820dd34f5189b9e8.jpeg");
+    background-size: cover;
+    background-attachment: fixed;
+    background-position:center;
+    color:white;
+    font-size:3vmin;
+    height:auto;
+    margin:0;
+    border-radius:0;
+}
+.pagebottom{
+  padding: 1rem;
+  height:50px;
+  background-color: #efefef;
+  text-align: center;
+}
+
+.icons-text{
+    font-size:1em;
+    line-height:1.2em;
+    margin-bottom:1em;
+}
+.ico{
+    max-width:6em;
+}
+
+.navbar{
+  box-shadow: 0 2px 4px rgba(0,0,0,0.13), 0 2px 3px rgba(0,0,0,0.27);
+}
+
+.btn, .form-control{
+  border-radius:0;
+}
+
+.card{
+  margin:0.3em 0 0.3em 0;
+  padding:1.5em;
+  border-radius:0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 0.5s cubic-bezier(.25,.8,.25,1);
+}
+
+.card .card:hover, .btn:hover{
+  box-shadow: 0 3px 6px rgba(0,0,0,0.25), 0 5px 5px rgba(0,0,0,0.22);
+}
+
+.registro-label{
+  width:64px;
+  text-align:left;
+}
+
+.clearfix::after{
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.sidebars{
+  position:absolute;
+  overflow-y:auto;
+}
+.content{
+  margin-left:auto;
+}
+.profile-form{
+  max-width:66vw;
+}
+.profile-form .form-control{
+  margin-bottom:5px;
+}
+
+.ptd_select{
+  width:100%;
+}
+.ptd-content{
+  height:50vh;
+  width:100%;
+}
+
+.pttcard:hover{
+  border: 1px solid #28a745;
+  background-color:#fefefe;
+}
+
+#dashboard{
+  min-height:75vw;
+  padding:0.3em;
+  overflow-y:hidden;
+}
+#profile{
+  overflow-y:hidden;
+}
+
+#comentarios{
+  height:33%;
+  overflow-y:scroll;
+  margin-bottom:0;
+}
+
+/* --------------- Elementos específicos ----------------*/
+#main-content{
+  min-height:100vmin;
+  margin: 12vh auto;
+}
+
+#Sobre.card{
+  max-width:100%;
+}
+
+#error_text{
+  color:#FF0000;
+}
+
+#show_area{
+  overflow-y:scroll;
+}
+
+#shower{
+  display:none;
+}
+
+#ptt_add{
+  margin-top:2%;
+  width:100%;
+}
+/*------------------Hacks 4 dayz --------------*/
+html {
+  font-size: 12px;
+}
+@media screen and (min-width: 320px) {
+  html {
+    font-size: calc(12px + 6 * ((100vw - 320px) / 680));
+  }
+}
+@media screen and (min-width: 1000px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+@media only screen and (max-width: 699px) {
+  .sidebars {
+      display: none;
+      position:relative;
+      max-height:33vh;
+      padding-top:2em;
+      margin-top:2em;
+      border-top: 1px solid lightgrey;
+      overflow-y:scroll;
+  }
+  .profile-form{
+    margin-left:0;
+    max-width:100%;
+  }
+  #comentarios{
+    height:33%;
+  }
+  .content{
+    padding:0;
+    height:66%;
+  }
+  #shower{
+    display:block;
+  } 
+}

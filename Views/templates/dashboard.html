@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+{include="meta"}
+
+<body>
+  {include="header"}
+
+  <div>
+    <h3 class="card-title">
+      <center>Exibindo pacientes de {$_SESSION['active_user']['user_name']}</center>
+    </h3>
+
+    <div id="dashboard" class="card row">
+
+      <div id="show_area" class="content col-sm-12 col-xs-12 col-md-6 col-lg-9">
+        {include="stats"}
+      </div>
+
+      <button id="shower" class="btn btn-outline-success" onclick="collapse_toggle(this,'pacientes')">Mostrar pacientes</button>
+      <div id="pacientes" class="sidebars col-xs-12 col-sm-12 col-md-6 col-lg-3">
+        <ul>
+          <input id="ptt_add" type="button" class="btn btn-outline-success" onclick="load_page('Controller/controller.php?task=add&actor_object=patient','GET')"
+            value="Novo paciente"></input>
+          {loop="$patients"}
+          <li class='card pttcard' onclick="set_active_patient_and_display(this)">
+            <ul>
+              <input type="hidden" id="ptt_id" name='id' value="{$value.id}"></input>
+              <li> Nome : {$value.name}</li>
+              <li> Nascimento : {$value.birth}</li>
+              <li> Admissão : {$value.admission_date}</li>
+            </ul>
+          </li>
+          {/loop}
+        </ul>
+
+      </div>
+
+
+    </div>
+
+  </div>
+  {include="footer"}
+</body>
+
+</html>

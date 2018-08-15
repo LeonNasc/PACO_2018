@@ -1,0 +1,37 @@
+<div class="card">
+  <table class="table">
+  <tr>
+    <th>Nome completo</th><td>{$patient.name}</td>
+  </tr>
+
+  <tr> {$nasc = $patient.birth}
+    <th>Data de Nascimento</th><td>{$nasc}</td>
+  </tr>
+
+  <tr>
+    <th>Sexo </th>
+      <td>
+      {if="$patient.sex == 1"}
+      Masculino</td>
+      {else}
+      Feminino</td>
+      {/if}
+  </tr>
+
+  <tr>
+    <th>Data de admissão</th><td>{$patient.admission_date}</td>
+  </tr>
+
+  <tr>
+    <th> Status</th>
+      <td>
+      {if="$patient.status == 'true'"}
+      Ativo</td>
+      {else}
+      Inativo</td>
+      {/if}
+  </tr>
+
+  </table>
+</div>
+{include="show_comments"}

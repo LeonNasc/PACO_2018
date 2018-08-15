@@ -1,0 +1,59 @@
+<!-- HEADER AND NAVBAR -->
+<header>
+  <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-nav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="#!/home">💊 PACO</a>
+
+    <div id="navbar-nav" class="collapse navbar-collapse">
+
+      {if="!isset($_SESSION['active_user'])"}
+      <ul class="navbar-nav mr-auto">
+        {else}
+        <ul class="navbar-nav mr-auto justify-content-end">
+          {/if} {if="isset($_SESSION['active_user'])"}
+          <li class="nav-item">
+            <a class="nav-link" href='#!/home' data-navigo>Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#!/profile">Meu Perfil</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#!/comments">Comentários</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#!/prescriptions">Prescrições</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#!/results">Exames</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="Controller/controller.php?task=logout&actor_object=user">{$_SESSION['active_user']['user_name']}::Sair</a> {else}
+            <li class="nav-item">
+              <a class="nav-link" href="#" onclick="load_page('Controller/controller.php?task=registro&actor_object=user','GET')"> Cadastre-se </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#!/about">Saiba mais</a>
+            </li>
+            {/if}
+        </ul>
+
+
+        {if="!isset($_SESSION['active_user'])"}
+        <form class="form-inline my-2 my-lg-0">
+          <input type='hidden' name='actor_object' value='user' />
+          <input type='hidden' name='task' value='login' />
+          <input class="form-control mr-sm-2" name='login' type="text" placeholder="Login">
+          <input class="form-control mr-sm-2" name='senha' type="password" placeholder="Senha">
+          <span>
+            <button type="button" class="btn btn-outline-success my-2 my-sm-0" onclick="load_page('Controller/controller.php','POST',this)">Login</button>
+          </span>
+        </form>
+        {/if}
+    </div>
+  </nav>
+
+</header>
+<div id="main-content" class="container">

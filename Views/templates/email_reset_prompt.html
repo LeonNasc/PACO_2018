@@ -1,0 +1,13 @@
+<div class="card">
+  <fieldset>
+    <legend> Esqueci Minha senha </legend>
+    <form id="pwreset">
+      <label for="email">Email</label>
+      <div id="error_text" style="display:hidden"></div>
+      <input type='hidden' name='task' value='recuperar'></input>
+      <input type='hidden' name='actor_object' value='user'></input>
+      <input type='text' name='email' onblur="validate()" placeholder="Insira seu email"></input>
+      <input type='button' onclick="load_page('Controller/controller.php','POST', this)" value="Recuperar senha"></input>
+    <form>
+  </fieldset>
+</div>

@@ -1,0 +1,34 @@
+<div class="card">
+  <div class="form">
+    <fieldset id="registro">
+      <legend class="card-title">Cadastrar usuário </legend>
+      <form id="registro-form" class="card-body" action="Controller/users.php" method="post">
+        <span style="color:red" id="error_text"></span>
+        <input name="task" type=hidden value="registrar" required>
+        <input type="hidden" name="actor_object" value="user"></input>
+        <div>
+          <label class="registro-label" for="nome">Nome:</label>
+          <input class="form-control" type="text" name="nome" required/>
+        </div>
+        <div>
+          <label class="registro-label" for="email">E-mail:</label>
+          <!-- Validar via JS -->
+          <input class="form-control" onblur="validate(this.name, this.value)" type="text" name="email" required/>
+        </div>
+        <label class="registro-label" for="login">Login:</label>
+        <input class="form-control" onblur="validate(this.name, this.value)" type="text" name="login" required/>
+        <div>
+          <label class="registro-label" for="senha">Senha:</label>
+          <input class="form-control" type="password" name="senha" required/>
+        </div>
+        <br>
+        <div>
+          <input class="btn btn-outline-success registro-input" type="button" onclick="load_page('Controller/controller.php','POST',this)" value="Registrar" />
+        </div>
+        <div>
+          <small>Todos os campos são obrigatórios</small>
+        </div>
+      </form>
+    </fieldset>
+  </div>
+</div>

@@ -1,0 +1,55 @@
+{if="($task != 'add')"}
+  {$patient =  PatientController::get_active_patient()->get_patient_data()}
+{/if}
+
+{$user_id = UserController::get_active_user_id()}
+
+<div class="card">
+  <div>
+    <fieldset id="pacientes">
+      <legend class="card-title">Dados do paciente</legend>
+      <form id="patient-form" class="card-body">
+        <span style="color:red" id="error_text"></span>
+        <input name="task" type=hidden value={$task} required/>
+        <input name="actor_object" type=hidden value="patient" /> 
+        {if="isset($patient.id)"}
+        <input name="id" type=hidden value={$patient.id} required/>
+        {/if}
+        <div>
+          <label for="nome">Nome:</label>
+          <input class="form-control" type="text" name="name" 
+          {if="isset($patient.name)"} 
+            value={$patient.name} 
+          {/if} 
+          required/>
+        </div>
+
+        <div>
+          <label for="nascimento">Data de Nascimento:</label>
+          <input class="form-control" type="date" name="birth" min="1910-01-01"
+          {if="isset($patient.birth)"} 
+            value={$patient.birth}
+          {else}
+            value={$function="echo date('Y-m-d')" } 
+          {/if} 
+          required/>
+        </div>
+
+        <div>
+          <label for="sexo">Sexo:</label>
+          <select class="custom-select" name="sex">
+            <option value="True" selected>Masculino</option>
+            <option value="False">Feminino</option>
+          </select>
+        </div>
+
+        <div>
+          <input class="btn btn-outline-success registro-input" type="button" onclick="load_page('Controller/controller.php','POST',this)"
+            value="Adicionar Paciente" />
+        </div>
+
+        Todos os campos são obrigatórios
+      </form>
+    </fieldset>
+  </div>
+</div>
