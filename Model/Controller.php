@@ -403,7 +403,7 @@ class Controller
             return $stats;    
         }
         
-        return 'indefinido';
+        return false;
     }    
 
     /**

@@ -171,7 +171,10 @@ class UserController
      * Retorna o id do usuário ativo
      */
     public static function get_active_user_id()
-    {
-        return $_SESSION['active_user']['id'];
+    {   if(isset($_SESSION['active_user'])){
+            return $_SESSION['active_user']['id'];
+        }
+
+        return false;
     }
 }
