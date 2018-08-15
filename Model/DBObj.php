@@ -270,11 +270,11 @@ Class DBObj extends PDO{
 
     $dbconfig = Helper::read_config(CONFIG_PATH);
     
-    $dsn = "pgsql:dbname=".$dbconfig['TESTDB']['dbname']. ";
-            host= ".$dbconfig['TESTDB']['host'].
-            $dbconfig['TESTDB']['config'];
+    $dsn = "pgsql:dbname=".$dbconfig['PRODDB']['dbname']. ";
+            host= ".$dbconfig['PRODDB']['host'].
+            $dbconfig['PRODDB']['config'];
 
-    $this->database = new PDO($dsn,$dbconfig['TESTDB']['user'],$dbconfig['TESTDB']['password']);
+    $this->database = new PDO($dsn,$dbconfig['PRODDB']['user'],$dbconfig['PRODDB']['password']);
     $this->database->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
   }
 
